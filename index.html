@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đa Diện Thế Giới</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&family=Patrick+Hand&family=Itim&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=18">
+<link rel="stylesheet" href="css/ui.css?v=18">
+</head>
+<body>
+<div id="stage">
+  <svg width="0" height="0" style="position:absolute">
+    <filter id="ink" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+    <filter id="ink2" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="9"/></filter>
+  </svg>
+  <div id="world"></div>
+  <div id="weather"></div>
+  <div id="mini"></div>
+  <div id="textbox" class="hidden"><div id="portrait"></div><div id="nameplate"></div><div id="text"></div><div id="next">▼</div></div>
+  <div id="choices"></div>
+  <div id="card"></div>
+  <div id="hud">
+    <button id="btnNote" class="hbtn" title="Sổ tay manh mối (N)"><i data-ic="notebook"></i><span>Sổ tay</span></button>
+    <button id="btnLog" class="hbtn" title="Lịch sử (L)"><i data-ic="scroll"></i><span>Lịch sử</span></button>
+    <button id="btnSkip" class="hbtn" title="Tua (giữ Ctrl)"><i data-ic="ff"></i><span>Tua</span></button>
+    <button id="btnMute" class="hbtn icononly" title="Bật/tắt âm thanh"></button>
+    <button id="btnSet" class="hbtn icononly" title="Cài đặt"><i data-ic="gear"></i></button>
+  </div>
+  <div id="toasts"></div>
+  <div id="title">
+    <div id="tLine"></div>
+    <div class="tinner">
+      <div class="tsub">Một câu chuyện trinh thám · top-down</div>
+      <h1>Đa Diện<br><span>Thế Giới</span></h1>
+      <div class="tmenu">
+        <button class="btn big" id="tNew"><i data-ic="play"></i>Bắt đầu</button>
+        <button class="btn ghost" id="tContinue"><i data-ic="retry"></i>Tiếp tục</button>
+        <button class="btn ghost" id="tSettings"><i data-ic="gear"></i>Cài đặt</button>
+      </div>
+      <div class="tchap-h">Chọn chương</div>
+      <div id="tChapters"></div>
+    </div>
+  </div>
+  <div id="overlay"></div>
+  <div id="rotate">↻ Xoay ngang điện thoại để chơi thoải mái hơn</div>
+</div>
+<script src="js/icons.js?v=18"></script>
+<script src="js/art.js?v=18"></script>
+<script src="js/maps.js?v=18"></script>
+<script src="js/audio.js?v=18"></script>
+<script src="js/engine.js?v=18"></script>
+<script src="js/minigames.js?v=18"></script>
+<script src="js/world.js?v=18"></script>
+<script src="js/story.js?v=18"></script>
+<script src="js/story/c1.js?v=18"></script>
+<script src="js/story/c2.js?v=18"></script>
+<script src="js/story/c3.js?v=18"></script>
+<script src="js/story/c4.js?v=18"></script>
+<script src="js/story/c5.js?v=18"></script>
+<script src="js/story/c6.js?v=18"></script>
+<script src="js/story/c7.js?v=18"></script>
+<script src="js/story/c8.js?v=18"></script>
+<script>document.querySelectorAll("i[data-ic]").forEach(i => i.outerHTML = ICON.svg(i.dataset.ic, "bico"));</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+/* ================= NÂNG CẤP UI: nút vẽ tay, chân dung, vật phẩm, biểu cảm ================= */
+.ico,.bico,.hico,.tico,.kico,.hpico{display:inline-block;vertical-align:middle;overflow:visible}
+.bico{width:1.15em;height:1.15em;margin-right:.35em;flex:none}
+.hico{width:1.25em;height:1.25em;margin-right:.3em;vertical-align:-.25em}
+.tico{width:1.9em;height:1.9em;flex:none}
+.kico{width:.9em;height:.9em;vertical-align:-.12em}
+.hpico{width:1.25em;height:1.25em;margin-left:.1em}
+
+/* nút: giấy kem, viền mực đôi lệch nhẹ, bóng đổ đặc, ấn xuống */
+.btn,.choice,.dopt,.topt,.tool,.hbtn,.chbtn,.wpad button{position:relative;isolation:isolate;transition:transform .12s,box-shadow .12s,background .15s}
+.btn::after,.choice::after,.dopt::after,.topt::after,.tool::after,.hbtn::after,.chbtn::after{content:"";position:absolute;inset:-4px -3px -3px -4px;border:1.5px solid rgba(43,31,26,.55);border-radius:18px 225px 15px 255px/225px 15px 255px 18px;pointer-events:none;transform:rotate(-.6deg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(#E6B94A,#D9A93A 60%,#C99528);box-shadow:.22em .26em 0 var(--ink);font-size:1.2em;letter-spacing:.02em}
+.btn::before{content:"";position:absolute;left:12%;right:12%;top:.22em;height:.3em;border-radius:1em;background:rgba(255,255,255,.35);pointer-events:none}
+.btn.ghost{background:linear-gradient(#FBF7EC,var(--cream))}
+.btn.ghost::before{background:rgba(255,255,255,.7)}
+.btn.big{font-size:1.45em;padding:.45em 1.5em}
+.btn:hover{transform:translate(-1px,-2px) rotate(-.5deg);box-shadow:.28em .34em 0 var(--ink);filter:none}
+.btn:active,.choice:active,.dopt:active,.topt:active,.tool:active,.hbtn:active{transform:translate(.18em,.22em);box-shadow:0 0 0 var(--ink)}
+.btn:disabled{transform:none;box-shadow:.12em .14em 0 rgba(43,31,26,.4)}
+.wbtns .btn{display:none}.wbtns .btn.on{display:inline-flex}
+
+.choice{background:linear-gradient(#FBF7EC,var(--cream));box-shadow:.22em .26em 0 var(--ink);display:flex;align-items:center}
+.choice:hover{background:#FFF6DA;transform:translate(.25em,-1px)}
+.choice::before{content:"";position:absolute;left:-.9em;top:50%;width:.6em;height:.6em;margin-top:-.3em;border-radius:50%;background:var(--red);border:2px solid var(--ink);opacity:0;transition:.15s}
+.choice:hover::before{opacity:1}
+.dopt,.topt,.tool{box-shadow:.16em .2em 0 var(--ink)}
+.dopt:hover,.topt:hover:not(:disabled),.tool:hover{transform:translate(-1px,-1px)}
+.tool{display:flex;align-items:center;gap:.4em}
+.tool span{font-size:1em;margin:0}
+
+/* phím bấm dạng keycap */
+.k,.kc{display:inline-flex;align-items:center;justify-content:center;min-width:1.6em;height:1.6em;padding:0 .3em;margin-right:.6em;border-radius:.35em;background:linear-gradient(#FFFDF6,#E4DCC6);color:var(--ink);border:2px solid var(--ink);box-shadow:0 .18em 0 var(--ink);font:800 .72em var(--sans);transform:translateY(-.1em)}
+.prompt b.kc{margin-right:.35em;font-size:.8em;background:linear-gradient(#FFFDF6,#E4DCC6);color:var(--ink)}
+
+/* HUD */
+#hud .hbtn{display:inline-flex;align-items:center;gap:.1em;background:linear-gradient(#FBF7EC,var(--cream));box-shadow:.14em .18em 0 var(--ink);padding:.2em .65em .2em .45em;font-size:.78em;font-weight:700}
+#hud .hbtn .bico{width:1.4em;height:1.4em;margin-right:.25em}
+#hud .hbtn.icononly{padding:.2em .35em}
+#hud .hbtn.icononly .bico{margin:0}
+#hud .hbtn.on{background:linear-gradient(#E6B94A,#D9A93A)}
+#hud .hbtn.ping{animation:ping .9s ease 2}
+@keyframes ping{30%{transform:scale(1.18) rotate(-4deg);background:#F6E7B8}}
+
+/* khung chân dung trong hộp thoại */
+#textbox.withp{padding-left:9em}
+#portrait{left:.6em;bottom:.55em;width:7.4em;height:7.6em}
+#portrait .pframe{position:absolute;inset:0;border:3.5px solid var(--ink);border-radius:46% 54% 44% 56%/52% 46% 54% 48%;background:radial-gradient(circle at 50% 38%,#fff 0,color-mix(in srgb,var(--pc) 32%,#F3EEDF) 62%,color-mix(in srgb,var(--pc) 55%,#E9E2D0) 100%);box-shadow:.2em .24em 0 var(--ink);overflow:hidden}
+#portrait .pframe::after{content:"";position:absolute;inset:4px;border:1.5px dashed rgba(43,31,26,.35);border-radius:inherit}
+#portrait svg{position:absolute;left:-2%;top:6%;width:104%;height:104%;filter:none}
+#portrait.pop .pframe{animation:ppop .28s ease}
+@keyframes ppop{0%{transform:scale(.9) rotate(-3deg)}60%{transform:scale(1.04) rotate(1deg)}100%{transform:none}}
+#textbox.withp #nameplate{left:8.4em}
+#nameplate{box-shadow:.14em .16em 0 var(--ink);padding:.05em 1em .1em}
+
+/* thẻ “Manh mối mới” */
+.cluecard{display:flex;align-items:center;gap:.8em;background:#FFF8E2;border:3px solid var(--ink);border-radius:var(--wob);padding:.5em 1.2em .5em .6em;box-shadow:.25em .3em 0 var(--ink);animation:ccin .45s cubic-bezier(.2,1.6,.4,1);transition:opacity .5s,transform .5s;font-family:var(--hand)}
+.cluecard.out{opacity:0;transform:translateY(-1em)}
+.cluecard .ccimg{width:3.6em;height:3.6em;border:2.5px solid var(--ink);border-radius:50%;background:radial-gradient(#fff,#F6E7B8);display:flex;align-items:center;justify-content:center;animation:spinin .6s ease}
+.cluecard .ccimg .ico{width:2.6em;height:2.6em}
+.cluecard small{display:block;letter-spacing:.25em;color:var(--red);font-size:.8em}
+.cluecard b{display:block;font-size:1.35em;line-height:1.1}
+.cluecard span{font-size:.85em;color:var(--muted)}
+@keyframes ccin{from{opacity:0;transform:translateY(-1.2em) scale(.8)}}
+@keyframes spinin{from{transform:rotate(-200deg) scale(.4)}}
+
+/* sổ tay có hình */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6em}
+.clue{display:flex;gap:.7em;align-items:flex-start;margin:0;box-shadow:.12em .16em 0 rgba(43,31,26,.5)}
+.clue .cimg{flex:none;width:3.4em;height:3.4em;border:2px solid var(--ink);border-radius:50%;background:radial-gradient(#fff,#F6E7B8);display:flex;align-items:center;justify-content:center}
+.clue .cimg .ico{width:2.4em;height:2.4em}
+.clue small{float:none;display:block}
+.phead b{display:flex;align-items:center}
+.x{width:1.8em;height:1.8em;border:2.5px solid var(--ink)!important;border-radius:50%;background:var(--cream)!important;display:flex;align-items:center;justify-content:center;box-shadow:.1em .14em 0 var(--ink)}
+.x .bico{margin:0;width:1em;height:1em}
+
+/* vật phẩm & đánh dấu trên bản đồ */
+.mark.itemm{width:auto;height:auto;background:none;border:0;border-radius:0;font-size:1em}
+.mark.itemm .mbub{width:2.4em;height:2.4em;border:2.5px solid var(--ink);border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,#F6E7B8 70%);display:flex;align-items:center;justify-content:center;box-shadow:.1em .14em 0 var(--ink)}
+.mark.itemm .mbub .ico{width:1.75em;height:1.75em}
+.mark.itemm::after{content:"";position:absolute;left:50%;bottom:-.6em;margin-left:-.35em;border:.35em solid transparent;border-top-color:var(--ink)}
+.mark.itemm i{position:absolute;right:-.5em;top:-.45em;width:1.15em;height:1.15em;border-radius:50%;background:var(--red);color:var(--cream);border:2px solid var(--ink);font:bold .8em/1 var(--hand);display:flex;align-items:center;justify-content:center;font-style:normal}
+.mark.itemm.minor .mbub{background:radial-gradient(#fff,var(--cream));transform:scale(.85)}
+.mark.itemm.minor i{background:var(--navy)}
+.mark.itemm.seen{opacity:.55;animation:none;font-size:1em;background:none}
+.mark.itemm.seen::after{content:none}
+.mark.itemm.seen i{background:var(--green);font-size:0}
+.mark.itemm.seen i::after{content:"✓";font-size:.7rem}
+.mark.talkm{width:2.2em;height:2.2em;background:none;border:0}
+.mark.talkm svg{width:100%;height:100%}
+.mark.talkm.seen{opacity:.45;font-size:inherit;background:none}
+.mark.talkm.seen::after{content:none}
+.glint{position:absolute;left:0;top:0;width:2.4em;height:2.4em;pointer-events:none;z-index:1;border-radius:50%;background:radial-gradient(rgba(255,240,180,.85),rgba(255,240,180,0) 65%);animation:glint 1.6s ease-in-out infinite}
+.glint::before,.glint::after{content:"";position:absolute;left:50%;top:50%;width:.25em;height:1.6em;margin:-.8em 0 0 -.125em;background:#fff;border-radius:1em;opacity:.9}
+.glint::after{transform:rotate(90deg)}
+.glint.seen{display:none}
+@keyframes glint{50%{opacity:.35}}
+
+/* bong bóng cảm xúc trên đầu nhân vật */
+.ent .emote{position:absolute;left:58%;top:-28%;width:1.9em;height:1.9em;animation:emin .35s cubic-bezier(.2,1.8,.4,1),emb 1.2s ease-in-out .35s infinite alternate;transform-origin:20% 100%}
+.ent .emote svg{width:100%;height:100%}
+.scast .ent .emote{width:4em;height:4em;top:-8%}
+@keyframes emin{from{transform:scale(0) rotate(-20deg)}}
+@keyframes emb{to{transform:translateY(-.18em) rotate(4deg)}}
+.chibi.emo-angry .bob{animation:shakeA .12s infinite alternate}
+.chibi.emo-scared .bob{animation:shakeA .08s infinite alternate}
+.chibi.emo-happy .bob{animation:hop .35s ease-in-out infinite alternate}
+.chibi.emo-sad .bob,.chibi.emo-cry .bob{animation:droop 2s ease-in-out infinite alternate}
+@keyframes shakeA{from{transform:translateX(-1px)}to{transform:translateX(1px)}}
+@keyframes hop{to{transform:translateY(-5px)}}
+@keyframes droop{to{transform:translateY(2px)}}
+
+/* HUD thế giới */
+.wtitle .hico{width:1.4em;height:1.4em}
+.wbtns .btn{font-size:1.05em}
+.wact{display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:.18em .22em 0 var(--ink)}
+.wact .bico{width:1.5em;height:1.5em;margin:0}
+.wact b{font:800 .55em var(--sans)}
+.wpad button{display:flex;align-items:center;justify-content:center;box-shadow:.12em .16em 0 var(--ink)}
+.wpad .bico{margin:0}
+
+/* bảng minigame */
+.mhead b{display:flex;align-items:center}
+.dtag{display:flex;align-items:center;justify-content:center}
+.hp{display:flex}
+.timed .tvs{background:repeating-linear-gradient(0deg,var(--paper) 0 1.4em,#E2D9C3 1.4em calc(1.4em + 2px))}
+.chbtn{box-shadow:.12em .16em 0 var(--ink)}
+.chbtn:hover:not(:disabled){transform:translate(-1px,-2px) rotate(-.6deg)}
+#title .tmenu .btn .bico,.endbox .row .btn .bico{width:1.2em;height:1.2em}
+#tLine{top:12%;bottom:auto;right:3%}
+.tchar{width:7.6em;height:9em}
+#tChapters{max-width:30em}
+#tLine{top:auto;bottom:7%;right:2%}
+.tchar{width:5.4em;height:6.4em;margin-left:-.7em}
+#tChapters{max-width:27em}
+.wact{position:absolute;transition:transform .12s}
+.wact:active{transform:translate(.15em,.2em)}
+.wtitle{padding-left:.8em}
+.wdark{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.wlow{z-index:1}
+.wmap img,img.wdark{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;user-select:none}
+.wcont{will-change:transform}
+input[type=range]{accent-color:#B84A3E;width:12em}
