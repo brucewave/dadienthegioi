@@ -92,6 +92,7 @@ Tranh nằm trong `js/cutart.js`, bộ chạy trong `js/cutscene.js`. Trong kị
 | `elephant` (`broken`), `dreamroom` (`face`) | Hai giấc mơ của Liễng |
 | `catsroof`, `market`, `boundary` | Đàn mèo trên mái · chợ Bến Thành · ranh giới vùng không gian |
 | `xclass`, `cage` | Tuổi thơ của X · lồng kính tâm trí |
+| `fight` (`kind: face/hit/down/sneak/reach/morph`, `a`, `b`, `place`, `fx`, `rev`, `sil`) | Khung truyện tranh cho các trận đánh: đối đầu, ra đòn có bóng mờ + chữ tượng thanh, gục ngã, áp sát sau lưng, bàn tay Mộng, X biến hình |
 
 Xem thử một tranh: `index.html?cut=street&o=time:night,police` (cần chạy qua máy chủ). Nút **Bỏ qua ▸▸** góc trái tua nhanh đoạn phim.
 

@@ -98,10 +98,20 @@ Object.assign(SCENES, {
         { c: 'unk', at: [6, 9.6], path: [[6, 9.6], [18, 9.6]], speed: 1.1, range: 3, fov: 60 },
       ],
       goal: { reach: [10.9, 10.1, 2, 1], label: 'Sau lưng hắn' } },
+    { cut: [
+      { img: 'fight', o: { kind: 'sneak', a: 'lieng', b: 'cuong', place: 'night' }, cam: [[1000, 420, 1.2], [760, 460, 1.06]], t: 6, hold: 700, say: [
+        '*Ngay sau lưng hắn. Hắn vẫn chưa hay biết gì.',
+      ] },
+    ] },
     { game: 'timed', vs: ['lieng', 'cuong'], title: 'Đánh ngất tên gác cổng', maxMiss: 0, intro: 'Ngay sau lưng hắn...', fail: 'Hắn quay lại! Thử lại!', rounds: [
       { tell: 'Hắn chưa hay biết gì. Ra đòn!', opts: ['Chặt vào gáy', 'Gọi hắn quay lại', 'Đẩy ngã'], ans: 0, time: 2, ok: 'Hắn đổ gục xuống không một tiếng động.' },
     ] },
-    'Tên gác cổng nằm bất tỉnh. Tôi kéo hắn vào bụi cây cạnh cổng rồi lẻn vào trong nhà.',
+    { cut: [
+      { img: 'fight', o: { kind: 'hit', a: 'lieng', b: 'cuong', place: 'night', fx: 'PHỤP!' }, tr: 'flash', sfx: 'hit', hold: 900, cam: [[840, 450, 1.25], [820, 450, 1.08]], t: 3, say: [] },
+      { img: 'fight', o: { kind: 'down', a: 'lieng', b: 'cuong', place: 'night', emoA: 'think' }, tr: 'cut', hold: 500, cam: [[800, 480, 1.1], [900, 450, 1.02]], t: 6, say: [
+        'Tên gác cổng nằm bất tỉnh. Tôi kéo hắn vào bụi cây cạnh cổng rồi lẻn vào trong nhà.',
+      ] },
+    ] },
     { go: 'c3_inside' },
   ],
 
@@ -142,9 +152,13 @@ Object.assign(SCENES, {
     { cast: ['bichmat', 'cuong'] },
     'Đúng lúc đó, tên canh cổng đột nhiên xuất hiện ngay sau lưng hắn.',
     '*Hết rồi. Hai đánh một, lại còn phải che cho một ông già và một con mèo...',
-    { fx: 'shake' },
-    'Nhưng tên gác cổng lại quay sang tấn công chính đồng bọn của mình!',
-    'cuong[angry]: Còn đứng đó làm gì?! Dẫn ông già chạy đi! Tôi giữ chân hắn!',
+    { cut: [
+      { img: 'fight', o: { kind: 'hit', a: 'cuong', b: 'bichmat', place: 'house', fx: 'RẦM!' }, tr: 'flash', sfx: 'hit', hold: 500, cam: [[860, 450, 1.25], [800, 450, 1.06]], t: 5, say: [
+        { fx: 'shake' },
+        'Nhưng tên gác cổng lại quay sang tấn công chính đồng bọn của mình!',
+        'cuong[angry]: Còn đứng đó làm gì?! Dẫn ông già chạy đi! Tôi giữ chân hắn!',
+      ] },
+    ] },
     { cast: [] },
     { game: 'timed', title: 'Cõng ông bác chạy trốn!', maxMiss: 2, intro: 'Ông bác nặng chết khiếp...', fail: 'Vấp ngã rồi! Đứng dậy chạy lại!', rounds: [
       { tell: 'Hành lang — có kẻ chặn bên phải!', opts: ['← Rẽ trái', '→ Rẽ phải', '↑ Lao thẳng'], ans: 0, time: 2.2, ok: 'Thoát!' },

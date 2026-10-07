@@ -206,9 +206,13 @@ Object.assign(SCENES, {
     '*Và? Chỉ vậy thôi hả? Phải chăng ngôn ngữ loài mèo vốn ngắn gọn thế? ...Mà việc này để hỏi sau.',
     '*Ông Trưởng vẫn còn ở đây. Phải lấy được chìa khóa còng của ông ta.',
     { cast: ['truong'] },
-    'Tôi vừa quay người lại thì ông ta đã lao gần tới. Bầy mèo bị hất văng ra tứ phía.',
-    '*Khả năng tư duy của tôi có thể không bằng ông ấy. Nhưng không phải tự dưng tôi là thủ khoa — tôi chưa từng thua một trận tay đôi nào.',
-    '*Có điều... với đôi tay bị còng thế này thì khó đấy.',
+    { cut: [
+      { img: 'fight', o: { kind: 'face', a: 'lieng', b: 'truong', place: 'room', fx: '!!', emoB: 'angry' }, tr: 'flash', sfx: 'hit', hold: 600, cam: [[800, 470, 1.18], [800, 450, 1.04]], t: 9, say: [
+        'Tôi vừa quay người lại thì ông ta đã lao gần tới. Bầy mèo bị hất văng ra tứ phía.',
+        '*Khả năng tư duy của tôi có thể không bằng ông ấy. Nhưng không phải tự dưng tôi là thủ khoa — tôi chưa từng thua một trận tay đôi nào.',
+        '*Có điều... với đôi tay bị còng thế này thì khó đấy.',
+      ] },
+    ] },
     { game: 'timed', vs: ['lieng', 'truong'], title: 'Tay bị còng — né đòn ông Trưởng', maxMiss: 1, intro: 'Ông Trưởng lao tới!', fail: 'Bị khóa chặt rồi! Làm lại!', rounds: [
       { tell: 'Ông ta vồ tới từ bên trái!', opts: ['→ Lăn sang phải', '← Lăn sang trái', '↑ Đứng dậy'], ans: 0, time: 2.2, ok: 'Tránh được!' },
       { tell: 'Ông ta túm lấy cổ áo — kéo xuống!', opts: ['↓ Hạ trọng tâm, giật ra', '↑ Bật lên', '→ Xoay người'], ans: 0, time: 2, ok: 'Thoát!' },
@@ -216,14 +220,22 @@ Object.assign(SCENES, {
       { tell: 'Bị dồn vào chân tường!', opts: ['→ Lách phải', '← Lách trái', '↓ Chịu trận'], ans: 1, time: 1.6, ok: 'Vẫn còn đứng vững...' },
     ] },
     { cast: ['truong', 'bac'] },
-    'Khi tôi bị dồn vào góc tường, ông bác bất ngờ lao tới ôm chặt lấy ông Trưởng!',
-    'Ông bị hất ra ngay sau đó — nhưng thế là đủ. Một khoảng trống.',
+    { cut: [
+      { img: 'fight', o: { kind: 'hit', a: 'bac', b: 'truong', place: 'room', fx: 'HỰ!', emoA: 'angry', emoB: 'surprised' }, tr: 'flash', sfx: 'hit', hold: 500, cam: [[860, 450, 1.22], [800, 450, 1.05]], t: 6, say: [
+        'Khi tôi bị dồn vào góc tường, ông bác bất ngờ lao tới ôm chặt lấy ông Trưởng!',
+        'Ông bị hất ra ngay sau đó — nhưng thế là đủ. Một khoảng trống.',
+      ] },
+    ] },
     { game: 'timed', vs: ['lieng', 'truong'], title: 'Cơ hội duy nhất!', maxMiss: 0, intro: '...', fail: 'Hụt! Ông bác lao vào lần nữa!', rounds: [
       { tell: 'Cằm ông ta đang lộ ra!', opts: ['↑ Đá toàn lực vào cằm', '→ Húc vai', '← Bỏ chạy'], ans: 0, time: 1.4, ok: 'BỐP!' },
     ] },
-    { fx: 'boom' },
     { cast: [] },
-    'Ông Trưởng ngã vật xuống sàn, bất tỉnh.',
+    { cut: [
+      { img: 'fight', o: { kind: 'hit', a: 'lieng', b: 'truong', place: 'room', fx: 'BỐP!' }, tr: 'flash', hold: 900, cam: [[860, 440, 1.3], [820, 450, 1.08]], t: 3, say: [{ fx: 'boom' }] },
+      { img: 'fight', o: { kind: 'down', a: 'lieng', b: 'truong', place: 'room', fx: 'RẦM', emoA: 'angry' }, tr: 'cut', hold: 500, cam: [[800, 500, 1.12], [900, 450, 1.02]], t: 6, say: [
+        'Ông Trưởng ngã vật xuống sàn, bất tỉnh.',
+      ] },
+    ] },
     { go: 'c4_flee' },
   ],
 

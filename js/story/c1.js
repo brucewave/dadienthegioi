@@ -131,16 +131,26 @@ Object.assign(SCENES, {
       { t: 'Đứng nhìn', steps: ['*Lão vừa trộm đồ của ta. Lão đáng bị như vậy.', '*...', '*Không. Ta không thể đứng nhìn.'] },
     ] },
     { cast: ['tu', 'khanh'] },
-    'tu[angry]: Đủ rồi. Đánh người ta thì cũng chẳng ra được đồng nào đâu.',
-    'khanh: Lão già kia là ai mà dám xen vào chuyện của anh?',
+    { cut: [
+      { img: 'fight', o: { kind: 'face', a: 'tu', b: 'khanh', place: 'lobby', fx: '!!' }, tr: 'flash', sfx: 'hit', hold: 600, cam: [[800, 470, 1.18], [800, 450, 1.04]], t: 6, say: [
+        'tu[angry]: Đủ rồi. Đánh người ta thì cũng chẳng ra được đồng nào đâu.',
+        'khanh: Lão già kia là ai mà dám xen vào chuyện của anh?',
+      ] },
+    ] },
     { game: 'timed', vs: ['tu', 'khanh'], title: 'Đỡ đòn Khánh sẹo', noRetry: true, maxMiss: 1, intro: 'Khánh sẹo lao tới!', rounds: [
       { tell: 'Hắn vung cú đấm móc từ bên phải!', opts: ['← Né trái', '→ Né phải', '↓ Cúi xuống'], ans: 0, time: 2.4, ok: 'Né được!' },
       { tell: 'Hắn đá quét thấp!', opts: ['↑ Nhảy lùi', '↓ Cúi xuống', '→ Né phải'], ans: 0, time: 2, ok: 'Tránh được!' },
       { tell: 'Hắn túm lấy cổ áo ông!', opts: ['Gỡ tay hắn', 'Đấm trả', 'Đứng yên'], ans: 0, time: 1.8, ok: 'Gỡ được — nhưng sức già có hạn...' },
     ] },
-    { fx: 'shake' }, { fx: 'redflash' },
-    'Ông Tư đỡ được vài đòn. Nhưng sức một ông già sao bì được với gã giang hồ đang điên tiết.',
-    'khanh[angry]: Hôm nay anh tha. Lần sau mà không đủ tiền thì đừng trách.',
+    { cut: [
+      { img: 'fight', o: { kind: 'hit', a: 'khanh', b: 'tu', place: 'lobby', fx: 'BỐP!', rev: true, col: '#E8603A' }, tr: 'flash', sfx: 'hit', hold: 500, cam: [[760, 450, 1.25], [800, 450, 1.06]], t: 4, say: [
+        { fx: 'shake' },
+        'Ông Tư đỡ được vài đòn. Nhưng sức một ông già sao bì được với gã giang hồ đang điên tiết.',
+      ] },
+      { img: 'fight', o: { kind: 'down', a: 'khanh', b: 'tu', place: 'lobby', emoA: 'smug', emoB: 'hurt' }, tr: 'cut', hold: 500, cam: [[900, 520, 1.15], [1000, 450, 1.04]], t: 6, say: [
+        'khanh[angry]: Hôm nay anh tha. Lần sau mà không đủ tiền thì đừng trách.',
+      ] },
+    ] },
     { cast: [] },
     'Hắn đúng là đã bỏ đi thật. Nhưng bỏ lại phía sau là hai khuôn mặt bị đánh tới biến dạng.',
     { go: 'c1_after' },

@@ -166,7 +166,14 @@ Object.assign(SCENES, {
     '*Chiếc xe quen dưới nhà xe... là của ông ta.',
     'tu[smile]: Cậu Liễng, giữ ông bác cho chắc. Hai kẻ này để tôi lo.',
     { cast: ['mong'] },
-    'Mọi thứ diễn ra quá nhanh. Tên to con lao vào ông thám tử. Tên trùm mũ lướt về phía tôi như một cái bóng.',
+    { cut: [
+      { img: 'fight', o: { kind: 'hit', a: 'thach', b: 'tu', place: 'room', fx: 'RẦM!' }, tr: 'flash', sfx: 'hit', hold: 400, cam: [[860, 450, 1.2], [800, 450, 1.05]], t: 4, say: [
+        'Mọi thứ diễn ra quá nhanh. Tên to con lao vào ông thám tử.',
+      ] },
+      { img: 'fight', o: { kind: 'reach' }, tr: 'cut', hold: 400, cam: [[800, 520, 1.0], [800, 520, 1.3]], t: 5, say: [
+        'Tên trùm mũ lướt về phía tôi như một cái bóng.',
+      ] },
+    ] },
     { game: 'timed', vs: ['lieng', 'mong'], title: 'Hỗn chiến!', noRetry: true, maxMiss: 1, intro: 'Tên trùm mũ vươn tay về phía đầu bạn!', rounds: [
       { tell: 'Bàn tay hắn vươn tới trán bạn!', opts: ['← Né trái', '→ Né phải', '↓ Cúi xuống'], ans: 2, time: 1.8, ok: 'Sượt qua!' },
       { tell: 'Hắn xoay người, tay kia quét ngang!', opts: ['↑ Lùi lại', '← Né trái', '→ Phản đòn'], ans: 0, time: 1.5, ok: 'Tránh được!' },

@@ -25,8 +25,12 @@ Object.assign(SCENES, {
     '*Người bạn đồng hành của tôi ngất mất tiêu rồi.',
     '*Khả năng của tên này đúng là rất nguy hiểm. Chỉ cần bị hắn chạm vào là bất tỉnh.',
     '*Tôi chưa từng nghĩ có ngày mình phải đối đầu với những kẻ có năng lực đặc biệt thế này. Nhưng không còn ai khác cả.',
-    've[angry]: (Ông bác! Nghe tôi chỉ huy!)',
-    'bac: Cậu Vẻ nói... đánh!',
+    { cut: [
+      { img: 'fight', o: { kind: 'face', a: 'bac', b: 'mong', place: 'room', fx: '!!', cat: true, emoA: 'angry', emoB: 'smug' }, tr: 'flash', sfx: 'hit', hold: 600, cam: [[760, 470, 1.18], [800, 450, 1.04]], t: 6, say: [
+        've[angry]: (Ông bác! Nghe tôi chỉ huy!)',
+        'bac: Cậu Vẻ nói... đánh!',
+      ] },
+    ] },
     { cast: ['bac', 'mong'] },
     { game: 'timed', vs: ['bac', 'mong'], title: 'Cậu Vẻ chỉ huy ông bác', maxMiss: 1, intro: 'Mộng đang tiến lại gần Liễng!', fail: 'Ông bác suýt bị chạm trúng! Chỉ huy lại!', rounds: [
       { tell: 'Mộng cúi xuống, vươn tay về phía Liễng đang nằm!', opts: ['“Húc vào hắn!”', '“Đứng yên!”', '“Chạy đi!”'], ans: 0, time: 2.4, ok: 'Ông bác lao tới, húc văng Mộng ra!' },
@@ -155,8 +159,12 @@ Object.assign(SCENES, {
 
   c6_wake: [
     { bg: 'inn_room', cast: ['mong'] },
-    'Tôi bật dậy.',
-    'Đúng lúc cậu Vẻ ngã xuống. Tên trùm mũ còn đang quay lưng về phía tôi.',
+    { cut: [
+      { img: 'fight', o: { kind: 'sneak', a: 'lieng', b: 'mong', place: 'room', fx: '!' }, cam: [[1000, 420, 1.2], [760, 460, 1.06]], t: 7, hold: 600, say: [
+        'Tôi bật dậy.',
+        'Đúng lúc cậu Vẻ ngã xuống. Tên trùm mũ còn đang quay lưng về phía tôi.',
+      ] },
+    ] },
     { game: 'timed', vs: ['lieng', 'mong'], title: 'Khống chế Mộng', maxMiss: 0, intro: 'Hắn chưa nhận ra bạn đã tỉnh...', fail: 'Hắn quay lại rồi! Lần nữa!', rounds: [
       { tell: 'Áp sát từ phía sau!', opts: ['Khóa tay hắn ra sau', 'Đấm vào lưng', 'Hét lên'], ans: 0, time: 1.8, ok: 'Khóa chặt!' },
       { tell: 'Hắn vùng vẫy, tay cố chạm vào bạn!', opts: ['Ghì đầu hắn xuống sàn', 'Buông ra', 'Né'], ans: 0, time: 1.6, ok: 'Hắn bị ghì chặt xuống sàn!' },
@@ -167,8 +175,12 @@ Object.assign(SCENES, {
     { cast: ['cuong', 'thach'] },
     { fx: 'glitch' },
     '—không phải ông thám tử. Mà là tên gác cổng tối hôm trước.',
-    'Hắn không chút do dự. Một đòn. Tiếng xương gãy khô khốc.',
-    { fx: 'redflash' },
+    { cut: [
+      { img: 'fight', o: { kind: 'hit', a: 'cuong', b: 'thach', place: 'dark', fx: 'RẮC', sil: true, col: '#D8402F' }, tr: 'flash', sfx: 'hit', hold: 500, cam: [[860, 450, 1.28], [820, 450, 1.1]], t: 4, say: [
+        'Hắn không chút do dự. Một đòn. Tiếng xương gãy khô khốc.',
+        { fx: 'redflash' },
+      ] },
+    ] },
     { cast: ['tu'] },
     'Khi hắn quay lại, đứng đó lại là ông thám tử. Hắn bước về phía tủ áo — nơi ông Trưởng đang bị nhốt — rồi nhìn sang tên tôi đang khống chế.',
     'lieng[angry]: Đứng lại! Tôi là công an. Hoặc ông giải thích chuyện này, hoặc ông bị bắt vì tội giết người.',

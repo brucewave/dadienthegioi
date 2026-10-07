@@ -85,4 +85,14 @@
 @keyframes ctear{0%{transform:translateX(-18px)}50%{transform:translateX(22px)}}
 #cine svg .cfly{animation:cfly 6s linear infinite}
 @keyframes cfly{from{transform:translate(0,0)}to{transform:translate(-600px,-60px)}}
+/* đánh nhau */
+#cine svg .cspeed{transform-box:view-box;transform-origin:50% 50%;animation:cspeed .24s steps(2) infinite}
+@keyframes cspeed{0%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(1.03) rotate(.6deg)}}
+#cine svg .cspeedh{animation:cspeedh .32s linear infinite}
+@keyframes cspeedh{from{transform:translateX(0)}to{transform:translateX(-1600px)}}
+#cine svg .cburst{transform-box:fill-box;transform-origin:50% 50%;animation:cburst .5s cubic-bezier(.2,1.6,.4,1) both,cburst2 .9s .5s ease-in-out infinite alternate}
+@keyframes cburst{from{transform:scale(.2) rotate(-20deg);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes cburst2{to{transform:scale(1.06) rotate(2deg)}}
+#cine svg .cpuff{transform-box:fill-box;transform-origin:50% 100%;animation:cpuff 1.2s ease-out infinite}
+@keyframes cpuff{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1.5) translateY(-20px);opacity:0}}
 @media (prefers-reduced-motion:reduce){#cine svg *{animation:none!important}#cine .cgrain{animation:none}}

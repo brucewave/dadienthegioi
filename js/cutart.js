@@ -741,4 +741,117 @@
     [[250, 790, 230], [470, 800, 250], [1130, 800, 250], [1350, 790, 230]].forEach(([x, y, hh], k) => { s2 += K.person(x, y, hh, { pose: 'kneel', c: '#0E0A0E', flip: k > 1, rim: '#8A5AA8', rimA: .7, hair: k === 2 ? 'messy' : null }); });
     return [{ d: .1, s: s0 }, { d: .5, s: s1 }, { d: 1, s: s2 }];
   });
+
+  /* ======================================================
+     ĐÁNH NHAU — khung truyện tranh hành động
+     o.kind: face (đối đầu) | hit (ra đòn) | down (gục ngã) | sneak (áp sát sau lưng)
+             | reach (bàn tay Mộng) | morph (X biến hình)
+     o.a: người ra đòn / bên trái · o.b: người chịu đòn / bên phải
+     o.place: lobby | night | room | dark | house · o.fx: chữ tượng thanh · o.rev: lật ngang
+     ====================================================== */
+  const PLACE = { lobby: ['#F2CC8E', '#9A5A34'], night: ['#2E3866', '#100C20'], room: ['#DDAE7E', '#5A3A2A'], dark: ['#4A2236', '#0E080C'], house: ['#3E3E5A', '#14121E'] };
+  const bust = (k, cx, cy, s, opt = {}) => ART.chibi(k, opt.dir || 'down', { bust: true, emo: opt.emo }).replace('<svg ', `<svg x="${cx - 66 * s}" y="${cy - 64 * s}" width="${132 * s}" height="${128 * s}" overflow="visible" `);
+  const rays = (cx, cy, n, seed, c = '#fff', a = .5, r1 = 230) => {
+    const r = K.rng(seed), d = ['', '', ''];
+    for (let i = 0; i < n; i++) { const t = r() * 6.2832, q = r1 * (.75 + r() * .7), cs = Math.cos(t), sn = Math.sin(t); d[i % 3] += `M${(cx + cs * q).toFixed(0)},${(cy + sn * q).toFixed(0)} L${(cx + cs * 1900).toFixed(0)},${(cy + sn * 1900).toFixed(0)} `; }
+    return `<g class="cspeed" opacity="${a}">${d.map((p, i) => `<path d="${p}" stroke="${c}" stroke-width="${[2, 5, 10][i]}" stroke-linecap="round" fill="none"/>`).join('')}</g>`;
+  };
+  const hlines = (seed, c = '#fff', a = .45) => {
+    const r = K.rng(seed); let d = '';
+    for (let i = 0; i < 46; i++) { const y = r() * 900, x = r() * 1600, l = 160 + r() * 520; d += `M${x.toFixed(0)},${y.toFixed(0)} h${l.toFixed(0)} `; }
+    const p = `<path d="${d}" stroke="${c}" stroke-width="4" stroke-linecap="round" fill="none"/>`;
+    return `<g opacity="${a}"><g class="cspeedh">${p}<g transform="translate(1600,0)">${p}</g></g></g>`;
+  };
+  const burst = (x, y, R, seed, col = '#F2C14A') => {
+    const r = K.rng(seed), star = (rr, k) => { let d = ''; for (let i = 0; i < 32; i++) { const t = i / 32 * 6.2832, q = i % 2 ? rr * (.38 + r() * .12) : rr * (.85 + r() * .4); d += (i ? 'L' : 'M') + (x + Math.cos(t) * q).toFixed(0) + ',' + (y + Math.sin(t) * q).toFixed(0); } return d + 'Z'; };
+    return `<g class="cburst"><path d="${star(R)}" fill="#FFF8E0" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/><path d="${star(R * .62)}" fill="${col}"/><path d="${star(R * .3)}" fill="#fff"/></g>`;
+  };
+  const boom = (x, y, t, size, rot = -8, c = '#F2C14A') => t ? `<g class="cburst" style="animation-delay:-.2s"><text x="${x}" y="${y}" ${FONT} font-size="${size}" font-weight="bold" text-anchor="middle" fill="${c}" stroke="${INK}" stroke-width="${size / 9}" stroke-linejoin="round" paint-order="stroke" transform="rotate(${rot} ${x} ${y})">${t}</text></g>` : '';
+  const puffs = (x, y, n, seed, c = '#E8DCC4') => { const r = K.rng(seed); let s = ''; for (let i = 0; i < n; i++) s += `<g class="cpuff" style="animation-delay:${(-r() * 1.2).toFixed(2)}s">${ci(x + (r() - .5) * 260, y - r() * 40, 24 + r() * 30, c, 4, 'fill-opacity=".9"')}</g>`; return s; };
+  const bg = (o, seed, cx = 800, cy = 450) => {
+    const [c1, c2] = PLACE[o.place] || PLACE.room;
+    return `<rect x="-60" y="-60" width="1720" height="1020" fill="${K.rg(K.id('fb' + seed), [[0, c1], [1, c2]], cx / 1600, cy / 900, .75)}"/>`;
+  };
+  const mirror = (s, on) => on ? `<g transform="translate(1600,0) scale(-1,1)">${s}</g>` : s;
+  const MX = (x, on) => on ? 1600 - x : x;
+
+  R('fight', o => {
+    const id = K.id, k = o.kind || 'face', a = o.a || 'lieng', b = o.b || 'x', rev = !!o.rev;
+    const dark = PLACE[o.place] ? PLACE[o.place][1] : '#2B1F1A';
+
+    if (k === 'face') {
+      const [c1, c2] = [CHARS[a] ? CHARS[a].color : '#888', CHARS[b] ? CHARS[b].color : '#888'];
+      K.def(`<clipPath id="${id('L')}"><path d="M-60,-60 L930,-60 L670,960 L-60,960Z"/></clipPath><clipPath id="${id('R')}"><path d="M930,-60 L1660,-60 L1660,960 L670,960Z"/></clipPath>`);
+      let s0 = `<g clip-path="url(#${id('L')})"><rect x="-60" y="-60" width="1720" height="1020" fill="${K.rg(id('gl'), [[0, c1], [1, dark]], .25, .55, .7)}"/>${rays(380, 520, 60, 3, '#fff', .28)}</g>`;
+      s0 += `<g clip-path="url(#${id('R')})"><rect x="-60" y="-60" width="1720" height="1020" fill="${K.rg(id('gr'), [[0, c2], [1, dark]], .75, .55, .7)}"/>${rays(1220, 520, 60, 7, '#fff', .28)}</g>`;
+      let s1 = `<g>${bust(a, 400, 490, 3.8, { dir: 'right', emo: o.emoA || 'angry' })}</g><g>${bust(b, 1200, 490, 3.8, { dir: 'left', emo: o.emoB || 'angry' })}</g>`;
+      if (o.cat) s1 += K.fig('ve', 610, 700, 220, { emo: 'angry', dir: 'right' });
+      const crack = 'M930,-60 L860,180 L905,230 L790,470 L830,520 L670,960';
+      const s2 = ln(crack, '#FFF6D8', 22, 'opacity=".55"') + ln(crack, '#fff', 8) + ln(crack, INK, 2.5) + K.glow(830, 480, 220, '#FFF0B0', .5, 'class="cflick"') + boom(800, 290, o.fx, 130, -10);
+      return [{ d: .15, s: s0 }, { d: .7, s: s1 }, { d: 1, s: s2 }];
+    }
+
+    if (k === 'hit') {
+      let s0 = bg(o, 1, MX(820, rev), 470) + hlines(5, '#fff', .32) + rays(MX(840, rev), 470, 70, 9, '#fff', .3, 260);
+      const A = (dx, op) => `<g transform="translate(${dx},0) rotate(12 560 770)" opacity="${op}">${K.fig(a, 560, 770, o.hA || 440, { dir: 'right', emo: o.emoA || 'angry' })}</g>`;
+      let fig = '';
+      if (o.sil) fig = `<g ${K.tone(id('sl'), '.08 .04 .04 0 0  .04 .06 .04 0 0  .04 .04 .1 0 .02  0 0 0 1 0')}>`;
+      fig += `<g ${K.tone(id('gh'), '1 0 0 0 .3  0 1 0 0 .3  0 0 1 0 .3  0 0 0 1 0')}>${A(-150, .14)}${A(-80, .28)}</g>` + A(0, 1);
+      fig += `<g transform="translate(40,0) rotate(-18 1080 770)">${K.fig(b, 1080, 770, o.hB || 410, { dir: 'left', emo: o.emoB || 'hurt' })}</g>`;
+      if (o.sil) fig += '</g>';
+      fig += ln('M640,420 Q760,330 860,450', '#fff', 26, 'opacity=".55"') + ln('M650,470 Q770,400 860,470', '#fff', 12, 'opacity=".7"');
+      fig += puffs(1100, 780, 6, 3) + puffs(540, 780, 3, 8);
+      const s2 = burst(MX(860, rev), 450, 150, 2, o.col || '#F2C14A') + boom(MX(o.fxX || 1180, rev), 310, o.fx, 140, rev ? 8 : -8, o.col || '#F2C14A') + (o.sil ? `<rect x="-60" y="-60" width="1720" height="1020" fill="#B8302A" opacity=".18" style="mix-blend-mode:multiply"/>` : '');
+      return [{ d: .2, s: s0 }, { d: .75, s: mirror(fig, rev) }, { d: 1, s: s2 }];
+    }
+
+    if (k === 'down') {
+      let s0 = bg(o, 2, MX(1000, rev), 640) + rays(MX(820, rev), 700, 40, 4, '#fff', .16, 360);
+      let fig = K.eglow(820, 740, 320, 36, '#000', .4) + `<g transform="translate(920,640) rotate(-84) translate(-920,-640)">${K.fig(b, 920, 640, o.hB || 380, { emo: o.emoB || 'sleep' })}</g>`;
+      let stars = ''; for (let i = 0; i < 4; i++) { const t = i / 4 * 6.28; stars += `<path transform="translate(${(640 + Math.cos(t) * 80).toFixed(0)},${(520 + Math.sin(t) * 24).toFixed(0)})" d="M0,-16 L4,-4 L16,0 L4,4 L0,16 L-4,4 L-16,0 L-4,-4Z" fill="#F2C14A" stroke="${INK}" stroke-width="3"/>`; }
+      fig += `<g class="cswirl" style="animation-duration:3s">${stars}</g>`;
+      fig += K.eglow(1270, 782, 140, 20, '#000', .45) + K.fig(a, 1270, 782, o.hA || 470, { dir: 'left', emo: o.emoA || 'angry' });
+      fig += puffs(820, 760, 5, 6);
+      return [{ d: .2, s: s0 }, { d: .8, s: mirror(fig, rev) }, { d: 1, s: boom(MX(560, rev), 380, o.fx, 110, -6) }];
+    }
+
+    if (k === 'sneak') {
+      let s0 = bg(o, 3, 1000, 300) + K.glow(1150, 220, 420, '#C8D4F0', .18);
+      const tn = K.tone(id('sn'), '.55 .12 .1 0 0  .1 .55 .12 0 .01  .14 .16 .72 0 .05  0 0 0 1 0');
+      const ka = (o.hA || 400) / 190, ax = 640, ay = 790, sx = ax + 26 * ka, sy = ay - 72 * ka, hx = sx + 70, hy = sy - 150;
+      const armC = (CHARS[a] && CHARS[a].look.top) || '#5F7F4A';
+      let fig = K.eglow(1010, 778, 140, 20, '#000', .5) + `<g ${tn}>${K.fig(b, 1010, 778, o.hB || 430, { dir: 'right', emo: o.emoB || 'neutral' })}`;
+      fig += K.fig(a, ax, ay, o.hA || 400, { dir: 'right', emo: o.emoA || 'angry' });
+      fig += ln(`M${sx},${sy} Q${sx + 20},${sy - 90} ${hx},${hy}`, INK, 34) + ln(`M${sx},${sy} Q${sx + 20},${sy - 90} ${hx},${hy}`, armC, 24) + ol(`M${hx - 18},${hy + 6} L${hx + 4},${hy - 34} L${hx + 22},${hy - 24} L${hx + 6},${hy + 14}Z`, SKIN, 5) + '</g>';
+      fig += ln(`M${hx + 30},${hy - 30} l40,-30 M${hx + 40},${hy + 6} l50,-4`, '#fff', 4, 'opacity=".6"');
+      const s2 = `<rect x="-60" y="-60" width="1720" height="1020" fill="${K.rg(id('v'), [[0, '#000', 0], [.55, '#000', 0], [1, '#000', .7]], .55, .5, .7)}"/>` + boom(MX(1260, rev), 300, o.fx || '...!', 110, 6, '#F3EEDF');
+      return [{ d: .2, s: s0 }, { d: .8, s: mirror(fig, rev) }, { d: 1, s: s2 }];
+    }
+
+    if (k === 'reach') {
+      let s0 = bg({ place: 'dark' }, 4, 800, 380) + rays(800, 520, 80, 11, '#9FE6DA', .22, 200);
+      let s1 = bust('mong', 800, 330, 4.2, { emo: o.emoB || 'smug' }) + K.glow(800, 300, 300, '#6FE0D0', .2, 'class="cflick"');
+      const skin = '#E6C49E';
+      let hnd = '';
+      [[-150, -40, -240, -230], [-60, -120, -90, -330], [30, -130, 40, -340], [110, -100, 170, -290], [150, 20, 290, -60]].forEach(([x1, y1, x2, y2]) => { hnd += ln(`M${800 + x1},${640 + y1} L${800 + x2},${640 + y2}`, INK, 74) + ''; });
+      [[-150, -40, -240, -230], [-60, -120, -90, -330], [30, -130, 40, -340], [110, -100, 170, -290], [150, 20, 290, -60]].forEach(([x1, y1, x2, y2]) => { hnd += ln(`M${800 + x1},${640 + y1} L${800 + x2},${640 + y2}`, skin, 60); });
+      hnd = el(800, 660, 190, 210, skin, 8) + hnd + el(800, 660, 182, 202, skin, 0) + ol('M640,860 L960,860 L1000,1000 L600,1000Z', '#3E6E78', 6);
+      hnd += ln('M720,600 Q800,640 880,590 M740,690 Q810,720 880,680', '#B8946E', 4);
+      const s2 = `<g opacity=".95">${hnd}</g>` + `<g class="cflick">${K.glow(800, 640, 260, '#6FE0D0', .55)}</g>` + K.motes(30, 4, 500, 300, 600, 500, '#BFF6EE', 3);
+      return [{ d: .2, s: s0 }, { d: .5, s: s1 }, { d: 1, s: `<g transform="translate(990,700) scale(.74) translate(-800,-620)">${s2}</g>` }];
+    }
+
+    if (k === 'morph') {
+      let s0 = bg({ place: 'dark' }, 5, 800, 450) + rays(800, 470, 90, 13, '#E06A5A', .25, 240);
+      const tint = (m, inner, dx, dy, op) => `<g ${K.tone(id('m' + dx), m)} opacity="${op}" transform="translate(${dx},${dy})">${inner}</g>`;
+      let s1 = tint('1.2 0 0 0 .1  0 .2 0 0 0  0 0 .2 0 0  0 0 0 1 0', bust('tu', 800, 470, 4, { emo: 'smug' }), -260, -30, .35);
+      s1 += tint('.2 0 0 0 0  0 .4 0 0 .1  0 0 1.2 0 .2  0 0 0 1 0', bust('binh', 800, 470, 4, { emo: 'smile' }), 260, -30, .35);
+      s1 += tint('.6 0 0 0 0  0 .6 0 0 0  0 0 .6 0 0  0 0 0 1 0', bust('x', 800, 470, 4.4, { emo: 'angry' }), 0, -14, .45);
+      s1 += `<g class="ctear">${bust(o.b || 'cuong', 800, 500, 4.8, { emo: 'angry' })}</g>`;
+      const r = K.rng(6); let bands = '';
+      for (let i = 0; i < 8; i++) { const y = 120 + r() * 660, hh = 8 + r() * 34; bands += `<g class="ctear" style="animation-delay:${(-r()).toFixed(2)}s"><rect x="-60" y="${y.toFixed(0)}" width="1720" height="${hh.toFixed(0)}" fill="${['#D8402F', '#3A6AFF', '#F3EEDF', '#120A0A'][i % 4]}" opacity="${(.2 + r() * .3).toFixed(2)}"/></g>`; }
+      return [{ d: .2, s: s0 }, { d: .7, s: s1 }, { d: 1, s: bands + boom(800, 220, o.fx, 120, 0, '#D8402F') }];
+    }
+    return [];
+  });
 })();

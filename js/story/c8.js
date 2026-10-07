@@ -103,10 +103,15 @@ Object.assign(SCENES, {
     'x[sad]: Cậu Liễng. Tôi đã mong cậu không tới.',
     'quanly[sad]: Xin lỗi. Cửa đã khóa rồi. Không ai ra được đâu.',
     'Sau lưng chúng tôi, cánh cửa phát sáng rồi đông cứng lại như đá.',
-    'x[angry]: Vậy thì kết thúc ở đây thôi.',
-    { fx: 'glitch' },
+    { cut: [
+      { img: 'fight', o: { kind: 'face', a: 'lieng', b: 'x', place: 'dark', emoA: 'angry', emoB: 'angry' }, tr: 'flash', sfx: 'hit', hold: 600, cam: [[800, 470, 1.18], [820, 450, 1.04]], t: 5, say: [
+        'x[angry]: Vậy thì kết thúc ở đây thôi.',
+      ] },
+      { img: 'fight', o: { kind: 'morph', b: 'cuong', fx: '!!' }, tr: 'glitch', hold: 900, cam: [[800, 470, 1.0], [800, 480, 1.25]], t: 6, say: [
+        'Thân hình hắn phình ra, biến thành Cường.',
+      ] },
+    ] },
     { cast: ['cuong'] },
-    'Thân hình hắn phình ra, biến thành Cường.',
     { game: 'timed', vs: ['lieng', 'x'], title: 'Trận chiến cuối cùng', maxMiss: 2, intro: 'X lao tới với sức mạnh của Cường!', fail: 'Gục ngã... Ông Trưởng kéo bạn dậy! Lần nữa!', rounds: [
       { tell: 'Nắm đấm như búa tạ giáng xuống từ trên cao!', opts: ['← Lăn sang trái', '↑ Đỡ trực diện', '↓ Đứng yên'], ans: 0, time: 2, ok: 'Sàn gỗ vỡ toác chỗ bạn vừa đứng!' },
       { tell: 'Hắn quay sang Mộng!', opts: ['“Mộng, lùi lại!”', '“Mộng, chạm vào hắn!”'], ans: 0, time: 2, ok: 'Mộng lùi kịp — nhưng bị quét văng vào tường, bất tỉnh.' },
@@ -114,9 +119,13 @@ Object.assign(SCENES, {
       { tell: 'Hắn lùi lại... và biến thành BÌNH.', opts: ['Khựng lại', 'Đánh!'], ans: 1, time: 1.6, ok: '“Cậu ấy sẽ không bao giờ nhìn tôi bằng ánh mắt đó.”', bad: 'Bạn khựng lại một nhịp — và lưỡi dao sượt qua vai.' },
       { tell: 'Hắn mất thăng bằng! Cơ hội duy nhất!', opts: ['↑ Đá toàn lực', '→ Lao vào khóa', '← Lùi lại'], ans: 0, time: 1.4, ok: 'BỐP! X đổ gục.' },
     ] },
-    { fx: 'boom' },
+    { cut: [
+      { img: 'fight', o: { kind: 'hit', a: 'lieng', b: 'cuong', place: 'dark', fx: 'BỐP!' }, tr: 'flash', hold: 1000, cam: [[860, 440, 1.3], [820, 450, 1.08]], t: 3, say: [{ fx: 'boom' }] },
+      { img: 'fight', o: { kind: 'down', a: 'lieng', b: 'x', place: 'dark', emoA: 'sad', emoB: 'hurt' }, tr: 'cut', hold: 600, cam: [[800, 500, 1.12], [880, 450, 1.02]], t: 7, say: [
+        'X ngã xuống, trở lại bộ dạng thật. Cô quản lý lao tới đỡ lấy hắn.',
+      ] },
+    ] },
     { cast: ['x', 'quanly'] },
-    'X ngã xuống, trở lại bộ dạng thật. Cô quản lý lao tới đỡ lấy hắn.',
     'Ông Trưởng rút súng, đưa cho tôi.',
     'truong: Kết thúc đi, Liễng. Cậu là người có quyền làm việc này.',
     { go: 'c8_truth' },
