@@ -222,7 +222,7 @@ const ART = (() => {
     const SW = (n = 2.6) => S.replace('3.5', String(n));
     const g = inner => `<g transform="translate(${x},${y})${p.rot ? ` rotate(${p.rot} ${w / 2} ${h / 2})` : ''}" ${SW()}>${inner}</g>`;
     const R = (xx, yy, ww, hh, f, r = 3, extra = '') => `<rect x="${xx}" y="${yy}" width="${ww}" height="${hh}" rx="${r}" fill="${f}" ${extra}/>`;
-    const sh = (!FLAT.has(k) && !p.noShadow) ? `<rect x="${x + 4}" y="${y + 6}" width="${w}" height="${h}" rx="6" fill="${INK}" opacity=".16" stroke="none"${p.rot ? ` transform="rotate(${p.rot} ${x + w / 2} ${y + h / 2})"` : ''}/>` : '';
+    const sh = (!FLAT.has(k) && !p.noShadow && k !== 'body') ? `<rect x="${x + 4}" y="${y + 6}" width="${w}" height="${h}" rx="6" fill="${INK}" opacity=".16" stroke="none"${p.rot ? ` transform="rotate(${p.rot} ${x + w / 2} ${y + h / 2})"` : ''}/>` : '';
     return sh + draw();
     function draw() {
       switch (k) {
@@ -390,26 +390,28 @@ const ART = (() => {
   function body(p, x, y, w, h) {
     const c = p.c || PAL.teal, pants = p.pants || PAL.grey, hair = p.hair || INK, skin = SKIN;
     const blood_ = p.blood === false ? '' : blood(x - w * .05, y - h * .1, w * 1.05, h * 1.25, p.seed || 3);
-    const hx = w * .13, hy = h * .5, hr = Math.min(h * .3, w * .13);
+    const hx = w * .13, hy = h * .5, hr = Math.min(h * .34, w * .16);
+    // nét vẽ co giãn theo cỡ thi thể (bản đồ nhỏ, cận cảnh to)
+    const k = Math.sqrt(h / 61), n = v => (v * k).toFixed(1);
     let s = `<g transform="translate(${x},${y})${p.rot ? ` rotate(${p.rot} ${w / 2} ${h / 2})` : ''}" ${S.replace('3.5', '2.4')}>`;
     // chân
-    s += `<path d="M${w * .62},${h * .4} L${w * .9},${h * .22}" fill="none" stroke-width="13"/><path d="M${w * .62},${h * .4} L${w * .9},${h * .22}" fill="none" stroke="${pants}" stroke-width="8"/>`;
-    s += `<path d="M${w * .62},${h * .6} L${w * .92},${h * .74}" fill="none" stroke-width="13"/><path d="M${w * .62},${h * .6} L${w * .92},${h * .74}" fill="none" stroke="${pants}" stroke-width="8"/>`;
-    s += `<ellipse cx="${w * .94}" cy="${h * .2}" rx="6" ry="4.5" fill="${PAL.brown}" transform="rotate(-30 ${w * .94} ${h * .2})"/><ellipse cx="${w * .96}" cy="${h * .76}" rx="6" ry="4.5" fill="${PAL.brown}" transform="rotate(25 ${w * .96} ${h * .76})"/>`;
+    s += `<path d="M${w * .62},${h * .4} L${w * .9},${h * .22}" fill="none" stroke-width="${n(13)}"/><path d="M${w * .62},${h * .4} L${w * .9},${h * .22}" fill="none" stroke="${pants}" stroke-width="${n(8)}"/>`;
+    s += `<path d="M${w * .62},${h * .6} L${w * .92},${h * .74}" fill="none" stroke-width="${n(13)}"/><path d="M${w * .62},${h * .6} L${w * .92},${h * .74}" fill="none" stroke="${pants}" stroke-width="${n(8)}"/>`;
+    s += `<ellipse cx="${w * .94}" cy="${h * .2}" rx="${n(6)}" ry="${n(4.5)}" fill="${PAL.brown}" transform="rotate(-30 ${w * .94} ${h * .2})"/><ellipse cx="${w * .96}" cy="${h * .76}" rx="${n(6)}" ry="${n(4.5)}" fill="${PAL.brown}" transform="rotate(25 ${w * .96} ${h * .76})"/>`;
     // tay
-    s += `<path d="M${w * .3},${h * .28} Q${w * .36},${h * .02} ${w * .46},${h * .02}" fill="none" stroke-width="11"/><path d="M${w * .3},${h * .28} Q${w * .36},${h * .02} ${w * .46},${h * .02}" fill="none" stroke="${c}" stroke-width="6"/><circle cx="${w * .48}" cy="${h * .02}" r="4.5" fill="${skin}"/>`;
-    s += `<path d="M${w * .3},${h * .72} Q${w * .4},${h * .96} ${w * .52},${h * .92}" fill="none" stroke-width="11"/><path d="M${w * .3},${h * .72} Q${w * .4},${h * .96} ${w * .52},${h * .92}" fill="none" stroke="${c}" stroke-width="6"/><circle cx="${w * .54}" cy="${h * .92}" r="4.5" fill="${skin}"/>`;
+    s += `<path d="M${w * .3},${h * .28} Q${w * .36},${h * .02} ${w * .46},${h * .02}" fill="none" stroke-width="${n(11)}"/><path d="M${w * .3},${h * .28} Q${w * .36},${h * .02} ${w * .46},${h * .02}" fill="none" stroke="${c}" stroke-width="${n(6)}"/><circle cx="${w * .48}" cy="${h * .02}" r="${n(4.5)}" fill="${skin}"/>`;
+    s += `<path d="M${w * .3},${h * .72} Q${w * .4},${h * .96} ${w * .52},${h * .92}" fill="none" stroke-width="${n(11)}"/><path d="M${w * .3},${h * .72} Q${w * .4},${h * .96} ${w * .52},${h * .92}" fill="none" stroke="${c}" stroke-width="${n(6)}"/><circle cx="${w * .54}" cy="${h * .92}" r="${n(4.5)}" fill="${skin}"/>`;
     // thân
     s += `<path d="M${w * .22},${h * .26} Q${w * .45},${h * .18} ${w * .66},${h * .3} L${w * .68},${h * .7} Q${w * .45},${h * .82} ${w * .22},${h * .74} Z" fill="${c}"/>`;
     s += `<path d="M${w * .25},${h * .5} H${w * .64}" fill="none" stroke-width="1.2" opacity=".4"/><path d="M${w * .6},${h * .28} L${w * .62},${h * .72}" fill="none" stroke="${INK}" stroke-width="4" opacity=".55"/>`;
     // đầu
     s += `<circle cx="${hx}" cy="${hy}" r="${hr}" fill="${skin}"/><path d="M${hx - hr},${hy} A${hr},${hr} 0 0 1 ${hx + hr * .2},${hy - hr * .98} Q${hx - hr * .2},${hy} ${hx + hr * .2},${hy + hr * .98} A${hr},${hr} 0 0 1 ${hx - hr},${hy}Z" fill="${hair}"/>`;
-    if (p.dead !== false) s += `<path d="M${hx + hr * .25},${hy - hr * .45} l${hr * .25},${hr * .2} M${hx + hr * .5},${hy - hr * .45} l-${hr * .25},${hr * .2} M${hx + hr * .25},${hy + hr * .25} l${hr * .25},${hr * .2} M${hx + hr * .5},${hy + hr * .25} l-${hr * .25},${hr * .2}" fill="none" stroke-width="1.6"/>`;
+    if (p.dead !== false) s += `<path d="M${hx + hr * .25},${hy - hr * .45} l${hr * .25},${hr * .2} M${hx + hr * .5},${hy - hr * .45} l-${hr * .25},${hr * .2} M${hx + hr * .25},${hy + hr * .25} l${hr * .25},${hr * .2} M${hx + hr * .5},${hy + hr * .25} l-${hr * .25},${hr * .2}" fill="none" stroke-width="${n(1.6)}"/>`;
     else s += `<path d="M${hx + hr * .3},${hy - hr * .4} v${hr * .3} M${hx + hr * .3},${hy + hr * .15} v${hr * .3}" fill="none" stroke-width="1.6"/><path d="M${hx + hr * 1.2},${hy - hr * 1.2} h6 l-6,6 h6" fill="none" stroke-width="1.4" opacity=".6"/>`;
-    if (p.knife) s += `<path d="M${w * .44},${h * .5} L${w * .5},${h * .1}" stroke="#D6DCE0" stroke-width="4"/><path d="M${w * .44},${h * .5} L${w * .5},${h * .1}" stroke-width="1" fill="none"/><rect x="${w * .4}" y="${h * .44}" width="9" height="12" rx="2" fill="${PAL.brown}" transform="rotate(10 ${w * .44} ${h * .5})"/>`;
+    if (p.knife) s += `<path d="M${w * .44},${h * .5} L${w * .5},${h * .1}" stroke="#D6DCE0" stroke-width="${n(4)}"/><path d="M${w * .44},${h * .5} L${w * .5},${h * .1}" stroke-width="1" fill="none"/><rect x="${w * .4}" y="${h * .44}" width="${n(9)}" height="${n(12)}" rx="2" fill="${PAL.brown}" transform="rotate(10 ${w * .44} ${h * .5})"/>`;
     s += `</g>`;
     const chalk = p.chalk ? `<g transform="translate(${x},${y})" fill="none" stroke="#fff" stroke-width="2.6" stroke-dasharray="5 4" opacity=".9"><path d="M${hx - hr - 6},${hy} A${hr + 6},${hr + 6} 0 0 1 ${w * .22},${h * .14} L${w * .46},-8 L${w * .56},${h * .06} L${w * .66},${h * .2} L${w},${h * .08} L${w + 6},${h * .3} L${w * .7},${h * .5} L${w + 8},${h * .78} L${w * .96},${h * .94} L${w * .62},${h * .8} L${w * .56},${h + 6} L${w * .4},${h} L${w * .22},${h * .86} A${hr + 6},${hr + 6} 0 0 1 ${hx - hr - 6},${hy}Z"/></g>` : '';
-    return blood_ + `<rect x="${x + 5}" y="${y + 7}" width="${w * .9}" height="${h * .8}" rx="12" fill="${INK}" opacity=".12" stroke="none"/>` + s + chalk;
+    return blood_ + `<ellipse cx="${x + w * .52}" cy="${y + h * .56}" rx="${w * .5}" ry="${h * .4}" fill="${INK}" opacity=".14" stroke="none"/>` + s + chalk;
   }
 
   /* ---------- Bản đồ ---------- */

@@ -64,3 +64,12 @@ Một màn đi lại được viết trong kịch bản như sau:
   guards: [{ c: 'unk', at: [7, 3], path: [[7, 3], [22, 3]], range: 4, fov: 60 }],
   goal: { reach: [7, 9.3, 2, 1.6], label: 'Xuống sảnh' } }
 ```
+
+### Đoạn kết 2D → 3D
+`js/dim3d.js` dựng lại căn phòng cuối của chương 8 bằng three.js (tải từ cdnjs khi tới chương 8): bản đồ phẳng nghiêng thành sa bàn, tường mọc lên, nhân vật "đứng dậy" khỏi mặt giấy, ánh nến và bóng đổ thật; khi vùng không gian sụp đổ, cảnh gập về 2D rồi xoáy vào hố đen.
+Dùng trong kịch bản bằng các bước hàm: `() => DIM3D.enter({ focus, figs })`, `DIM3D.add({ c, at, rise | from | lie })`, `DIM3D.pose(c, { bow })`, `DIM3D.collapse()`.
+Không có mạng / WebGL thì tự chuyển sang nghiêng bản đồ bằng CSS 3D.
+
+### Bot dò lỗi
+Mở `index.html?bot` (cần chạy qua máy chủ, ví dụ `python -m http.server`) — bot tự chơi lần lượt 8 chương, bảng góc trái báo lỗi / chỗ kẹt.
+- `?bot=c5` chỉ chơi chương 5 · `&pick=last` luôn chọn đáp án cuối (để đi nhánh khác; chương 5, 7, 8 cần `pick=last` mới tới kết thúc chính).

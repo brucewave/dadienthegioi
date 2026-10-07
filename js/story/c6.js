@@ -116,12 +116,12 @@ Object.assign(SCENES, {
     'Lần này, tôi không lao theo hướng cô quản lý chỉ. Tôi đứng lại. Và nhìn.',
     { game: 'world', title: 'Cái chết của Bình — nhìn lại', player: 'lieng', at: [9, 9.2], dir: 'up', hint: 'Nhìn lại hiện trường bằng con mắt bình tĩnh.', done: 'Suy luận →',
       objs: [
-        { id: 'body', at: [7.4, 7.3], label: 'Bình', prop: { k: 'body', x: 6.2, y: 6.2, w: 4, h: 1.9, c: '#5F7F4A', pants: '#4A5E3A', hair: '#5A3A22', seed: 7 }, on: [
+        { id: 'body', at: [8.2, 7.2], label: 'Bình', prop: { k: 'body', x: 7.05, y: 6.6, w: 2.3, h: 1.2, c: '#5F7F4A', pants: '#4A5E3A', hair: '#5A3A22', seed: 7 }, on: [
           'Bình nằm ngửa. Một nhát đâm duy nhất, ngay giữa ngực.',
           '*Không có vết thương nào trên cánh tay. Không có dấu hiệu giằng co. Cậu ta bị giết mà không hề phản kháng.',
           '*Bình không phải kẻ chậm chạp. Cậu ta bị phục kích — hoặc bị người cậu ta tin tưởng tiếp cận.',
         ], clue: { id: 'c6_khongchongcu', name: 'Không có vết chống cự', desc: 'Bình bị đâm một nhát, không hề có dấu vết phản kháng — bị phục kích bởi người quen.' } },
-        { id: 'wound', at: [10.8, 6.8], label: 'Hướng vết đâm', on: [
+        { id: 'wound', at: [9.9, 6.9], label: 'Hướng vết đâm', on: [
           'Vết đâm đi từ phía bên trái của Bình. Kẻ đâm đứng ở phía cửa thông ra hành lang phía Đông.',
           '*Phòng cậu Nhà ở phía Tây. Hướng này ngược hẳn với phòng cậu ta.',
           '*Thứ nằm ở phía Đông hành lang... là phòng của cô quản lý.',
@@ -131,7 +131,7 @@ Object.assign(SCENES, {
           '*Quá thẳng. Quá rõ. Một kẻ đang hoảng loạn bỏ trốn có đi thẳng tắp như vậy không?',
           '*Nếu cậu Nhà thật sự thoát ra được, tại sao không ai thấy? Tại sao hắn lại phải nấp chờ phục kích Bình trên đường trốn chạy?',
         ], clue: { id: 'c6_dep', name: 'Dấu dép dàn dựng', desc: 'Dấu dép máu thẳng tắp tới cửa sổ — như được cố tình in ra.' } },
-        { id: 'tu', at: [5.4, 4.4], label: 'Ông thám tử', prop: { k: 'body', x: 4.2, y: 3.6, w: 3.2, h: 1.5, c: '#8A6A44', hair: '#6B5D55', dead: false, blood: false }, on: [
+        { id: 'tu', at: [5.8, 4.35], label: 'Ông thám tử', prop: { k: 'body', x: 4.7, y: 3.8, w: 2.2, h: 1.15, c: '#8A6A44', hair: '#6B5D55', dead: false, blood: false }, on: [
           'Ông thám tử nằm bất tỉnh cạnh tường. Trên trán có vết rách.',
           '*Vết thương nông. Máu chảy nhiều nhưng không sâu. Như thể... tự đập đầu vào tường.',
         ], clue: { id: 'c6_thamtu', name: 'Vết thương của thám tử', desc: 'Vết thương trên đầu ông thám tử rất nông, như tự gây ra.' } },

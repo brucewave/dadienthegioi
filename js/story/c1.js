@@ -190,15 +190,15 @@ Object.assign(SCENES, {
     { bg: 'inn_room', o: { night: true, lamp: true }, cast: [] },
     { game: 'world', title: 'Phòng 203 — hiện trường', player: 'tu', at: [9, 9], dir: 'up', hint: 'Khám xét các điểm có dấu “?”. Đủ điểm quan trọng thì bấm “Suy luận →”.', done: 'Suy luận →',
       objs: [
-        { id: 'body', at: [7.4, 7.2], label: 'Thi thể chủ trọ', prop: { k: 'body', x: 6, y: 6.2, w: 4, h: 1.9, knife: true, c: '#4E8C84', pants: '#4A4650', hair: '#2B1F1A', seed: 4 }, on: [
+        { id: 'body', at: [8, 7.2], label: 'Thi thể chủ trọ', prop: { k: 'body', x: 6.9, y: 6.6, w: 2.3, h: 1.2, knife: true, c: '#4E8C84', pants: '#4A4650', hair: '#2B1F1A', seed: 4 }, on: [
           'Lão chủ trọ nằm ngửa, con dao cắm giữa ngực.',
           '*Vết đâm đi chéo từ phía bên phải của nạn nhân sang trái. Kẻ đứng đối diện đâm theo hướng này — gần như chắc chắn cầm dao bằng tay trái.',
         ], clue: { id: 'c1_gocdam', name: 'Góc đâm: tay trái', desc: 'Vết đâm chéo cho thấy hung thủ cầm dao bằng tay trái.' } },
-        { id: 'knife', at: [9.6, 6.6], label: 'Cán dao', on: [
+        { id: 'knife', at: [9.4, 6.9], label: 'Cán dao', on: [
           'Cán dao đã bị lau sạch dấu vân tay.',
           '*Nhưng trong khe chuôi dao còn vương một vệt màu nâu nhạt. Không phải máu. Có mùi hắc... mùi thuốc sát trùng.',
         ], clue: { id: 'c1_cando', name: 'Vệt thuốc sát trùng trên cán dao', desc: 'Khe chuôi dao vương vệt thuốc sát trùng màu nâu.' } },
-        { id: 'nha', at: [13.6, 7], label: 'Cậu Nhà (bất tỉnh)', prop: { k: 'body', x: 12.2, y: 6.1, w: 3.4, h: 1.6, c: '#7A6AA8', pants: '#3A4766', dead: false, blood: false }, on: [
+        { id: 'nha', at: [13.9, 6.9], label: 'Cậu Nhà (bất tỉnh)', prop: { k: 'body', x: 12.8, y: 6.35, w: 2.2, h: 1.15, c: '#7A6AA8', pants: '#3A4766', dead: false, blood: false }, on: [
           'Cậu Nhà vẫn chưa tỉnh. Hai lòng bàn tay đỏ lòm máu.',
           '*Nhưng mu bàn tay, cổ tay áo thì sạch trơn. Đâm một nhát chí mạng như vậy, máu phải bắn lên tay áo chứ?',
           '*Sau gáy cậu ta còn sưng một cục u to. Cậu ta không tự ngất — cậu ta bị đánh ngất.',

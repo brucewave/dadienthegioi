@@ -34,6 +34,7 @@ if (window.ResizeObserver) new ResizeObserver(() => fit()).observe(document.docu
 
 /* ---------- Phông, nhân vật, hiệu ứng ---------- */
 function setBg(key, opt = {}) {
+  if (typeof DIM3D !== 'undefined') DIM3D.exit();
   G.bgKey = key; G.bgOpt = opt;
   sceneBg(key, opt);
   G.musicLock = null; autoMusic();
@@ -206,6 +207,7 @@ async function runStep(st) {
 let session = 0;
 function resetStage() {
   session++;
+  if (typeof DIM3D !== 'undefined') DIM3D.exit();
   clearInterval(typer); adv = null; G.keyHandler = null; G.skip = false;
   G.timers.forEach(t => { clearTimeout(t); clearInterval(t); cancelAnimationFrame(t); }); G.timers.clear();
   $('#mini').innerHTML = ''; $('#choices').innerHTML = ''; $('#choices').classList.remove('on'); $('#card').className = '';

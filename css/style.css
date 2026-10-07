@@ -214,7 +214,8 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 .psvg.chalkmode .dots{opacity:1;pointer-events:auto}
 .psvg .dot{cursor:pointer}
 .psvg .dot.on circle{fill:#fff;fill-opacity:1}
-.psvg .knife{transition:transform .5s,opacity .5s}
+.psvg .knife{transition:transform .5s,opacity .5s;transform-box:fill-box;transform-origin:center}
+.psvg .bag{transition:opacity .4s}
 
 .timed{width:62%;text-align:center}
 .tvs{display:flex;justify-content:center;align-items:flex-end;gap:2em;height:7em;background:var(--paper);border-bottom:3px solid var(--ink)}
@@ -277,3 +278,13 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 #rotate{display:none;position:fixed;inset:auto 0 0 0;z-index:20;background:var(--mustard);color:var(--ink);text-align:center;padding:.6em;font-size:14px}
 #rotate.on{display:block}
 @media (hover:hover) and (pointer:fine){.wpad,.wact{display:none}}
+
+/* đoạn kết 2D → 3D (js/dim3d.js) */
+#world canvas.w3d{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:3;pointer-events:none;opacity:0;transition:opacity .6s ease}
+#world canvas.w3d.on{opacity:1}
+#world canvas.w3d.out{opacity:0;transition:opacity .7s ease}
+#world.is3d::after{content:'';position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,transparent 45%,rgba(8,4,6,.75) 100%)}
+#world.persp{transform-origin:50% 62%;transition:transform 2.4s cubic-bezier(.6,0,.2,1);background:#120d10}
+#world.persp:has(.tilt3d){transform:perspective(1100px) rotateX(38deg) scale(1.2) translateY(-16%)}
+#world .ent.lie svg{transform:rotate(-90deg)}
+#world .wcont.crush{scale:.001;opacity:0;transition:scale 2s ease-in,opacity 2s ease-in}

@@ -1,5 +1,14 @@
 'use strict';
 /* =================== CHƯƠNG 8: ĐOẠN KẾT CUỐI =================== */
+// đoạn kết: cảnh “đóng băng” trong căn phòng cuối, dựng thành 3D (js/dim3d.js)
+const FREEZE_FOCUS = [21.6, 11.6];
+const FREEZE_FIGS = [
+  { c: 'lieng', at: [19.6, 12.5], dir: 'right', emo: 'surprised' },
+  { c: 'truong', at: [18.2, 11.7], dir: 'right', emo: 'sad' },
+  { c: 'quanly', at: [24.9, 12.3], dir: 'left', emo: 'cry' },
+  { c: 'x', at: [22.9, 12.6], lie: true, emo: 'sleep', yaw: -1.4 },
+  { c: 'mong', at: [26.2, 11.6], lie: true, emo: 'sleep', yaw: .5 },
+];
 Object.assign(SCENES, {
   c8_start: [
     { chap: 'Chương 8', title: 'Đoạn kết cuối', pov: 'x' },
@@ -171,16 +180,22 @@ Object.assign(SCENES, {
 
   c8_freeze: [
     { bg: 'x_house', cast: [] },
+    () => { DIM3D.load().catch(() => {}); },
     'Nhưng vùng không gian không hề biến mất.',
+    { music: 'eerie' },
     'Thời gian bỗng như ngưng đọng.',
+    () => DIM3D.enter({ focus: FREEZE_FOCUS, figs: FREEZE_FIGS }),
     'Tôi nhìn quanh. Ông Trưởng vẫn đứng đó. Mộng vẫn nằm gục ở góc tường. X vẫn chết, gục trong vòng tay cô quản lý. Tất cả bất động như một bức ảnh.',
-    { cast: ['bong'] },
+    '*Không... không phải một bức ảnh. Lần đầu tiên, thế giới quanh tôi có độ sâu. Như thể suốt bấy lâu nay, tôi chỉ đang sống trên một trang giấy.',
+    () => DIM3D.add({ c: 'bong', at: [21.4, 11.5], rise: true }),
     'Chỉ có trước mắt tôi, hiện lên một bóng đen.',
     'Cái bóng ấy trông lạ lẫm, nhưng hình như tôi đã gặp ở đâu rồi. Bên ngoài cửa sổ, trong giấc mơ, đập điên cuồng vào kính...',
     'Nó đứng đó, đối diện tôi.',
-    { cast: ['bong', 'bac'] },
+    () => DIM3D.add({ c: 'bac', from: [25.2, 8.4], at: [23.6, 11.4] }),
     'Ở phía đối diện, ông bác từ từ bước tới. Ông đặt cậu Vẻ xuống sàn.',
+    () => DIM3D.add({ c: 've', at: [22.6, 11.7], lie: true, emo: 'sleep' }),
     'Thân thể cậu Vẻ mềm oặt. Lưỡi thè ra. Như thể đã chết từ rất lâu rồi.',
+    () => DIM3D.pose('bac', { bow: true }),
     'Ông bác nhẹ nhàng cúi người, chào cái bóng đen.',
     { go: 'c8_flashback' },
   ],
@@ -204,8 +219,12 @@ Object.assign(SCENES, {
 
   c8_end: [
     { pov: 'lieng' },
+    { bg: 'x_house', cast: [] },
+    () => DIM3D.enter({ focus: FREEZE_FOCUS, instant: true, figs: FREEZE_FIGS.concat([{ c: 'bong', at: [21.4, 11.5] }, { c: 'bac', at: [23.6, 11.4], bow: true }, { c: 've', at: [22.6, 11.7], lie: true, emo: 'sleep' }]) }),
+    'Trở lại hiện tại.',
+    () => DIM3D.collapse(),
     { bg: 'collapse', cast: [] },
-    'Trở lại hiện tại. Vùng không gian sụp đổ — như một hố đen tự co lại.',
+    'Vùng không gian sụp đổ — như một hố đen tự co lại.',
     'Nó không cuốn theo bất cứ thứ gì. Chỉ là những ai từng ở trong đó... không bao giờ tỉnh dậy nữa.',
     'Mọi thứ được chứng kiến bởi một người duy nhất: ông Trưởng.',
     { bg: 'cage', cast: [] },

@@ -73,11 +73,11 @@ Object.assign(SCENES, {
     { cast: [] },
     { game: 'world', title: 'Nhà nạn nhân', player: 'lieng', at: [8, 9.2], dir: 'up', hint: 'Kiểm tra hiện trường. Đủ điểm quan trọng thì báo cáo với ông Trưởng.', done: 'Báo cáo →',
       objs: [
-        { id: 'body', at: [9.2, 7.1], label: 'Thi thể', prop: { k: 'body', x: 6.2, y: 6.1, w: 4, h: 1.8, c: '#4A4650', pants: '#2E2A30', blood: false, chalk: true }, on: [
+        { id: 'body', at: [8.6, 7.05], label: 'Thi thể', prop: { k: 'body', x: 7.05, y: 6.45, w: 2.3, h: 1.2, c: '#4A4650', pants: '#2E2A30', blood: false, chalk: true }, on: [
           'Cổ nạn nhân bị bẻ gãy. Một đòn dứt khoát, mạnh khủng khiếp.',
           '*Tối qua tôi đã đánh vào cổ hắn để hắn ngất đi... Không. Lực đó không thể làm gãy cổ như thế này được. ...Phải không?',
         ], clue: { id: 'c4_gaycot', name: 'Cổ bị bẻ gãy', desc: 'Nạn nhân chết vì gãy cổ — một đòn cực mạnh.' } },
-        { id: 'hair', at: [6.6, 6.5], label: 'Tóc nạn nhân', on: [
+        { id: 'hair', at: [7.1, 6.7], label: 'Tóc nạn nhân', on: [
           'Ai đó đã thay quần áo cho hắn. Nhưng dưới chân tóc còn sót lại chút đất và cỏ vụn.',
           '*Hắn không chết ở đây. Hắn chết ở ngoài trời — một nơi có đất, có cỏ... như cái bụi cây ngoài cổng tối qua.',
         ], clue: { id: 'c4_datco', name: 'Đất cỏ dưới tóc', desc: 'Dưới tóc nạn nhân còn đất và cỏ — hiện trường ban đầu là ngoài trời.' } },

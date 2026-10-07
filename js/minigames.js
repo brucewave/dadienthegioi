@@ -82,17 +82,17 @@ MINI.protect = cfg => new Promise(res => {
   hideText();
   const p = h('div', 'panel protect');
   const posts = [[90, 70], [710, 70], [710, 400], [90, 400]];
-  const dots = [[262, 196], [335, 168], [440, 176], [540, 196], [572, 252], [526, 300], [400, 304], [272, 276]];
+  const dots = [[222, 212], [300, 158], [414, 126], [592, 160], [556, 230], [598, 296], [438, 326], [250, 292]];
   p.innerHTML = `<div class="mhead"><b>${ICON.svg('tape', 'hico')} ${esc(cfg.title || 'Bảo vệ hiện trường')}</b><span class="cnt"></span></div>
    <div class="pwrap"><div class="tools"></div><svg viewBox="0 0 800 460" class="psvg">
     <rect width="800" height="460" fill="#DDBF8E"/>${Array.from({ length: 15 }, (_, i) => `<path d="M0 ${i * 32} H800" stroke="#B8956A" stroke-width="1.5"/>`).join('')}
     <g class="tape"></g>
-    <g class="body" filter="url(#ink)">${ART.prop({ k: 'body', x: 7.6, y: 4.4, w: 11, h: 5.6, c: '#4E8C84', knife: true, seed: 4 })}</g>
+    <g class="body" filter="url(#ink)">${ART.prop({ k: 'body', x: 7.6, y: 4.4, w: 11, h: 5.6, c: '#4E8C84', seed: 4 })}</g>
     <polyline class="chal" points="" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" stroke-dasharray="2 0"/>
-    <g class="knife"><path d="M630 340 L700 320 L702 328 L634 348Z" fill="#cfd6dd"/><rect x="600" y="336" width="34" height="14" rx="4" fill="#3a2a1a" transform="rotate(-16 617 343)"/></g>
-    <g class="bag" opacity="0"><rect x="680" y="380" width="80" height="64" rx="6" fill="#d9e6ef" opacity=".7" stroke="#fff"/><text x="720" y="418" text-anchor="middle" font-size="14" fill="#123">TANG VẬT</text></g>
+    <g class="bag" opacity="0"><rect x="596" y="300" width="112" height="76" rx="8" fill="#d9e6ef" fill-opacity=".85" stroke="#2B1F1A" stroke-width="2.5"/><rect x="596" y="300" width="112" height="14" rx="6" fill="#B84A3E"/><path d="M618 352 L680 334 L681 340 L620 357Z" fill="#9aa3ab" opacity=".8"/><rect x="606" y="350" width="18" height="9" rx="3" fill="#3a2a1a" opacity=".8" transform="rotate(-16 615 354)"/><text x="652" y="332" text-anchor="middle" font-size="13" font-weight="bold" fill="#123">TANG VẬT</text></g>
+    <g class="knife"><rect x="588" y="312" width="128" height="56" fill="transparent"/><path d="M630 340 L700 320 L702 328 L634 348Z" fill="#cfd6dd" stroke="#2B1F1A" stroke-width="1.5"/><rect x="600" y="336" width="34" height="14" rx="4" fill="#3a2a1a" transform="rotate(-16 617 343)"/></g>
     <g class="posts"></g><g class="dots"></g></svg></div><div class="mhint"></div>`;
-  const svg = p.querySelector('svg'), tools = p.querySelector('.tools'), hint = p.querySelector('.mhint'), cnt = p.querySelector('.cnt');
+  const svg = p.querySelector('.psvg'), tools = p.querySelector('.tools'), hint = p.querySelector('.mhint'), cnt = p.querySelector('.cnt');
   const st = { tool: null, tape: 0, gloves: false, chalk: 0, bagged: false };
   const TOOLS = [['tape', 'tape', 'Dây phong tỏa'], ['gloves', 'gloves', 'Găng tay'], ['chalk', 'chalk', 'Phấn kẻ viền'], ['bag', 'bag', 'Túi tang vật']];
   const status = () => {
@@ -144,7 +144,8 @@ MINI.protect = cfg => new Promise(res => {
   });
   p.querySelector('.knife').onclick = () => {
     if (st.tool !== 'bag') return nag(st.gloves ? 'Dùng túi tang vật để thu giữ.' : 'Đeo găng đã!');
-    st.bagged = true; SFX.click(); p.querySelector('.knife').style.transform = 'translate(70px,58px) scale(.5)'; p.querySelector('.knife').style.opacity = .6;
+    if (st.bagged) return;
+    st.bagged = true; SFX.click(); const kn = p.querySelector('.knife'); kn.style.transform = 'scale(.35)'; kn.style.opacity = 0; kn.style.pointerEvents = 'none';
     p.querySelector('.bag').setAttribute('opacity', 1); status();
   };
   mini().append(p); status();
