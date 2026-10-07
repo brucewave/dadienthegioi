@@ -65,6 +65,36 @@ Một màn đi lại được viết trong kịch bản như sau:
   goal: { reach: [7, 9.3, 2, 1.6], label: 'Xuống sảnh' } }
 ```
 
+### Đoạn phim minh họa (cutscene)
+Những lúc kể chuyện quan trọng được chiếu thành đoạn phim: khung đen điện ảnh, tranh vẽ tay nhiều lớp, máy quay trượt/zoom có thị sai, phụ đề ở dưới.
+Tranh nằm trong `js/cutart.js`, bộ chạy trong `js/cutscene.js`. Trong kịch bản:
+
+```js
+{ cut: [
+  { img: 'street', o: { time: 'dawn' },          // tranh + tùy chọn
+    cam: [[1050, 250, 1.3], [740, 430, 1.05]],    // máy quay từ [x, y, zoom] → [x, y, zoom] (tọa độ tranh 1600×900)
+    t: 12,                                        // thời gian trượt (giây)
+    tr: 'fade',                                   // chuyển cảnh: fade | cut | flash | glitch | black
+    say: ['Lời kể...', 'tu: Lời thoại', { fx: 'shake' }] },
+  { img: 'nightstand', say: ['*Khoan đã.'] },
+] },
+```
+
+| Tranh | Dùng ở |
+|---|---|
+| `street` (`time: dawn/dusk/night`, `police`, `fire`) | Mở đầu ch.1 · công an phong tỏa · nhà trọ cháy (ch.7) |
+| `nightstand` | Vệt bụi tròn nơi chiếc đồng hồ từng nằm |
+| `hands`, `upwindow` | Ông Tư chìa tay cho cô quản lý · Bình cúi nhìn mẩu chỉ đỏ |
+| `flowers` | Phố hoa 20/10, Liễng cầm cúc trắng đi dự đám tang |
+| `crow` | Tổ quạ trên cây bàng với huy hiệu bạc |
+| `deathroom`, `altar` | Phòng 203 sau cái chết của Bình · bàn thờ |
+| `kidnap`, `raincarry` | Gã bịt mặt vác ông bác · Liễng cõng ông bác về trong mưa |
+| `elephant` (`broken`), `dreamroom` (`face`) | Hai giấc mơ của Liễng |
+| `catsroof`, `market`, `boundary` | Đàn mèo trên mái · chợ Bến Thành · ranh giới vùng không gian |
+| `xclass`, `cage` | Tuổi thơ của X · lồng kính tâm trí |
+
+Xem thử một tranh: `index.html?cut=street&o=time:night,police` (cần chạy qua máy chủ). Nút **Bỏ qua ▸▸** góc trái tua nhanh đoạn phim.
+
 ### Đoạn kết 2D → 3D
 `js/dim3d.js` dựng lại căn phòng cuối của chương 8 bằng three.js (tải từ cdnjs khi tới chương 8): bản đồ phẳng nghiêng thành sa bàn, tường mọc lên, nhân vật "đứng dậy" khỏi mặt giấy, ánh nến và bóng đổ thật; khi vùng không gian sụp đổ, cảnh gập về 2D rồi xoáy vào hố đen.
 Dùng trong kịch bản bằng các bước hàm: `() => DIM3D.enter({ focus, figs })`, `DIM3D.add({ c, at, rise | from | lie })`, `DIM3D.pose(c, { bow })`, `DIM3D.collapse()`.

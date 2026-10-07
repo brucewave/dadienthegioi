@@ -9,19 +9,29 @@ Object.assign(SCENES, {
     '*Tôi có linh cảm không tốt. Nhiều khả năng tôi đã vướng vào một chuyện rất bất thường, mà một mình tôi không giải quyết nổi.',
     '*Phải về trụ sở xin trợ giúp. Nhưng đó là chuyện sáng mai. Giờ cần chỗ nghỉ đã. Nhà ông bác thì không về được nữa rồi... đành vác hai của nợ này về nhà mình vậy.',
     { bg: 'street_night', o: { rain: true } },
-    'Khi tôi về tới nhà thì trời đổ mưa.',
+    { cut: [
+      { img: 'raincarry', cam: [[620, 380, 1.18], [880, 470, 1.08]], t: 10, say: [
+        'Khi tôi về tới nhà thì trời đổ mưa.',
+      ] },
+    ] },
     { go: 'c4_dream1' },
   ],
 
   c4_dream1: [
     { bg: 'dream_elephant', cast: [] },
-    'Đêm đó, Liễng có một giấc mơ.',
-    'Trong mơ, cậu thấy mình hồi bé, đang đi chơi với ba mẹ ở Buôn Ma Thuột. Cậu được cưỡi voi cùng ba mẹ. Nắng chiều vàng rực.',
-    'Con voi to lớn, chậm rãi, cái vòi đung đưa...',
-    { fx: 'glitch' },
-    '*Voi... là gì cơ?',
-    { fx: 'glitch' },
-    'Liễng quằn quại trong giấc ngủ, mặt nhăn nhó như đang gặp ác mộng.',
+    { music: 'dream' },
+    { cut: [
+      { img: 'elephant', cam: [[1040, 470, 1.2], [820, 420, 1.06]], t: 16, say: [
+        'Đêm đó, Liễng có một giấc mơ.',
+        'Trong mơ, cậu thấy mình hồi bé, đang đi chơi với ba mẹ ở Buôn Ma Thuột. Cậu được cưỡi voi cùng ba mẹ. Nắng chiều vàng rực.',
+        'Con voi to lớn, chậm rãi, cái vòi đung đưa...',
+      ] },
+      { img: 'elephant', o: { broken: true }, tr: 'glitch', hold: 500, cam: [[820, 420, 1.06], [820, 400, 1.3]], t: 6, say: [
+        '*Voi... là gì cơ?',
+        { fx: 'glitch' },
+        'Liễng quằn quại trong giấc ngủ, mặt nhăn nhó như đang gặp ác mộng.',
+      ] },
+    ] },
     { go: 'c4_morning' },
   ],
 
@@ -112,15 +122,19 @@ Object.assign(SCENES, {
   ],
 
   c4_dream2: [
-    { bg: 'dream_home', cast: ['me'] },
-    'Liễng lại rơi vào một giấc mơ. Cậu đang nằm trong lòng mẹ, vui vẻ xem ti vi. Căn nhà thật ấm cúng.',
-    { bg: 'dream_home', o: { shadow: true } },
-    'Bên ngoài cửa sổ, có một cái bóng đen đang điên cuồng đập vào kính, nói gì đó không nghe rõ.',
-    'Cậu sợ lắm. Cậu ngước lên gọi mẹ, nhờ mẹ đuổi kẻ đó đi.',
-    { fx: 'glitch' },
-    'Khuôn mặt đó hoàn toàn vô diện. Chẳng có gì trên đó hết.',
-    'Cậu kinh hãi hét lên, nhảy ra khỏi lòng người đó.',
-    { fx: 'shake' },
+    { bg: 'dream_home', o: { shadow: true }, cast: [] },
+    { cut: [
+      { img: 'dreamroom', cam: [[640, 470, 1.18], [1180, 380, 1.24]], t: 15, say: [
+        'Liễng lại rơi vào một giấc mơ. Cậu đang nằm trong lòng mẹ, vui vẻ xem ti vi. Căn nhà thật ấm cúng.',
+        'Bên ngoài cửa sổ, có một cái bóng đen đang điên cuồng đập vào kính, nói gì đó không nghe rõ.',
+        'Cậu sợ lắm. Cậu ngước lên gọi mẹ, nhờ mẹ đuổi kẻ đó đi.',
+      ] },
+      { img: 'dreamroom', o: { face: true }, tr: 'glitch', hold: 1200, cam: [[800, 560, 1.04], [800, 500, 1.22]], t: 8, say: [
+        'Khuôn mặt đó hoàn toàn vô diện. Chẳng có gì trên đó hết.',
+        'Cậu kinh hãi hét lên, nhảy ra khỏi lòng người đó.',
+        { fx: 'shake' },
+      ] },
+    ] },
     { big: '“Tỉnh dậy đi! Tỉnh dậy đi!”', auto: 2000 },
     { go: 'c4_interrogate' },
   ],
@@ -177,9 +191,13 @@ Object.assign(SCENES, {
     'Ông Trưởng ngừng tay, bước ra ngoài kiểm tra.',
     { bg: 'house_night', cast: ['bac', 've'] },
     { music: 'calm' },
-    'Bên ngoài trời không mưa. Chỉ có một người đàn ông đứng đó, trên vai là một con mèo màu tím.',
-    { fx: 'shake' },
-    'Rồi cả một đàn mèo lũ lượt nhảy khỏi mái nhà, bổ nhào lên người ông Trưởng, khiến ông ta hoảng loạn lùi vào trong.',
+    { cut: [
+      { img: 'catsroof', cam: [[1060, 300, 1.28], [720, 500, 1.06]], t: 12, say: [
+        'Bên ngoài trời không mưa. Chỉ có một người đàn ông đứng đó, trên vai là một con mèo màu tím.',
+        { fx: 'shake' },
+        'Rồi cả một đàn mèo lũ lượt nhảy khỏi mái nhà, bổ nhào lên người ông Trưởng, khiến ông ta hoảng loạn lùi vào trong.',
+      ] },
+    ] },
     { bg: 'victim_room', cast: ['bac', 've'] },
     'Người đàn ông bước vào. Giờ tôi mới nhìn rõ mặt — là ông bác.',
     'lieng[surprised]: Sao... sao ông lại tới đây?',

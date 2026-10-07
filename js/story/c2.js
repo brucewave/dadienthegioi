@@ -5,10 +5,14 @@ Object.assign(SCENES, {
     { chap: 'Chương 2', title: 'Anh công an Liễng', pov: 'lieng' },
     { date: 'Ngày 20 tháng 10 năm 2026' },
     { bg: 'street_night', cast: [] },
-    'Hôm nay là ngày Phụ nữ Việt Nam. Người ta đổ ra đường mua hoa, còn tôi thì lại đang trên đường tới dự một đám tang.',
-    'Cậu ấy, giống tôi, là một tân binh công an. Thế nhưng dù có chung một điểm xuất phát, hai chúng tôi lại đi hai con đường khác hẳn nhau.',
-    'Cậu ấy sớm bộc lộ năng lực xuất sắc, là người trẻ tuổi nhất trong lịch sử được vào Đội Điều tra trọng án.',
-    'Còn tôi chỉ là một kẻ bình thường. Nếu không đứng cạnh cậu ta, tôi cũng được xếp vào hàng tân binh tài năng nhất khóa. Nhưng đặt cạnh một thiên tài, thứ tài năng của tôi chẳng khác gì một trò cười.',
+    { cut: [
+      { img: 'flowers', cam: [[800, 330, 1.22], [1060, 470, 1.12]], t: 16, say: [
+        'Hôm nay là ngày Phụ nữ Việt Nam. Người ta đổ ra đường mua hoa, còn tôi thì lại đang trên đường tới dự một đám tang.',
+        'Cậu ấy, giống tôi, là một tân binh công an. Thế nhưng dù có chung một điểm xuất phát, hai chúng tôi lại đi hai con đường khác hẳn nhau.',
+        'Cậu ấy sớm bộc lộ năng lực xuất sắc, là người trẻ tuổi nhất trong lịch sử được vào Đội Điều tra trọng án.',
+        'Còn tôi chỉ là một kẻ bình thường. Nếu không đứng cạnh cậu ta, tôi cũng được xếp vào hàng tân binh tài năng nhất khóa. Nhưng đặt cạnh một thiên tài, thứ tài năng của tôi chẳng khác gì một trò cười.',
+      ] },
+    ] },
     { go: 'c2_academy' },
   ],
 
@@ -85,7 +89,11 @@ Object.assign(SCENES, {
     'binh[think]: Bảy giờ sáng nay, lúc tụi mình tập dượt, cửa sổ đó đóng. Bên ngoài là cây bàng, trên cành thứ ba có một cái tổ chim to tướng. Có một con quạ đậu ở đó, cứ nghiêng đầu nhìn vào sân khấu.',
     'binh: Còn cái huy hiệu đặt dưới đèn sân khấu — nó sáng lấp lánh lắm.',
     { game: 'deduce', q: 'Ai đã lấy huy hiệu Thủ khoa?', opts: ['Một học viên ganh tị với Liễng', 'Người thợ chụp ảnh', 'Con quạ trên cây bàng'], ans: 2, hint: 'Cửa sổ mở, lông vũ đen, thứ gì đó thích đồ lấp lánh...' },
-    'Mười phút sau, bác bảo vệ trèo lên cây bàng, lôi từ trong tổ quạ ra chiếc huy hiệu bạc — cùng hai cái nắp bút, một chiếc nhẫn nhựa và một chùm chìa khóa của ai đó.',
+    { cut: [
+      { img: 'crow', cam: [[1060, 420, 1.04], [860, 480, 1.34]], t: 11, say: [
+        'Mười phút sau, bác bảo vệ trèo lên cây bàng, lôi từ trong tổ quạ ra chiếc huy hiệu bạc — cùng hai cái nắp bút, một chiếc nhẫn nhựa và một chùm chìa khóa của ai đó.',
+      ] },
+    ] },
     { cast: ['giamthi'] },
     'giamthi[happy]: Giỏi lắm! Không hổ là thủ khoa!',
     'Cả trường tung hô hai chúng tôi như hai người hùng. Mọi người nghiêng về chuyện tôi có công lớn hơn — còn cậu ta thật may mắn khi chơi cùng tôi. Dễ hiểu thôi, tôi là thủ khoa mà.',
@@ -154,8 +162,12 @@ Object.assign(SCENES, {
     { bg: 'inn_room', o: { night: true, lamp: true }, cast: [] },
     { fx: 'redflash' },
     { music: 'eerie' },
-    'Cậu ta nằm đó. Bị đâm ngay giữa ngực. Đã tắt thở.',
-    'Dấu dép rướm máu in khắp sàn, kéo dài tới cửa sổ tầng hai. Đôi dép bị bỏ lại ở đó. Ông thám tử bị đập đầu vào tường, bất tỉnh ngay cạnh. Cửa sổ mở toang.',
+    { cut: [
+      { img: 'deathroom', tr: 'cut', cam: [[460, 640, 1.34], [1100, 360, 1.14]], t: 12, say: [
+        'Cậu ta nằm đó. Bị đâm ngay giữa ngực. Đã tắt thở.',
+        'Dấu dép rướm máu in khắp sàn, kéo dài tới cửa sổ tầng hai. Đôi dép bị bỏ lại ở đó. Ông thám tử bị đập đầu vào tường, bất tỉnh ngay cạnh. Cửa sổ mở toang.',
+      ] },
+    ] },
     'quanly: Nó chạy về phía kia! Phía đầu hẻm!',
     { game: 'timed', title: 'Đuổi theo!', noRetry: true, maxMiss: 3, intro: 'Tôi nhảy qua cửa sổ!', rounds: [
       { tell: 'Đáp xuống mái tôn — trơn trượt!', opts: ['↓ Hạ thấp người', '↑ Nhảy tiếp', '→ Chạy thẳng'], ans: 0, time: 2.2, ok: 'Giữ được thăng bằng!' },
@@ -183,9 +195,13 @@ Object.assign(SCENES, {
   c2_funeral: [
     { date: 'Ngày 20 tháng 10 năm 2026' },
     { bg: 'funeral', cast: [] },
-    'Trở về hiện tại. Tôi đã tới đám tang của cậu ấy.',
-    'Trên giấy tờ, cậu ấy là trẻ mồ côi. Gần đây còn phải nuôi thêm một người bác bị thiểu năng trí tuệ.',
-    'Đám tang còn vắng vẻ hơn tôi tưởng. Ngoài tôi ra chỉ có ông Trưởng công an, và một người nữa — có lẽ là ông bác.',
+    { cut: [
+      { img: 'altar', cam: [[800, 470, 1.02], [800, 350, 1.34]], t: 16, say: [
+        'Trở về hiện tại. Tôi đã tới đám tang của cậu ấy.',
+        'Trên giấy tờ, cậu ấy là trẻ mồ côi. Gần đây còn phải nuôi thêm một người bác bị thiểu năng trí tuệ.',
+        'Đám tang còn vắng vẻ hơn tôi tưởng. Ngoài tôi ra chỉ có ông Trưởng công an, và một người nữa — có lẽ là ông bác.',
+      ] },
+    ] },
     { cast: ['truong', 'bac'] },
     '*Vậy là việc cậu ta nói mình không có bạn là thật. Trớ trêu thay, người bạn duy nhất của cậu ta lại là tôi.',
     '*Nếu cuộc đời cho cậu ta một người bạn tốt hơn thì có lẽ cậu ta đã không phải chết. Nếu cậu ta không tin một kẻ rác rưởi như tôi thì...',

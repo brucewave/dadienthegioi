@@ -13,8 +13,12 @@ Object.assign(SCENES, {
   c8_start: [
     { chap: 'Chương 8', title: 'Đoạn kết cuối', pov: 'x' },
     { bg: 'void', cast: ['x'] },
-    'Tôi được nuôi dạy để trở thành một nhà chính trị độc tài. Không cảm xúc. Không do dự. Không tên tuổi.',
-    'Nhưng tôi không thể sống như thế. Tôi đã chạy trốn khỏi chúng.',
+    { cut: [
+      { img: 'xclass', cam: [[800, 280, 1.24], [650, 560, 1.36]], t: 14, say: [
+        'Tôi được nuôi dạy để trở thành một nhà chính trị độc tài. Không cảm xúc. Không do dự. Không tên tuổi.',
+        'Nhưng tôi không thể sống như thế. Tôi đã chạy trốn khỏi chúng.',
+      ] },
+    ] },
     'Tôi đổi nhiều cái tên. Sống cùng nhiều người thân khác nhau. Nhưng cuối cùng, chúng vẫn tìm thấy tôi.',
     'Tôi đã nghĩ chỉ cần chạy mãi thì sẽ có ngày thoát được. Nhưng không. Lần nào chúng cũng tìm tới.',
     'Vậy nên thay vì chạy, tôi sẽ giết sạch chúng. Giết sạch những ai biết danh tính của tôi. Chỉ như vậy tôi mới có được bình yên.',
@@ -228,10 +232,14 @@ Object.assign(SCENES, {
     'Nó không cuốn theo bất cứ thứ gì. Chỉ là những ai từng ở trong đó... không bao giờ tỉnh dậy nữa.',
     'Mọi thứ được chứng kiến bởi một người duy nhất: ông Trưởng.',
     { bg: 'cage', cast: [] },
-    'Tôi tỉnh dậy ở một nơi xa lạ.',
-    'Bị nhốt trong một chiếc lồng kính tâm trí, bên trong cái bóng đen.',
-    'Cung kính trước cái bóng ấy là một số người đang quỳ gối.',
-    'Trong số họ, có cả ông bác.',
+    { cut: [
+      { img: 'cage', tr: 'black', cam: [[800, 600, 1.4], [800, 440, 1.02]], t: 18, say: [
+        'Tôi tỉnh dậy ở một nơi xa lạ.',
+        'Bị nhốt trong một chiếc lồng kính tâm trí, bên trong cái bóng đen.',
+        'Cung kính trước cái bóng ấy là một số người đang quỳ gối.',
+        'Trong số họ, có cả ông bác.',
+      ] },
+    ] },
     { end: 'Đa Diện Thế Giới', text: 'Hết phần một. Câu chuyện của Liễng chưa kết thúc — nó chỉ vừa bước sang một mặt khác của thế giới.', kind: 'true' },
   ],
 });

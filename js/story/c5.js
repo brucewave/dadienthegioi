@@ -47,7 +47,11 @@ Object.assign(SCENES, {
 
   c5_market: [
     { bg: 'market', cast: [] },
-    'Chợ Bến Thành. Đông nghịt người, ồn ã, thơm mùi trái cây và cà phê rang.',
+    { cut: [
+      { img: 'market', cam: [[800, 300, 1.26], [720, 560, 1.1]], t: 10, say: [
+        'Chợ Bến Thành. Đông nghịt người, ồn ã, thơm mùi trái cây và cà phê rang.',
+      ] },
+    ] },
     { game: 'world', title: 'Chợ Bến Thành', player: 'lieng', at: [14, 12.4], dir: 'up', hint: 'Mua quần áo cho ông bác, đồ ăn cho con mèo, rồi nói chuyện với ông bác.', done: 'Về nhà trọ →',
       npcs: [
         { c: 'banhang', at: [10.75, 8.1], dir: 'down', key: true, label: 'Sạp quần áo', on: [

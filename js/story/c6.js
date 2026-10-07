@@ -4,11 +4,16 @@ Object.assign(SCENES, {
   c6_start: [
     { chap: 'Chương 6', title: 'Nốt cao (2)', pov: 've' },
     { big: 'Hồi ức — Cậu Vẻ', auto: 1800 },
-    { bg: 'street_night', cast: ['bac', 've'] },
-    'Có một lần, tôi và ông ấy đi lạc tới rìa một con phố ở mé ngoài quận. Không khí ở đó gợn lên như mặt nước, như có một bức tường trong suốt.',
-    'Bình thường, ông ấy đi đâu cũng như người mộng du. Nhưng hôm đó, vừa tới gần ranh giới, ông ấy khựng lại.',
-    'bac[scared]: Không... không ra đó... Ra đó là bị xé đôi... Thân một nơi, hồn một nẻo...',
-    'Ông ấy bế tôi lên, quay lưng chạy. Run lẩy bẩy.',
+    { bg: 'street_night', cast: [] },
+    { cut: [
+      { img: 'boundary', cam: [[800, 400, 1.34], [800, 520, 1.04]], t: 18, say: [
+        'Có một lần, tôi và ông ấy đi lạc tới rìa một con phố ở mé ngoài quận. Không khí ở đó gợn lên như mặt nước, như có một bức tường trong suốt.',
+        'Bình thường, ông ấy đi đâu cũng như người mộng du. Nhưng hôm đó, vừa tới gần ranh giới, ông ấy khựng lại.',
+        'bac[scared]: Không... không ra đó... Ra đó là bị xé đôi... Thân một nơi, hồn một nẻo...',
+        'Ông ấy bế tôi lên, quay lưng chạy. Run lẩy bẩy.',
+      ] },
+    ] },
+    { cast: ['bac', 've'] },
     '*Đó là lần đầu tiên tôi thấy ông ấy tự mình hành động. Tự mình sợ hãi. Tự mình quyết định.',
     '*Có lẽ... một ngày nào đó ông ấy sẽ hồi phục được.',
     { go: 'c6_vebattle' },

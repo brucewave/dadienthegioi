@@ -5,11 +5,17 @@ Object.assign(SCENES, {
     { chap: 'Chương 1', title: 'Chú thám tử Tư', pov: 'tu', set: {} },
     { date: 'Ngày 18 tháng 10 năm 2026' },
     { bg: 'inn_room', cast: [] },
-    'Một nhà trọ nhỏ nằm sâu trong con hẻm ở quận Tân Bình. Ông Tư thuê một phòng — một đêm, một ngày. Tối nay ông sẽ lên đường.',
-    '*Lâu lắm rồi mới ngủ được một giấc yên như vậy...',
-    '*...',
-    { fx: 'shake' },
-    '*Khoan đã.',
+    { cut: [
+      { img: 'street', o: { time: 'dawn' }, cam: [[1050, 250, 1.32], [740, 430, 1.05]], t: 12, say: [
+        'Một nhà trọ nhỏ nằm sâu trong con hẻm ở quận Tân Bình. Ông Tư thuê một phòng — một đêm, một ngày. Tối nay ông sẽ lên đường.',
+      ] },
+      { img: 'nightstand', cam: [[640, 400, 1.04], [830, 540, 1.38]], t: 12, say: [
+        '*Lâu lắm rồi mới ngủ được một giấc yên như vậy...',
+        '*...',
+        { fx: 'shake' },
+        '*Khoan đã.',
+      ] },
+    ] },
     '*Có gì đó không đúng. Xem lại căn phòng một lượt đã.',
     { game: 'world', title: 'Phòng 204 — buổi sáng', player: 'tu', at: [9.5, 7.2], hint: 'Đi lại: WASD / mũi tên / bấm chuột · Xem xét: E. Kiểm tra những chỗ có dấu “?”.',
       objs: [
@@ -171,7 +177,11 @@ Object.assign(SCENES, {
     { bg: 'inn_room', o: { night: true, lamp: true } },
     { big: 'Chiều tối hôm đó', auto: 1800 },
     'Ông Tư đang xếp đồ vào vali thì nghe tiếng còi và tiếng bước chân dồn dập dưới nhà.',
-    '???: Công an đây! Nơi này tạm thời bị phong tỏa, đề nghị mọi người ở yên trong phòng!',
+    { cut: [
+      { img: 'street', o: { time: 'dusk', police: true }, cam: [[820, 420, 1.04], [700, 500, 1.22]], t: 10, sfx: 'whoosh', say: [
+        '???: Công an đây! Nơi này tạm thời bị phong tỏa, đề nghị mọi người ở yên trong phòng!',
+      ] },
+    ] },
     { bg: 'inn_hall', o: { night: true }, cast: ['binh', 'lieng'] },
     'binh[happy]: Ơ, chú Tư? Chú cũng trọ ở đây ạ?',
     '*Ông biết người công an này. Một tân binh trẻ tuổi, nhưng nhạy bén không thua gì những người kỳ cựu. Còn người bên cạnh thì ông không rõ lắm — có lẽ là trợ thủ.',
@@ -263,12 +273,18 @@ Object.assign(SCENES, {
     'tu: Ta sẽ không bắt cô. Nhưng không có nghĩa là pháp luật thì không.',
     'tu: Giờ có muốn làm lại thì cũng muộn rồi. Kế hoạch của cô chỉ lừa được người bình thường thôi. Với những người công an tài giỏi, bị phát hiện chỉ là chuyện sớm muộn.',
     'tu: Chắc giờ này cậu công an kia cũng đã nhận ra cô là thủ phạm rồi.',
-    'Ông đưa tay ra.',
-    'tu[smile]: Nhưng mà ta có thể giúp cô. Người tốt như cô xứng đáng được hưởng bình yên.',
-    'Cô quản lý nhìn bàn tay ấy rất lâu. Rồi cô nắm lấy.',
-    '*Bàn tay ông lạnh một cách lạ thường.',
     { cast: [] },
-    { big: 'Ở tầng trên, cậu công an trẻ vẫn đang cúi xuống, chăm chú nhìn mẩu chỉ đỏ.', auto: 3200 },
+    { cut: [
+      { img: 'hands', cam: [[860, 470, 1.02], [790, 460, 1.24]], t: 14, say: [
+        'Ông đưa tay ra.',
+        'tu[smile]: Nhưng mà ta có thể giúp cô. Người tốt như cô xứng đáng được hưởng bình yên.',
+        'Cô quản lý nhìn bàn tay ấy rất lâu. Rồi cô nắm lấy.',
+        '*Bàn tay ông lạnh một cách lạ thường.',
+      ] },
+      { img: 'upwindow', tr: 'black', cam: [[1060, 280, 1.32], [470, 620, 1.16]], t: 11, say: [
+        'Ở tầng trên, cậu công an trẻ vẫn đang cúi xuống, chăm chú nhìn mẩu chỉ đỏ.',
+      ] },
+    ] },
     { unlock: 'c2' },
     { go: 'c2_start' },
   ],

@@ -63,7 +63,11 @@ Object.assign(SCENES, {
     ] },
     { wait: 800 },
     'Đúng ba mươi giây sau.',
-    'Tiếng còi xe cảnh sát vang lên ở đầu hẻm. Cùng lúc đó là tiếng một chiếc ô tô rú ga rời khỏi nhà xe.',
+    { cut: [
+      { img: 'street', o: { time: 'night', fire: true }, cam: [[720, 320, 1.3], [520, 560, 1.1]], t: 9, say: [
+        'Tiếng còi xe cảnh sát vang lên ở đầu hẻm. Cùng lúc đó là tiếng một chiếc ô tô rú ga rời khỏi nhà xe.',
+      ] },
+    ] },
     '*Hắn đã đứng đợi. Thật sự đã đứng đợi ngoài kia. Và tiếng còi — ông Trưởng gọi 114 không phải để chờ cứu hỏa. Mà là để gọi cả công an tới, đuổi hắn đi.',
     'truong[angry]: Ngay bây giờ!',
     { game: 'timed', title: 'Thoát ra!', maxMiss: 1, intro: 'Phá cửa kính!', fail: 'Sặc khói! Cố lên!', rounds: [

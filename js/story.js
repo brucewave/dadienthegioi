@@ -10,6 +10,7 @@
      {choice:[{t,go,steps,set}]} {ask:[{t,steps}],need,exit}
      {game:'investigate'|'deduce'|'memory'|'protect'|'stealth'|'timed'|'catchcat', ...}
      {clue:{id,name,desc}} {set:{...}} {if:'flag'} {fx} {go:'scene'} {end:'Tên', text, kind}
+     {cut:[{img, o, cam:[[x,y,z],[x,y,z]], t, tr, say:[...]}]}  → đoạn phim minh họa (js/cutscene.js)
    Nội dung từng chương nằm trong js/story/cN.js
    ========================================================== */
 const CHAPTERS = [
