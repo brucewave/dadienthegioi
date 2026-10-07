@@ -116,7 +116,7 @@ function sceneTalk(spk, emo = 'neutral') {
    MINI.world — chơi tự do trên bản đồ
    cfg: { map, o, title, hint, player, at:[x,y], dir,
           objs:[{id, at, label, on:[...], clue, key, finish, prop:{k,x,y,w,h,solid}}],
-          npcs:[{c, at, dir, label, on, key, finish, wander, flee}],
+          npcs:[{c, at, dir, label, on, key, finish, wander, flee, follow}],   follow: đi theo sau người chơi
           guards:[{c, at, path:[[x,y]...], speed, fov, range, turn:[góc], every}],
           hazards:[{rect:[x,y,w,h], on, off, phase}],
           events:[{id, rect, on:[...]}], require:[id...],
@@ -143,6 +143,7 @@ MINI.world = cfg => new Promise(res => {
   const keyIds = objs.filter(o => o.key !== false && !o.finish && o.on).map(o => o.id).concat(npcs.filter(e => e.n.key).map(e => e.id));
   const inter = () => objs.filter(o => o.on).concat(npcs.filter(e => e.on));
   const posOf = t => t.kind === 'npc' ? [t.x, t.y] : t.at;
+  const trail = [[pl.x, pl.y]];                 // vết chân người chơi cho bạn đồng hành đi theo
 
   // vùng: đích, sự kiện, bẫy
   const zone = (r, cls, label) => { const d = h('div', 'zone ' + cls, label ? `<span>${esc(label)}</span>` : ''); Object.assign(d.style, { left: r[0] * TILE + 'em', top: r[1] * TILE + 'em', width: r[2] * TILE + 'em', height: r[3] * TILE + 'em' }); low.append(d); return d; };
@@ -195,7 +196,7 @@ MINI.world = cfg => new Promise(res => {
   // tương tác
   const near = () => {
     let best = null, bd = 1.35;
-    inter().forEach(t => { const [x, y] = posOf(t); const d = Math.hypot(x - pl.x, y - pl.y); if (d < bd) { bd = d; best = t; } });
+    inter().forEach(t => { const [x, y] = posOf(t); const d = Math.hypot(x - pl.x, y - pl.y) + (t.n && t.n.follow ? .7 : 0); if (d < bd) { bd = d; best = t; } });
     return best;
   };
   async function interact(t) {
@@ -203,6 +204,7 @@ MINI.world = cfg => new Promise(res => {
     st.busy = true; st.target = null; pl.el.classList.remove('walking'); hud.classList.add('busy'); prompt.classList.remove('on');
     const [x, y] = posOf(t); faceEnt(pl, dirFrom(x - pl.x, y - pl.y));
     if (t.kind === 'npc') faceEnt(t, dirFrom(pl.x - t.x, pl.y - t.y));
+    npcs.forEach(e => { if (e.n.follow && e !== t) { faceEnt(e, dirFrom(x - e.x, y - e.y)); e.el.classList.remove('walking'); } });
     await runSteps(t.on || []);
     if (my !== session) return;
     if (t.clue) addClue(t.clue);
@@ -322,6 +324,22 @@ MINI.world = cfg => new Promise(res => {
     pl.el.classList.toggle('hidden', hidden());
     camFollow(pl.x, pl.y - .6, dt);
 
+    // bạn đồng hành bám theo vết chân
+    const lt = trail[trail.length - 1];
+    if (Math.hypot(pl.x - lt[0], pl.y - lt[1]) > .3) { trail.push([pl.x, pl.y]); if (trail.length > 60) trail.shift(); }
+    npcs.forEach(e => {
+      if (!e.n.follow) return;
+      const far = Math.hypot(pl.x - e.x, pl.y - e.y);
+      while (trail.length > 1 && Math.hypot(trail[0][0] - e.x, trail[0][1] - e.y) < .25) trail.shift();
+      const tg = trail[0];
+      if (far > 1.25 && tg) {
+        const dx = tg[0] - e.x, dy = tg[1] - e.y, d = Math.hypot(dx, dy) || 1;
+        e.x += dx / d * Math.min(d, (cfg.speed || 3.6) * (far > 2.6 ? 1.15 : .95) * dt);
+        e.y += dy / d * Math.min(d, (cfg.speed || 3.6) * (far > 2.6 ? 1.15 : .95) * dt);
+        faceEnt(e, dirFrom(dx, dy)); e.el.classList.add('walking'); placeEnt(e);
+      } else e.el.classList.remove('walking');
+    });
+
     // NPC đi lang thang / chạy trốn
     npcs.forEach(e => {
       if (!e.n.wander && !e.n.flee) return;
@@ -398,7 +416,7 @@ MINI.world = cfg => new Promise(res => {
 
     // gợi ý tương tác & dấu hỏi
     const t = near();
-    if (t) { const [x, y] = posOf(t); prompt.innerHTML = `<b class="kc">E</b> ${esc(t.label || (t.kind === 'npc' ? (CHARS[t.n.c] || {}).name : 'Xem'))}`; prompt.style.transform = `translate(calc(${x * TILE}em - 50%), calc(${(y - (t.kind === 'npc' ? 1.75 : .9)) * TILE}em))`; prompt.classList.add('on'); }
+    if (t) { const [x, y] = posOf(t); prompt.innerHTML = `<b class="kc">E</b> ${esc(t.label || (t.kind === 'npc' ? charName(t.n.c) : 'Xem'))}`; prompt.style.transform = `translate(calc(${x * TILE}em - 50%), calc(${(y - (t.kind === 'npc' ? 1.75 : .9)) * TILE}em))`; prompt.classList.add('on'); }
     else prompt.classList.remove('on');
     marks.forEach((m, tt) => { const [x, y] = posOf(tt); m.style.transform = `translate(calc(${x * TILE}em - 50%), calc(${(y - (tt.kind === 'npc' ? 1.85 : 1.05)) * TILE}em))`; m.classList.toggle('hide', tt === t); });
   }

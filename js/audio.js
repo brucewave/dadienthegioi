@@ -190,6 +190,11 @@ const AUDIO = (() => {
     gong: () => { tone(110, 2.4, 'sine', .14); tone(220 * 1.01, 1.6, 'sine', .05); tone(330 * .99, 1.1, 'sine', .03); },
     heart: () => { tone(60, .12, 'sine', .25); tone(55, .12, 'sine', .2, 0, .18); },
     tick: () => tone(1500, .02, 'square', .015),
+    shutter: () => { nz(.03, .2, 'highpass', 3000); tone(2400, .02, 'square', .03); nz(.05, .14, 'bandpass', 1800, 2, .07); tone(1800, .02, 'square', .025, 0, .07); },
+    swish: () => { nz(.22, .16, 'bandpass', 2600, 1.4); nz(.14, .08, 'highpass', 5000, 1, .04); },
+    impact: () => { nz(.08, .5, 'highpass', 2200); nz(.3, .45, 'lowpass', 700); tone(80, .35, 'sine', .45, -40); tone(160, .08, 'square', .06, -80); },
+    clash: () => { tone(1250, .35, 'triangle', .07); tone(1870, .25, 'sine', .05); nz(.1, .2, 'highpass', 3500); },
+    stomp: () => { nz(.25, .35, 'lowpass', 300); tone(55, .4, 'sine', .4, -20); },
   };
   function sfx(name, arg) { if (!ctx || vol.sfx <= 0) return; try { S[name] && S[name](arg); } catch (e) { } }
   function setVol(kind, v) { vol[kind] = v; if (!ctx) return; if (kind === 'music') { musicBus.gain.value = v * .5; ambBus.gain.value = v * .6; } else sfxBus.gain.value = v; }

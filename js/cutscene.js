@@ -5,8 +5,10 @@
      { cut: [
          { img: 'street', o: { time: 'dawn' },        // tranh (js/cutart.js) + tùy chọn
            cam: [[x, y, zoom], [x, y, zoom]], t: 12,   // máy quay trượt từ A → B trong t giây
-           tr: 'fade' | 'cut' | 'flash' | 'glitch' | 'black',
+           tr: 'fade' | 'cut' | 'flash' | 'glitch' | 'black' | 'shutter',
            hold: 900,                                  // ms ngắm tranh trước câu đầu
+           mem: '07:00 · trí nhớ của Bình',            // khung ảnh ký ức (polaroid, ngả màu)
+           stamp: 'NHÂN CHỨNG', red: true,             // con dấu / chữ đóng lên ảnh
            say: ['Lời kể...', 'tu: Lời thoại', { fx: 'shake' }, ...] },
          ...
      ] }
@@ -59,10 +61,18 @@ const CUT = (() => {
           g += L('M-8,-30 L12,-4 L-24,-3', 10) + `<path d="M-18,-36 Q-16,-62 2,-76 Q18,-78 22,-68 L6,-30 Q-6,-26 -18,-36Z" fill="${c}"/>` + L('M10,-70 Q22,-52 20,-34', 7);
           return g + `<g transform="translate(24,14) rotate(28 0 -89)"><circle cx="0" cy="-89" r="${10 + b / 3}" fill="${c}"/>${hd}</g>`;
         }
-        g += L({ walk: 'M-4,-46 L-13,-2 M4,-46 Q8,-24 13,-2', run: 'M-3,-46 L-16,-24 L-24,-6 M3,-46 L13,-26 L24,-14' }[p] || `M-5,-46 L-6,-2 M5,-46 L6,-2`, 9 + b / 2);
+        const LEGS = {
+          walk: 'M-4,-46 L-13,-2 M4,-46 Q8,-24 13,-2', run: 'M-3,-46 L-16,-24 L-24,-6 M3,-46 L13,-26 L24,-14',
+          stance: 'M-4,-46 L-26,-22 L-34,-2 M4,-46 L24,-24 L34,-2', punch: 'M-3,-46 L-24,-24 L-40,-2 M3,-46 L22,-26 L26,-2',
+          kick: 'M-3,-46 L-8,-24 L-12,-2 M3,-46 L40,-58 L70,-64', fly: 'M-3,-46 L-18,-32 L-6,-18 M3,-46 L42,-50 L74,-48',
+          block: 'M-4,-46 L-22,-24 L-30,-2 M4,-46 L18,-24 L22,-2', sweep: 'M-3,-46 L-20,-20 L-26,-2 M3,-46 L40,-8 L74,-2',
+        };
+        g += L(LEGS[p] || `M-5,-46 L-6,-2 M5,-46 L6,-2`, 9 + b / 2);
         g += `<path d="M${-15 - b},-78 Q0,-83 ${15 + b},-78 L${13 + b},-42 Q0,-38 ${-13 - b},-42 Z" fill="${c}"/>`;
         if (o.coat) g += `<path d="M-15,-62 L-19,-26 Q0,-22 19,-26 L15,-62Z" fill="${c}"/>`;
-        const arms = { stand: 'M-14,-75 Q-21,-60 -19,-44 M14,-75 Q21,-60 19,-44', walk: 'M-14,-75 Q-22,-62 -25,-48 M14,-75 Q17,-60 10,-46', run: 'M-14,-75 L-27,-62 L-31,-72 M14,-75 L23,-57 L34,-60', hold: 'M-14,-75 Q-23,-60 -10,-54 M14,-75 Q23,-60 10,-54', hang: 'M-14,-75 Q-17,-58 -16,-42 M14,-75 Q17,-58 16,-42' };
+        const arms = { stance: 'M-14,-75 Q-4,-60 10,-66 M14,-75 Q30,-74 36,-90', punch: 'M-14,-75 Q-22,-62 -8,-58 M14,-75 L58,-78', kick: 'M-14,-75 L-38,-90 M14,-75 Q26,-74 30,-86',
+          fly: 'M-14,-75 L-40,-70 M14,-75 L40,-92', block: 'M-14,-75 L22,-96 M14,-75 L-4,-100', sweep: 'M-14,-75 L-40,-60 M14,-75 L30,-56', hurt: 'M-14,-75 L-34,-100 M14,-75 L30,-104',
+          stand: 'M-14,-75 Q-21,-60 -19,-44 M14,-75 Q21,-60 19,-44', walk: 'M-14,-75 Q-22,-62 -25,-48 M14,-75 Q17,-60 10,-46', run: 'M-14,-75 L-27,-62 L-31,-72 M14,-75 L23,-57 L34,-60', hold: 'M-14,-75 Q-23,-60 -10,-54 M14,-75 Q23,-60 10,-54', hang: 'M-14,-75 Q-17,-58 -16,-42 M14,-75 Q17,-58 16,-42' };
         g += L(arms[o.arms || p] || arms.stand, 7 + b / 3);
         g += L('M0,-82 L0,-76', 8) + `<circle cx="0" cy="-89" r="${10 + b / 3}" fill="${c}"/>` + hd;
         if (o.bag) g += L('M13,-74 L22,-50', 2.5) + `<rect x="15" y="-52" width="14" height="15" rx="3" fill="${c}"/>`;
@@ -153,6 +163,8 @@ const CUT = (() => {
       el.append(d);
     });
     if (sh.tint) el.append(h('div', 'ctint', '')), el.lastChild.style.background = sh.tint;
+    if (sh.mem) { el.classList.add('mem'); el.append(h('div', 'cmem', `<span>${esc(sh.mem)}</span>`)); }
+    if (sh.stamp) el.append(h('div', 'cstamp' + (sh.red ? ' red' : ''), esc(sh.stamp)));
     return el;
   }
   /* máy quay: lớp gần (d=1) trượt nhiều, lớp xa trượt ít → thị sai */
@@ -192,8 +204,9 @@ const CUT = (() => {
     if (tr === 'black' && old && !fast) { old.classList.remove('in'); await sleep(650); }
     stack.append(el); roll(el, sh);
     if (tr === 'flash') fx('flash');
+    if (tr === 'shutter') { const f = h('div', 'cshut'); root.append(f); setTimeout(() => f.remove(), 700); AUDIO.sfx('shutter'); }
     if (tr === 'glitch') fx('glitch');
-    if (tr === 'cut' || tr === 'flash' || tr === 'glitch' || fast) { el.classList.add('now', 'in'); if (old) old.remove(); }
+    if (tr === 'cut' || tr === 'flash' || tr === 'glitch' || tr === 'shutter' || fast) { el.classList.add('now', 'in'); if (old) old.remove(); }
     else { void el.offsetWidth; el.classList.add('in'); if (old) setTimeout(() => old.remove(), 1100); }
     if (sh.sfx) AUDIO.sfx(sh.sfx);
     await sleep(G.skip ? 30 : (sh.hold ?? (first ? 1300 : 900)));
@@ -226,16 +239,17 @@ const CUT = (() => {
     await close();
   }
   /* xem thử một tranh: index.html?cut=street&o=time:night,police */
-  function preview(name, o = {}) {
+  function preview(name, o = {}, mem) {
     $('#title').classList.remove('on'); $('#hud').classList.add('on'); resetStage();
-    return play({ cut: [{ img: name, o, cam: [[800, 450, 1], [800, 450, 1.06]], t: 20, hold: 400, say: ['(xem thử tranh “' + name + '”)'] }] });
+    return play({ cut: [{ img: name, o, mem, cam: [[800, 450, 1], [800, 450, 1.06]], t: 20, hold: 400, say: ['(xem thử tranh “' + name + '”)'] }] });
   }
   addEventListener('load', () => {
     const q = new URLSearchParams(location.search), n = q.get('cut');
     if (!n) return;
     const o = {};
     (q.get('o') || '').split(',').filter(Boolean).forEach(kv => { const [k, v] = kv.split(':'); o[k] = v === undefined ? true : v; });
-    setTimeout(() => preview(n, o), 300);
+    if (q.get('oj')) Object.assign(o, JSON.parse(q.get('oj')));      // tùy chọn dạng JSON: &oj={"figs":[["binh",600]]}
+    setTimeout(() => preview(n, o, q.get('mem')), 300);
   });
   return { play, stop, preview, reg: (name, fn) => { SCN[name] = fn; }, K, SCN };
 })();

@@ -334,7 +334,7 @@
      ====================================================== */
   const leaf = (x, y, a, sc, c) => `<g transform="translate(${x},${y}) rotate(${a}) scale(${sc})"><path d="M0,0 Q22,-30 60,-34 Q100,-30 104,0 Q100,30 60,34 Q22,30 0,0Z" fill="${c}" stroke="${INK}" stroke-width="3"/><path d="M4,0 H96 M40,0 l16,-18 M40,0 l16,18 M68,0 l14,-16 M68,0 l14,16" fill="none" stroke="${INK}" stroke-width="1.6" opacity=".45"/></g>`;
   const rosette = (x, y, sc, r, red) => { let g = ''; for (let k = 0; k < 7; k++) g += leaf(x, y, k * 51 + r() * 20, sc * (.8 + r() * .4), red && k % 3 === 0 ? ['#C8553D', '#D9823A'][k % 2] : ['#4C8A4E', '#5FA05A', '#3E7A44'][k % 3]); return g; };
-  R('crow', () => {
+  R('crow', (o = {}) => {
     const id = K.id, r = K.rng(31);
     let s0 = `<rect x="-60" y="-60" width="1720" height="1020" fill="${K.lg(id('sky'), [[0, '#6FA8CF'], [1, '#CFE6F0']])}"/>`;
     s0 += `<g class="cdrift">${K.cloud(300, 160, 1.4)}${K.cloud(1100, 110, 1.1, '#fff', .9)}${K.cloud(1450, 260, .9, '#fff', .8)}</g>`;
@@ -360,7 +360,7 @@
     s2 += ci(nx + 10, ny - 30, 16, 'none', 0, `stroke="#F49AB8" stroke-width="6"`);
     s2 += `<g transform="rotate(-25 ${nx + 100} ${ny - 34})">${ci(nx + 100, ny - 34, 12, 'none', 0, 'stroke="#C9A64A" stroke-width="5"')}${ln(`M${nx + 110},${ny - 30} h40 M${nx + 138},${ny - 30} v10`, '#C9A64A', 6)}</g>`;
     const badge = `<g transform="translate(${nx - 30},${ny - 48})"><path d="M0,-34 L30,-22 L26,14 Q14,32 0,38 Q-14,32 -26,14 L-30,-22Z" fill="#D8DEE4" stroke="${INK}" stroke-width="4"/><path d="M0,-18 L6,-4 L20,-4 L9,5 L13,19 L0,11 L-13,19 L-9,5 L-20,-4 L-6,-4Z" fill="#9AA8B4" stroke="${INK}" stroke-width="2"/><path d="M-18,-20 L-6,-26" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g>`;
-    s2 = ink(s2 + badge) + `<g class="cglint" style="animation-delay:-.4s">${K.glow(nx - 46, ny - 74, 30, '#fff', 1)}<path d="M${nx - 46},${ny - 104} L${nx - 41},${ny - 79} L${nx - 16},${ny - 74} L${nx - 41},${ny - 69} L${nx - 46},${ny - 44} L${nx - 51},${ny - 69} L${nx - 76},${ny - 74} L${nx - 51},${ny - 79}Z" fill="#fff"/></g><g class="cglint" style="animation-delay:-1.2s"><path d="M${nx - 6},${ny - 40} l3,12 l12,3 l-12,3 l-3,12 l-3,-12 l-12,-3 l12,-3Z" fill="#fff"/></g>`;
+    s2 = o.nobadge ? ink(s2) : ink(s2 + badge) + `<g class="cglint" style="animation-delay:-.4s">${K.glow(nx - 46, ny - 74, 30, '#fff', 1)}<path d="M${nx - 46},${ny - 104} L${nx - 41},${ny - 79} L${nx - 16},${ny - 74} L${nx - 41},${ny - 69} L${nx - 46},${ny - 44} L${nx - 51},${ny - 69} L${nx - 76},${ny - 74} L${nx - 51},${ny - 79}Z" fill="#fff"/></g><g class="cglint" style="animation-delay:-1.2s"><path d="M${nx - 6},${ny - 40} l3,12 l12,3 l-12,3 l-3,12 l-3,-12 l-12,-3 l12,-3Z" fill="#fff"/></g>`;
     // con quạ
     const qx = 1110, qy = 540;
     let cr = ln(`M${qx - 20},${qy - 20} L${qx - 26},${qy + 10} M${qx + 20},${qy - 20} L${qx + 18},${qy + 10}`, '#2B2622', 6);
@@ -851,6 +851,56 @@
       const r = K.rng(6); let bands = '';
       for (let i = 0; i < 8; i++) { const y = 120 + r() * 660, hh = 8 + r() * 34; bands += `<g class="ctear" style="animation-delay:${(-r()).toFixed(2)}s"><rect x="-60" y="${y.toFixed(0)}" width="1720" height="${hh.toFixed(0)}" fill="${['#D8402F', '#3A6AFF', '#F3EEDF', '#120A0A'][i % 4]}" opacity="${(.2 + r() * .3).toFixed(2)}"/></g>`; }
       return [{ d: .2, s: s0 }, { d: .7, s: s1 }, { d: 1, s: bands + boom(800, 220, o.fx, 120, 0, '#D8402F') }];
+    }
+
+    /* ---------- võ thuật ---------- */
+    const mixc = (c1, c2, t) => '#' + [1, 3, 5].map(i => Math.round(parseInt(c1.substr(i, 2), 16) * (1 - t) + parseInt(c2.substr(i, 2), 16) * t).toString(16).padStart(2, '0')).join('');
+    const SIL = { tu: { hat: 'fedora', coat: true }, lieng: { hat: 'cap' }, binh: { hat: 'cap', hair: 'messy' }, truong: { hat: 'cap', big: true }, khanh: { big: true }, cuong: { big: true }, bac: { hair: 'messy' }, mong: { hat: 'cone' }, x: {}, quanly: { hair: 'long' }, bichmat: { big: true } };
+    const silh = (key, x, y, hh, pose, flip, ex = {}) => K.person(x, y, hh, { ...(SIL[key] || {}), pose, flip, c: ex.c || '#0E0A0C', rim: ex.rim ?? mixc((CHARS[key] && CHARS[key].color) || '#E8C890', '#FFF2D8', .45), rimX: 2.4, rimY: -1, rimA: 1, ...ex });
+    const splat = (seed, n, c = INK, a = .85) => { const r = K.rng(seed); let g = ''; for (let i = 0; i < n; i++) { const x = r() * 1600, y = r() * 900, rr = 3 + r() * 16; g += ci(x, y, rr, c, 0, `opacity="${a}"`); if (r() > .6) g += ln(`M${x.toFixed(0)},${y.toFixed(0)} l${((r() - .5) * 90).toFixed(0)},${((r() - .5) * 90).toFixed(0)}`, c, rr * .5, `opacity="${a}"`); } return g; };
+    const enso = (cx, cy, r, c, w = 46) => `<path d="M${cx + r * .2},${cy - r} A${r},${r} 0 1 1 ${cx - r * .55},${cy - r * .84}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" filter="url(#ink2)" opacity=".9"/>` + `<path d="M${cx - r * .5},${cy - r * .9} q-30,10 -50,40" stroke="${c}" stroke-width="${w * .35}" fill="none" stroke-linecap="round" opacity=".7"/>`;
+    const brushTxt = (x, y, t, size, c = '#F3EEDF', rot = -4) => t ? `<g class="cburst"><text x="${x}" y="${y}" ${FONT} font-size="${size}" font-weight="bold" text-anchor="middle" fill="${c}" stroke="${INK}" stroke-width="${size / 7}" stroke-linejoin="round" paint-order="stroke" letter-spacing="${size / 18}" transform="rotate(${rot} ${x} ${y})">${t}</text></g>` : '';
+
+    if (k === 'duel') {   // đối đầu kiểu tranh thủy mặc: hai bóng võ sinh, vầng trăng, mực vẩy
+      const [c1, c2] = PLACE[o.place] || ['#E8B07A', '#5A2A1E'];
+      let s0 = `<rect x="-60" y="-60" width="1720" height="1020" fill="${K.lg(id('dk'), [[0, c2], [.6, c1], [1, '#F3E2C0']])}"/>`;
+      s0 += ci(800, 380, 250, '#F6E8C8', 0, 'opacity=".95"') + enso(800, 380, 290, '#1A1012', 40) + splat(5, 40, '#1A1012', .5);
+      s0 += `<path d="M-60,760 Q300,700 620,740 Q980,780 1300,720 Q1500,690 1660,720 V1000 H-60Z" fill="#1A1012"/>`;
+      let s1 = `<g class="cbreath">${silh(a, 470, 760, 470, o.pa || 'stance')}</g><g class="cbreath" style="animation-delay:-1.4s">${silh(b, 1130, 760, 470, o.pb || 'stance', true)}</g>`;
+      let wind = ''; const r = K.rng(8); for (let i = 0; i < 14; i++) { const y = 200 + r() * 520, x = 1700 + r() * 200; wind += `<g class="cfly" style="animation-delay:${(-r() * 6).toFixed(1)}s;animation-duration:${(3 + r() * 3).toFixed(1)}s">${ln(`M${x.toFixed(0)},${y.toFixed(0)} q-40,-10 -80,0`, '#1A1012', 4, 'opacity=".6"')}${el(x - 10, y + 10, 10, 5, '#5A2A1E')}</g>`; }
+      const s2 = wind + brushTxt(800, 180, o.fx || '', 120, '#F3EEDF', -3);
+      return [{ d: .15, s: s0 }, { d: .7, s: s1 }, { d: 1, s: s2 }];
+    }
+
+    if (k === 'cutin') {  // khung tên chiêu: dải chéo cắt ngang màn hình, cận mặt + tên đòn
+      let s0 = `<rect x="-60" y="-60" width="1720" height="1020" fill="#120C0E"/>` + `<g opacity=".25">${splat(9, 70, '#B8302A', .7)}</g>`;
+      K.def(`<clipPath id="${id('band')}"><path d="M-60,220 L1660,80 L1660,560 L-60,700Z"/></clipPath>`);
+      const col = (CHARS[a] && CHARS[a].color) || '#B8302A';
+      let band = `<g clip-path="url(#${id('band')})"><rect x="-60" y="-60" width="1720" height="1020" fill="${K.lg(id('bd'), [[0, col], [1, '#F3EEDF']], 1, 0)}"/>${rays(1200, 380, 70, 3, '#fff', .55, 120)}${hlines(4, '#fff', .5)}`;
+      band += `<g transform="translate(-140,0)">${bust(a, 520, 470, 5.2, { dir: 'right', emo: o.emoA || 'angry' })}</g></g>`;
+      band += ln('M-60,220 L1660,80', '#F3EEDF', 14) + ln('M-60,700 L1660,560', '#F3EEDF', 14) + ln('M-60,220 L1660,80 M-60,700 L1660,560', INK, 4);
+      const s2 = brushTxt(1080, 420, o.move || 'TUNG CƯỚC!', 120, '#F2C14A', -6) + brushTxt(1100, 520, o.sub || '', 46, '#F3EEDF', -6) + ln('M760,450 Q1080,400 1440,420', '#B8302A', 18, 'opacity=".85" filter="url(#ink2)"');
+      return [{ d: .2, s: s0 }, { d: .75, s: band }, { d: 1, s: s2 }];
+    }
+
+    if (k === 'clash') {  // hai đòn va nhau giữa không trung: sóng chấn động, tia lửa
+      let s0 = bg(o, 6, 800, 450) + rays(800, 450, 90, 14, '#fff', .35, 200);
+      let rings = ''; for (let i = 0; i < 3; i++) rings += `<g class="cring" style="animation-delay:${(-i * .4).toFixed(1)}s">${ci(800, 450, 120, 'none', 0, `stroke="#FFF6D8" stroke-width="${14 - i * 4}"`)}</g>`;
+      const armA = (CHARS[a] && CHARS[a].look.top) || '#5F7F4A', armB = (CHARS[b] && CHARS[b].look.top) || '#3B3438';
+      let s1 = `<g transform="translate(-260,40)">${bust(a, 420, 470, 3.6, { dir: 'right', emo: o.emoA || 'angry' })}</g><g transform="translate(260,40)">${bust(b, 1180, 470, 3.6, { dir: 'left', emo: o.emoB || 'angry' })}</g>`;
+      s1 += ln('M300,640 Q560,520 740,460', INK, 110) + ln('M300,640 Q560,520 740,460', armA, 92) + ci(770, 452, 70, SKIN, 7) + ln('M740,420 h40 M740,446 h44 M742,472 h40', INK, 5);
+      s1 += ln('M1300,640 Q1040,520 860,460', INK, 110) + ln('M1300,640 Q1040,520 860,460', armB, 92) + ci(830, 452, 70, SKIN, 7) + ln('M860,420 h-40 M860,446 h-44 M858,472 h-40', INK, 5);
+      let sp = ''; const r = K.rng(12); for (let i = 0; i < 26; i++) { const t = r() * 6.28, q = 90 + r() * 260; sp += ln(`M${(800 + Math.cos(t) * q * .5).toFixed(0)},${(450 + Math.sin(t) * q * .5).toFixed(0)} L${(800 + Math.cos(t) * q).toFixed(0)},${(450 + Math.sin(t) * q).toFixed(0)}`, r() > .5 ? '#FFE07A' : '#fff', 4 + r() * 5); }
+      const s2 = rings + `<g class="cspark">${sp}</g>` + K.glow(800, 450, 220, '#FFF6D8', .8) + boom(800, 270, o.fx || 'RẦM!', 130, -4);
+      return [{ d: .2, s: s0 }, { d: .8, s: s1 }, { d: 1, s: s2 }];
+    }
+
+    if (k === 'impact') { // khung va chạm âm bản (kiểu truyện tranh võ thuật): đen trắng, nét tỏa
+      let s0 = `<rect x="-60" y="-60" width="1720" height="1020" fill="#0A0808"/>` + rays(MX(900, rev), 430, 120, 21, '#F3EEDF', .8, 140);
+      let s1 = mirror(`<g transform="rotate(-8 520 760)">${silh(a, 560, 760, 500, o.pa || 'kick', false, { c: '#F3EEDF', rim: '#0A0808' })}</g><g transform="rotate(24 1120 760)">${silh(b, 1120, 760, 470, 'stand', true, { c: '#F3EEDF', rim: '#0A0808', arms: 'hurt' })}</g>`, rev);
+      s1 += ci(MX(900, rev), 440, 90, '#0A0808', 0) + ci(MX(900, rev), 440, 60, '#F3EEDF', 0);
+      const s2 = boom(MX(1180, rev), 250, o.fx || 'HỰ!', 150, rev ? 8 : -8, '#F3EEDF') + (o.red ? `<rect x="-60" y="-60" width="1720" height="1020" fill="#B8302A" opacity=".25" style="mix-blend-mode:screen"/>` : '');
+      return [{ d: .3, s: s0 }, { d: .85, s: s1 }, { d: 1, s: s2 }];
     }
     return [];
   });

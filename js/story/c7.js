@@ -4,9 +4,13 @@ Object.assign(SCENES, {
   c7_start: [
     { chap: 'Chương 7', title: 'Đoạn kết mới', pov: 'lieng' },
     { bg: 'inn_room', cast: ['mong'] },
-    'Tôi sực nhớ ra tên mình vừa buông. Quay lại — nhưng hắn không hề có ý tấn công tôi.',
-    'Hắn chạy tới, ôm lấy xác đồng đội.',
-    'mong[cry]: Thạch... Thạch ơi...',
+    { cut: [
+      { img: 'scene', o: { place: 'room', day: true, lying: 'thach', lyingX: 700, figs: [['mong', 980, 'cry', 'left'], ['lieng', 1350, 'sad', 'left']] }, cam: [[800, 600, 1.34], [900, 460, 1.08]], t: 12, say: [
+        'Tôi sực nhớ ra tên mình vừa buông. Quay lại — nhưng hắn không hề có ý tấn công tôi.',
+        'Hắn chạy tới, ôm lấy xác đồng đội.',
+        'mong[cry]: Thạch... Thạch ơi...',
+      ] },
+    ] },
     'mong: (ngẩng lên) Sếp đâu? Ông Trưởng đâu rồi?!',
     '*Tôi chưa thể để hắn thả ông Trưởng ra. Chưa thể tin ai cả.',
     { choice: [
@@ -14,8 +18,12 @@ Object.assign(SCENES, {
       { t: 'Im lặng' },
     ] },
     { bg: 'inn_room', o: { smoke: true } },
-    'Đúng lúc đó, tôi thấy những làn khói lạ tràn vào từ khe hở phía trên cửa.',
-    '*Tên điên đó đốt cả cái nhà trọ này rồi!',
+    { cut: [
+      { img: 'scene', o: { place: 'room', day: true, smoke: true, figs: [['mong', 900, 'scared', 'up'], ['lieng', 600, 'scared', 'up']], marks: [[1460, 260, '!!']] }, tr: 'cut', cam: [[1460, 320, 1.4], [900, 420, 1.08]], t: 9, say: [
+        'Đúng lúc đó, tôi thấy những làn khói lạ tràn vào từ khe hở phía trên cửa.',
+        '*Tên điên đó đốt cả cái nhà trọ này rồi!',
+      ] },
+    ] },
     'Theo phản xạ, tên trùm mũ lao tới định phá cửa.',
     { go: 'c7_fire' },
   ],
@@ -42,7 +50,11 @@ Object.assign(SCENES, {
     'truong: Tên thám tử đó có thể đang đứng ngoài đợi chúng ta thoát ra từ đúng chỗ đó. Ra bây giờ là chui vào bẫy.',
     'truong: Nghe lệnh tôi.',
     { game: 'deduce', q: 'Việc đầu tiên cần làm là gì?', opts: ['Phá cửa kính nhà vệ sinh ngay', 'Dùng vải ướt bịt kín khe hở trên cửa để chặn khói', 'Mở cửa chính ra xem tình hình'], ans: 1, hint: 'Khói giết người nhanh hơn lửa.' },
-    'Tôi và tên trùm mũ nhúng ga giường vào nước, chèn kín khe cửa. Ông Trưởng gọi 114, rồi lôi hết đồ đạc dễ cháy dồn vào một góc xa cửa.',
+    { cut: [
+      { img: 'scene', o: { place: 'room', day: true, smoke: true, figs: [['lieng', 1300, 'angry', 'right'], ['mong', 1060, 'angry', 'right'], ['truong', 520, 'think', 'right']] }, cam: [[1200, 460, 1.2], [800, 440, 1.06]], t: 10, say: [
+        'Tôi và tên trùm mũ nhúng ga giường vào nước, chèn kín khe cửa. Ông Trưởng gọi 114, rồi lôi hết đồ đạc dễ cháy dồn vào một góc xa cửa.',
+      ] },
+    ] },
     'truong: Lửa sẽ cần khoảng mười phút để bắt vào đồ đạc trong này.',
     'lieng: Cứu hỏa tới đây cũng phải mất hai mươi phút. Như vậy chúng ta chết từ lâu rồi.',
     'Ông không trả lời. Ông kéo cả bọn vào nhà vệ sinh, mở hé cửa sổ, xả nước ướt đẫm lên tường.',
@@ -97,7 +109,11 @@ Object.assign(SCENES, {
     '*Ông bác và cậu Vẻ... không thấy đâu cả. Chắc đã chạy trước khi lửa bén. Mong là vậy.',
     'Để tránh làm to chuyện với những người vừa tới, chúng tôi lên xe, vừa đi vừa nói.',
     { bg: 'car', cast: ['truong'] },
-    'Sau một hồi im lặng rất lâu, ông Trưởng cuối cùng cũng mở lời.',
+    { cut: [
+      { img: 'scene', o: { place: 'car', figs: [['truong', 1200, 'sad', 'up', { h: 540, y: 790 }], ['lieng', 400, 'think', 'up', { h: 520, y: 790 }]] }, cam: [[800, 360, 1.04], [800, 420, 1.14]], t: 10, say: [
+        'Sau một hồi im lặng rất lâu, ông Trưởng cuối cùng cũng mở lời.',
+      ] },
+    ] },
     { music: 'mystery' },
     'truong: Cậu muốn biết từ đâu?',
     'lieng: Tất cả mọi thứ.',
@@ -107,18 +123,27 @@ Object.assign(SCENES, {
   c7_history: [
     { date: 'Ngày 1 tháng 12 năm 2025' },
     { bg: 'void', cast: ['truong'] },
-    'truong[sad]: Khi ấy chúng tôi đang truy bắt một kẻ sát nhân hàng loạt. Chúng tôi không có chút thông tin gì về hắn — kể cả cái tên. Chúng tôi gọi hắn là X.',
-    'truong: Chúng tôi theo vụ này nhiều năm, cho tới khi tìm được một người có liên quan tới hắn. Là ông bác.',
-    'truong: Rồi chúng tôi hiểu ra quy luật: hắn giết những người biết về hắn. Hắn đang cố xóa sạch mọi người biết danh tính của mình.',
-    'truong: Chúng tôi đã dồn được hắn vào đường cùng. Và rồi... một chuyện đã xảy ra.',
-    { fx: 'glitch' },
-    'truong: Cơ thể hắn biến mất. Nó in lên một mặt phẳng giữa không trung — như một bức ảnh dán vào không khí.',
-    'truong: Người ta đưa ra giả thuyết về thứ gọi là thế giới hai chiều. Chúng ta có thể dễ dàng hình dung hai chiều là như thế nào. Nhưng hai chiều tồn tại ra sao thì không ai tưởng tượng nổi.',
+    { cut: [
+      { img: 'fight', o: { kind: 'duel', a: 'truong', b: 'x', pa: 'stance', pb: 'block', place: 'night' }, cam: [[800, 420, 1.12], [800, 460, 1.02]], t: 16, mem: 'tháng 12 · 2025 · lời ông Trưởng', say: [
+        'truong[sad]: Khi ấy chúng tôi đang truy bắt một kẻ sát nhân hàng loạt. Chúng tôi không có chút thông tin gì về hắn — kể cả cái tên. Chúng tôi gọi hắn là X.',
+        'truong: Chúng tôi theo vụ này nhiều năm, cho tới khi tìm được một người có liên quan tới hắn. Là ông bác.',
+        'truong: Rồi chúng tôi hiểu ra quy luật: hắn giết những người biết về hắn. Hắn đang cố xóa sạch mọi người biết danh tính của mình.',
+        'truong: Chúng tôi đã dồn được hắn vào đường cùng. Và rồi... một chuyện đã xảy ra.',
+      ] },
+      { img: 'close', o: { k: 'flat' }, tr: 'glitch', mem: '1/12/2025 · lời ông Trưởng', cam: [[820, 380, 1.04], [820, 400, 1.24]], t: 16, say: [
+        'truong: Cơ thể hắn biến mất. Nó in lên một mặt phẳng giữa không trung — như một bức ảnh dán vào không khí.',
+        'truong: Người ta đưa ra giả thuyết về thứ gọi là thế giới hai chiều. Chúng ta có thể dễ dàng hình dung hai chiều là như thế nào. Nhưng hai chiều tồn tại ra sao thì không ai tưởng tượng nổi.',
+      ] },
+    ] },
     { date: 'Ngày 1 tháng 1 năm 2026' },
     { bg: 'collapse', cast: [] },
-    'truong: Trong khi mọi người còn đang nghiên cứu, từ điểm X biến mất, không gian giãn nở ra rất nhanh. Nó cuốn gần tám trăm nghìn người ở quận Tân Bình vào trong.',
-    'truong: Vùng không gian đó ngăn mọi người đi ra ngoài. Và nó vẫn đang lan ra — chậm hơn, nhưng vẫn lan.',
-    'truong: Những người bên trong bị thay đổi ký ức. Mọi thứ không tồn tại trong vùng này bị xóa khỏi nhận thức của họ. Họ sống tiếp với thân phận cũ, nhưng ký ức mới.',
+    { cut: [
+      { img: 'boundary', cam: [[800, 470, 1.4], [800, 450, 1.02]], t: 18, say: [
+        'truong: Trong khi mọi người còn đang nghiên cứu, từ điểm X biến mất, không gian giãn nở ra rất nhanh. Nó cuốn gần tám trăm nghìn người ở quận Tân Bình vào trong.',
+        'truong: Vùng không gian đó ngăn mọi người đi ra ngoài. Và nó vẫn đang lan ra — chậm hơn, nhưng vẫn lan.',
+        'truong: Những người bên trong bị thay đổi ký ức. Mọi thứ không tồn tại trong vùng này bị xóa khỏi nhận thức của họ. Họ sống tiếp với thân phận cũ, nhưng ký ức mới.',
+      ] },
+    ] },
     { fx: 'glitch' },
     '*...Voi là gì cơ?',
     { cast: ['truong'] },
@@ -180,6 +205,11 @@ Object.assign(SCENES, {
         ] },
         { c: 'truong', at: [13, 9.6], dir: 'up', on: ['truong: Tìm được gì thì nói. Thời gian không còn nhiều đâu.'] },
       ] },
+    { cut: [
+      { img: 'close', o: { k: 'file', who: false, lines: ['Họ tên: Nguyễn Văn Tư', 'Nghề nghiệp: thám tử tư', 'Ngày báo mất tích: 16/10/2026', 'Đặc điểm: không râu, không đội mũ'] }, tr: 'shutter', cam: [[800, 400, 1.04], [700, 360, 1.2]], t: 8, say: [
+        '*Mất tích ngày 16/10. Hai ngày sau, “ông Tư” bước vào nhà trọ.',
+      ] },
+    ] },
     { game: 'deduce', q: 'Năng lực thật sự của X là gì?', opts: ['Biến thành bất kỳ ai hắn muốn', 'Biến thành người ngoài hành tinh để dùng năng lực của chúng', 'Chỉ biến thành được những người mà chính hắn đã giết', 'Xóa ký ức người khác'], ans: 2, hint: 'Ông Tư mất tích trước. Cường chết trước. Lần đụng độ đầu tiên hắn không biến thành Cường...' },
     'lieng: Hắn không chỉ biến thành những người có năng lực đặc biệt. Rất có thể hắn chỉ biến được thành những người mà chính hắn đã giết.',
     { cast: ['truong', 'mong'] },

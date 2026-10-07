@@ -4,31 +4,46 @@ Object.assign(SCENES, {
   c3_start: [
     { chap: 'Chương 3', title: 'Cậu Vẻ', pov: 'lieng' },
     { bg: 'funeral', cast: ['bac'] },
-    'Vì thấy có lỗi, tôi xin nghỉ hai ngày để ở lại đây, đảm bảo đám tang không có chuyện gì trước khi hạ huyệt. Để một ông lão thiểu năng ở đây một mình thì chẳng thể yên tâm được.',
-    'Và tôi đã không lo thừa. Ngay hôm sau, ông bác bế một con mèo vào, rồi thả nó chạy lung tung quanh linh cữu.',
-    '*Mèo chạy qua quan tài là điềm gở! Phải bắt nó lại ngay!',
+    { cut: [
+      { img: 'scene', o: { place: 'funeral', figs: [['lieng', 520, 'sad', 'right'], ['bac', 1080, 'neutral', 'left']] }, cam: [[800, 300, 1.25], [800, 440, 1.05]], t: 12, say: [
+        'Vì thấy có lỗi, tôi xin nghỉ hai ngày để ở lại đây, đảm bảo đám tang không có chuyện gì trước khi hạ huyệt. Để một ông lão thiểu năng ở đây một mình thì chẳng thể yên tâm được.',
+      ] },
+      { img: 'scene', o: { place: 'funeral', figs: [['ve', 800, 'happy', 'right', { h: 150, y: 650 }], ['bac', 1200, 'smile', 'left'], ['lieng', 380, 'surprised', 'right']], marks: [[380, 330, '!']] }, tr: 'cut', sfx: 'meow', cam: [[800, 560, 1.36], [800, 480, 1.12]], t: 8, say: [
+        'Và tôi đã không lo thừa. Ngay hôm sau, ông bác bế một con mèo vào, rồi thả nó chạy lung tung quanh linh cữu.',
+        '*Mèo chạy qua quan tài là điềm gở! Phải bắt nó lại ngay!',
+      ] },
+    ] },
     { game: 'world', title: 'Bắt con mèo!', player: 'lieng', at: [9, 9.4], dir: 'up', hint: 'Đuổi theo và chạm vào con mèo 3 lần trước khi nó nhảy lên quan tài!',
       npcs: [{ c: 've', at: [10, 6.6], flee: true, speed: 2.6 }, { c: 'bac', at: [15, 7], dir: 'left', on: ['bac: ...', '*Ông bác chỉ đứng nhìn, chẳng nói chẳng rằng.'] }],
       goal: { catch: 've', need: 3 } },
     { cast: ['bac', 've'] },
-    'Tôi tóm được nó, nhốt vào một cái lồng. Ông bác không thông minh lắm, nhưng ít ra khi tôi nhắc thì ông cũng chịu nghe.',
-    'Từ đó ông ở ngoài với con mèo nhiều hơn là ở trong này.',
+    { cut: [
+      { img: 'scene', o: { place: 'funeral', cage: 1250, vemo: 'angry', figs: [['lieng', 560, 'smug', 'right'], ['bac', 960, 'sad', 'left']] }, cam: [[1150, 600, 1.34], [900, 480, 1.08]], t: 10, say: [
+        'Tôi tóm được nó, nhốt vào một cái lồng. Ông bác không thông minh lắm, nhưng ít ra khi tôi nhắc thì ông cũng chịu nghe.',
+        'Từ đó ông ở ngoài với con mèo nhiều hơn là ở trong này.',
+      ] },
+      { img: 'scene', o: { place: 'funeral', dark: true, figs: [['lieng', 800, 'scared', 'down', { tone: 'cold' }]], spot: [800, 520, .45] }, tr: 'black', cam: [[800, 440, 1.04], [800, 480, 1.25]], t: 14, say: [
+        'Trong phòng chỉ còn tôi và quan tài của cậu ta.',
+        'Tôi không tin ma quỷ. Nhưng ở một mình trong này thì cũng sợ phết. Tôi cứ tưởng tượng cảnh cậu ta về đòi mạng.',
+        'May là tới khi hạ huyệt, chẳng có chuyện gì xảy ra cả.',
+      ] },
+    ] },
     { cast: [] },
-    { bg: 'funeral', o: { dark: true } },
-    'Trong phòng chỉ còn tôi và quan tài của cậu ta.',
-    'Tôi không tin ma quỷ. Nhưng ở một mình trong này thì cũng sợ phết. Tôi cứ tưởng tượng cảnh cậu ta về đòi mạng.',
-    'May là tới khi hạ huyệt, chẳng có chuyện gì xảy ra cả.',
     { go: 'c3_night' },
   ],
 
   c3_night: [
     { date: 'Ngày 22 tháng 10 năm 2026' },
     { bg: 'funeral', cast: ['bac', 've'] },
-    'Mọi thứ xong xuôi. Tôi đang thu dọn chuẩn bị ra về thì con mèo bỗng gào lên.',
-    've[angry]: NGAOOOO!',
-    'Ông bác ngồi thụp xuống cạnh cái lồng, nghiêng tai lắng nghe rất chăm chú.',
-    'Suốt hai ngày qua, ông chưa nói một lời. Tôi hỏi gì ông cũng chỉ ngơ ngơ ra. Vậy mà lần này—',
-    'bac[neutral]: Cậu Vẻ nói phải chạy thôi cậu Liễng ơi.',
+    { cut: [
+      { img: 'scene', o: { place: 'funeral', cage: 1020, vemo: 'angry', figs: [['lieng', 460, 'surprised', 'right'], ['bac', 1240, 'think', 'left']], marks: [[1020, 560, '!!', .6]] }, sfx: 'meow', cam: [[1050, 620, 1.4], [900, 500, 1.12]], t: 12, say: [
+        'Mọi thứ xong xuôi. Tôi đang thu dọn chuẩn bị ra về thì con mèo bỗng gào lên.',
+        've[angry]: NGAOOOO!',
+        'Ông bác ngồi thụp xuống cạnh cái lồng, nghiêng tai lắng nghe rất chăm chú.',
+        'Suốt hai ngày qua, ông chưa nói một lời. Tôi hỏi gì ông cũng chỉ ngơ ngơ ra. Vậy mà lần này—',
+        'bac[neutral]: Cậu Vẻ nói phải chạy thôi cậu Liễng ơi.',
+      ] },
+    ] },
     'lieng[surprised]: Hả? Cậu Vẻ là ai cơ? Mà chạy là sao?',
     'Ông không trả lời nữa. Ông mở lồng cho con mèo ra.',
     'bac[sad]: Xin lỗi cậu Vẻ. Để cậu phải chịu khổ rồi.',
@@ -41,16 +56,23 @@ Object.assign(SCENES, {
     { fx: 'blackout' },
     { bg: 'funeral', o: { dark: true }, cast: [] },
     { music: 'eerie' },
-    'Đúng lúc ấy, đèn phụt tắt.',
-    'bac[scared]: Cậu Vẻ nói hắn tới rồi.',
-    '*Ê này. Tôi thật sự sợ đấy. Chẳng lẽ con mèo cảm được ma quỷ? Cậu ta thật sự về tìm tôi đòi mạng sao?',
-    'Tay chân tôi cứng đờ. Đừng nói tới chạy — nếu cậu ta hiện hồn ra đây, tôi sẽ chết đứng mất.',
-    'Rồi lòng tôi bỗng trở nên bình thản. Có lẽ đó là cái kết thích hợp cho một kẻ như tôi.',
-    'Tôi nhắm mắt chờ đợi.',
-    { wait: 1500 },
-    'Không có gì xảy ra cả.',
-    'Tôi từ từ mở mắt. Chẳng có ai ở đó. Kể cả ông bác.',
-    'lieng[angry]: Ông già chết tiệt giỡn mặt tôi hả?!',
+    { cut: [
+      { img: 'scene', o: { place: 'funeral', dark: true, figs: [['lieng', 600, 'scared', 'right', { tone: 'cold' }], ['bac', 1020, 'scared', 'left', { tone: 'cold' }]], spot: [800, 500, .5] }, tr: 'black', cam: [[800, 460, 1.06], [760, 440, 1.24]], t: 14, say: [
+        'Đúng lúc ấy, đèn phụt tắt.',
+        'bac[scared]: Cậu Vẻ nói hắn tới rồi.',
+        '*Ê này. Tôi thật sự sợ đấy. Chẳng lẽ con mèo cảm được ma quỷ? Cậu ta thật sự về tìm tôi đòi mạng sao?',
+        'Tay chân tôi cứng đờ. Đừng nói tới chạy — nếu cậu ta hiện hồn ra đây, tôi sẽ chết đứng mất.',
+        'Rồi lòng tôi bỗng trở nên bình thản. Có lẽ đó là cái kết thích hợp cho một kẻ như tôi.',
+        'Tôi nhắm mắt chờ đợi.',
+      ] },
+      { img: 'scene', o: { place: 'funeral', dark: true, figs: [['lieng', 600, 'sleep', 'right', { tone: 'cold' }]], spot: [600, 470, .32] }, tr: 'black', hold: 1600, cam: [[600, 420, 1.3], [600, 420, 1.4]], t: 6, say: [
+        'Không có gì xảy ra cả.',
+      ] },
+      { img: 'scene', o: { place: 'funeral', dark: true, figs: [['lieng', 600, 'angry', 'right', { tone: 'cold' }]], marks: [[600, 330, '?!']] }, tr: 'cut', cam: [[700, 440, 1.12], [800, 440, 1.02]], t: 6, say: [
+        'Tôi từ từ mở mắt. Chẳng có ai ở đó. Kể cả ông bác.',
+        'lieng[angry]: Ông già chết tiệt giỡn mặt tôi hả?!',
+      ] },
+    ] },
     { bg: 'street_night', cast: [] },
     { cut: [
       { img: 'kidnap', cam: [[1150, 520, 1.1], [760, 430, 1.26]], t: 13, say: [
@@ -76,8 +98,12 @@ Object.assign(SCENES, {
       ],
       goal: { reach: [28.2, 12.2, 2.6, 2.6], label: '🐈 Meo!' } },
     { bg: 'house_night', cast: [] },
-    'Tiếng mèo dẫn tôi tới trước một căn nhà ở cuối hẻm. Hắn đi vào trong.',
-    'Ngoài hắn, còn ít nhất hai kẻ nữa: một kẻ ra mở cổng, một kẻ đứng trong nhà chào hắn.',
+    { cut: [
+      { img: 'scene', o: { place: 'gate', figs: [['cuong', 640, 'neutral', 'right'], ['bichmat', 900, 'smug', 'left']] }, cam: [[800, 360, 1.08], [800, 470, 1.22]], t: 10, say: [
+        'Tiếng mèo dẫn tôi tới trước một căn nhà ở cuối hẻm. Hắn đi vào trong.',
+        'Ngoài hắn, còn ít nhất hai kẻ nữa: một kẻ ra mở cổng, một kẻ đứng trong nhà chào hắn.',
+      ] },
+    ] },
     '*Liều vào đó một mình thì quá rủi ro. Tôi nên quay về trụ sở báo cáo, xin lệnh khám xét và điều thêm người.',
     { choice: [
       { t: 'Quay về trụ sở xin hỗ trợ', steps: ['Tôi lùi lại một bước, quay người định rời đi—'] },
@@ -107,7 +133,7 @@ Object.assign(SCENES, {
       { tell: 'Hắn chưa hay biết gì. Ra đòn!', opts: ['Chặt vào gáy', 'Gọi hắn quay lại', 'Đẩy ngã'], ans: 0, time: 2, ok: 'Hắn đổ gục xuống không một tiếng động.' },
     ] },
     { cut: [
-      { img: 'fight', o: { kind: 'hit', a: 'lieng', b: 'cuong', place: 'night', fx: 'PHỤP!' }, tr: 'flash', sfx: 'hit', hold: 900, cam: [[840, 450, 1.25], [820, 450, 1.08]], t: 3, say: [] },
+      { img: 'fight', o: { kind: 'impact', a: 'lieng', b: 'cuong', pa: 'punch', fx: 'PHỤP!' }, tr: 'flash', sfx: 'impact', hold: 700, cam: [[880, 440, 1.2], [860, 440, 1.08]], t: 3, say: [] },
       { img: 'fight', o: { kind: 'down', a: 'lieng', b: 'cuong', place: 'night', emoA: 'think' }, tr: 'cut', hold: 500, cam: [[800, 480, 1.1], [900, 450, 1.02]], t: 6, say: [
         'Tên gác cổng nằm bất tỉnh. Tôi kéo hắn vào bụi cây cạnh cổng rồi lẻn vào trong nhà.',
       ] },
@@ -143,15 +169,22 @@ Object.assign(SCENES, {
       { t: 'Chui vào cánh cửa cuối hành lang' },
     ] },
     { bg: 'house_in', cast: ['bac', 've'] },
-    'Tôi lao vào một căn phòng, đóng cửa lại. Và tình cờ thay — đây lại đúng là phòng ông bác đang nằm.',
-    'Con mèo nằm cuộn tròn cạnh ông, thở yếu ớt. Bên ngoài, tiếng bước chân chia nhau ra lục soát.',
-    { fx: 'shake' },
-    { cast: ['bichmat'] },
-    'Cánh cửa bật mở. Là hắn — kẻ đã vác ông bác đi.',
-    'bichmat[smug]: Chà. Tôi đã bảo cậu bỏ qua vụ này đi mà. Giờ thì tôi phải giết cậu rồi.',
+    { cut: [
+      { img: 'scene', o: { place: 'bare', mattress: true, lying: 'bac', wardrobe: false, figs: [['ve', 780, 'sad', 'left', { h: 130, y: 760 }], ['lieng', 1150, 'scared', 'left']] }, cam: [[600, 600, 1.3], [800, 480, 1.08]], t: 10, say: [
+        'Tôi lao vào một căn phòng, đóng cửa lại. Và tình cờ thay — đây lại đúng là phòng ông bác đang nằm.',
+        'Con mèo nằm cuộn tròn cạnh ông, thở yếu ớt. Bên ngoài, tiếng bước chân chia nhau ra lục soát.',
+      ] },
+      { img: 'scene', o: { place: 'bare', mattress: true, lying: 'bac', figs: [['bichmat', 1300, 'smug', 'left'], ['lieng', 900, 'angry', 'right']], marks: [[1300, 300, '!']] }, tr: 'flash', sfx: 'boom', cam: [[1150, 420, 1.3], [1000, 440, 1.1]], t: 8, say: [
+        { fx: 'shake' },
+        'Cánh cửa bật mở. Là hắn — kẻ đã vác ông bác đi.',
+        'bichmat[smug]: Chà. Tôi đã bảo cậu bỏ qua vụ này đi mà. Giờ thì tôi phải giết cậu rồi.',
+      ] },
+      { img: 'fight', o: { kind: 'duel', a: 'lieng', b: 'bichmat', pa: 'stance', pb: 'stance', place: 'night' }, tr: 'cut', sfx: 'stomp', hold: 700, cam: [[800, 460, 1.16], [800, 440, 1.04]], t: 8, say: [
+        'Đúng lúc đó, tên canh cổng đột nhiên xuất hiện ngay sau lưng hắn.',
+        '*Hết rồi. Hai đánh một, lại còn phải che cho một ông già và một con mèo...',
+      ] },
+    ] },
     { cast: ['bichmat', 'cuong'] },
-    'Đúng lúc đó, tên canh cổng đột nhiên xuất hiện ngay sau lưng hắn.',
-    '*Hết rồi. Hai đánh một, lại còn phải che cho một ông già và một con mèo...',
     { cut: [
       { img: 'fight', o: { kind: 'hit', a: 'cuong', b: 'bichmat', place: 'house', fx: 'RẦM!' }, tr: 'flash', sfx: 'hit', hold: 500, cam: [[860, 450, 1.25], [800, 450, 1.06]], t: 5, say: [
         { fx: 'shake' },
@@ -170,11 +203,16 @@ Object.assign(SCENES, {
 
   c3_out: [
     { bg: 'house_night', cast: [] },
-    'Tôi chạy thục mạng, không hiểu tại sao tên đó lại giúp mình.',
-    'Nhưng khi ra tới cổng, tôi khựng lại.',
-    { fx: 'glitch' },
-    'Tên canh cổng... vẫn nằm bất tỉnh trong bụi cây. Đúng ở chỗ tôi đã kéo hắn vào lúc lẻn vào đây.',
-    '*Vậy... người vừa cứu tôi là ai?',
+    { cut: [
+      { img: 'scene', o: { place: 'gate', lit: false, figs: [['lieng', 1000, 'scared', 'left', { tone: 'cold' }]] }, cam: [[900, 420, 1.06], [900, 460, 1.18]], t: 7, say: [
+        'Tôi chạy thục mạng, không hiểu tại sao tên đó lại giúp mình.',
+        'Nhưng khi ra tới cổng, tôi khựng lại.',
+      ] },
+      { img: 'scene', o: { place: 'gate', lit: false, body: true, figs: [['lieng', 1000, 'surprised', 'left', { tone: 'cold' }]], marks: [[1000, 320, '!?']] }, tr: 'glitch', cam: [[300, 760, 1.5], [600, 560, 1.12]], t: 10, say: [
+        'Tên canh cổng... vẫn nằm bất tỉnh trong bụi cây. Đúng ở chỗ tôi đã kéo hắn vào lúc lẻn vào đây.',
+        '*Vậy... người vừa cứu tôi là ai?',
+      ] },
+    ] },
     { clue: { id: 'c3_haicuong', name: 'Hai tên gác cổng', desc: 'Tên gác cổng vẫn bất tỉnh ngoài cổng — trong khi “hắn” vừa xuất hiện bên trong để cứu Liễng.' } },
     'Tôi không hiểu chuyện gì đang xảy ra nữa. Chỉ có một điều tôi chắc chắn:',
     '*Ông lão này là lời giải cho tất cả. Và tôi phải giữ ông ta an toàn.',

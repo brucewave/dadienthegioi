@@ -180,6 +180,7 @@ function foeKind(t) {
 }
 function actors(p) {
   const A = p.querySelector('.act.a'), B = p.querySelector('.act.b'), sh = p.querySelector('.shout');
+  const AR = p.querySelector('.arena'), FX = h('div', 'afx'); AR.append(FX);
   const E = 'cubic-bezier(.3,.7,.3,1)';
   const an = (el, kf, ms, o = {}) => (el ? el.animate(kf, { duration: ms, easing: E, ...o }) : null);
   const N = { transform: 'none' }, at = (tr, offset) => ({ transform: tr, offset });
@@ -212,16 +213,52 @@ function actors(p) {
     el.append(b); setTimeout(() => b.remove(), 900);
   };
   const flash = el => { if (!el) return; el.classList.remove('hurt'); void el.offsetWidth; el.classList.add('hurt'); };
+  /* ---- hiệu ứng võ thuật ---- */
+  const tmp = (el, ms) => { FX.append(el); setTimeout(() => el.remove(), ms); return el; };
+  const at2 = el => el ? (el.offsetLeft + el.offsetWidth / 2) / AR.clientWidth * 100 : 50;
+  const mid = () => B ? (at2(A) + at2(B)) / 2 : at2(A);
+  const ring = (x = mid(), y = 48, cls = '') => { const r = tmp(h('i', 'aring ' + cls), 700); r.style.left = x + '%'; r.style.top = y + '%'; };
+  const sparks = (x = mid(), y = 46, n = 14, cls = '') => {
+    for (let i = 0; i < n; i++) {
+      const sp = tmp(h('i', 'aspk ' + cls), 650), a = Math.random() * 360, d = 2.5 + Math.random() * 4.5;
+      sp.style.left = x + '%'; sp.style.top = y + '%'; sp.style.setProperty('--a', a + 'deg'); sp.style.setProperty('--d', d + 'em');
+    }
+  };
+  const slash = (rev, cls = '') => { const s2 = tmp(h('i', 'aslash ' + cls + (rev ? ' rev' : '')), 560); s2.innerHTML = '<svg viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M4,46 Q70,6 196,10 Q90,24 4,52Z"/></svg>'; };
+  const dust = (el, n = 4) => { if (!el) return; for (let i = 0; i < n; i++) { const d = tmp(h('i', 'adust'), 800); d.style.left = (at2(el) + (Math.random() - .5) * 8) + '%'; d.style.animationDelay = (i * .05) + 's'; } };
+  // dừng hình (hit-stop) + khung âm bản
+  const stop = (ms = 90) => { [A, B].forEach(el => el && el.getAnimations().forEach(x => { x.pause(); setTimeout(() => x.play(), ms); })); };
+  const impact = (bad) => { AR.classList.remove('impact', 'ibad', 'zoom'); void AR.offsetWidth; AR.classList.add('impact', 'zoom'); if (bad) AR.classList.add('ibad'); setTimeout(() => AR.classList.remove('impact', 'ibad'), 110); setTimeout(() => AR.classList.remove('zoom'), 320); };
+  // bóng mờ khi lướt / né
+  const ghosts = (el, kind, d, ms) => {
+    if (!el) return;
+    for (let i = 1; i <= 2; i++) {
+      const c = el.cloneNode(true); c.classList.remove('alert', 'hurt'); c.classList.add('ghost', 'g' + i); el.before(c);
+      an(c, MOVES[kind](d), ms, { delay: i * 55, fill: 'backwards' }); setTimeout(() => c.remove(), ms + i * 55 + 40);
+    }
+  };
+  const grade = (t, cls = '') => { const g = tmp(h('b', 'agrade ' + cls, t), 900); };
+  let combo = 0;
+  const comboEl = h('div', 'acombo'); AR.append(comboEl);
+  const setCombo = n => { combo = n; comboEl.innerHTML = n > 1 ? `<b>${n}</b> COMBO` : ''; comboEl.classList.remove('pop'); void comboEl.offsetWidth; if (n > 1) comboEl.classList.add('pop'); };
+  const aura = (el, cls) => { if (!el) return; el.classList.remove('aura', 'akii'); void el.offsetWidth; el.classList.add(cls); };
   const alert = el => { if (!el) return; el.classList.remove('alert'); void el.offsetWidth; el.classList.add('alert'); };
   let wind = null, last = null;
   return {
     // đầu mỗi hiệp: đối thủ gồng người báo trước đòn
+    // màn mở đầu: tên hai bên trượt vào, chữ VS kiểu thư pháp
+    intro(names) {
+      const v = tmp(h('div', 'avs', `<span class="na">${esc(names[0] || '')}</span><b>VS</b><span class="nb">${esc(names[1] || '')}</span>`), 1500);
+      if (!names[1]) v.classList.add('solo');
+      AUDIO.sfx('stomp'); setTimeout(() => AUDIO.sfx('clash'), 380);
+      if (B) { dust(A, 3); dust(B, 3); }
+    },
     windup(tell) {
       if (wind) wind.cancel();
       if (!B) { alert(A); return; }
       const k = foeKind(tell);
       wind = an(B, [N, { transform: k === 'grab' ? 'translateX(-.6em) rotate(-10deg)' : 'translateX(.8em) rotate(12deg)' }], 500, { fill: 'forwards' });
-      alert(B);
+      alert(B); aura(B, 'aura'); AR.classList.add('tense');
     },
     play(opt, tell, ok) {
       if (wind) { wind.cancel(); wind = null; }
@@ -230,31 +267,46 @@ function actors(p) {
       const kind = opt ? actKind(cmd || opt) : 'freeze', foe = foeKind(tell);
       last = ok ? kind : null;
       if (cmd) { sh.textContent = '“' + cmd + '”'; sh.classList.add('on'); setTimeout(() => sh.classList.remove('on'), 1100); }
-      AUDIO.sfx('whoosh');
+      AUDIO.sfx(OFFENSE.has(kind) ? 'swish' : 'whoosh');
+      AR.classList.remove('tense'); if (B) B.classList.remove('aura');
       if (!B) {                                   // chạy trốn, leo trèo: chỉ một nhân vật
-        if (ok) { move(A, kind); setTimeout(() => pow(A, kind === 'kick' || kind === 'attack' ? 'XOẢNG!' : 'VÚT!', 'mini'), 300); }
-        else { move(A, 'trip', 1, 900); setTimeout(() => { pow(A, 'ÁI!', 'bad'); flash(A); }, 320); }
+        if (ok) { ghosts(A, kind, 1, 760); move(A, kind); dust(A, 3); setTimeout(() => pow(A, kind === 'kick' || kind === 'attack' ? 'XOẢNG!' : 'VÚT!', 'mini'), 300); }
+        else { move(A, 'trip', 1, 900); setTimeout(() => { pow(A, 'ÁI!', 'bad'); flash(A); dust(A, 5); impact(true); }, 320); }
         return;
       }
-      if (ok && OFFENSE.has(kind)) {               // mình ra đòn trúng
-        move(A, kind, 1);
-        setTimeout(() => { move(B, 'hit', -1, 640); pow(B, kind === 'kick' ? 'BỐP!' : kind === 'grab' ? 'KHÓA!' : 'BỤP!'); flash(B); SFX.hit(); }, 320);
-      } else if (ok) {                            // đối thủ đánh hụt
-        move(B, foe, -1, 820);
-        move(A, kind === 'act' || kind === 'freeze' ? 'dodgeL' : kind, 1, 820);
-        setTimeout(() => pow(A, kind === 'block' ? 'CẠCH!' : 'VÚT!', 'mini'), 340);
+      if (ok && OFFENSE.has(kind)) {               // mình ra đòn trúng: lướt tới, dừng hình, âm bản, chấn động
+        aura(A, 'akii'); ghosts(A, kind, 1, 760); move(A, kind, 1); dust(A, 3);
+        setTimeout(() => {
+          stop(100); impact(false); slash(false, kind === 'kick' ? 'kick' : '');
+          ring(at2(B) - 4); sparks(at2(B) - 4, 46, 16); AUDIO.sfx('impact');
+          setTimeout(() => { move(B, 'hit', -1, 640); pow(B, kind === 'kick' ? 'BỐP!' : kind === 'grab' ? 'KHÓA!' : 'BỤP!'); flash(B); dust(B, 4); }, 100);
+        }, 300);
+        setCombo(combo + 1); setTimeout(() => grade(combo > 2 ? 'LIÊN HOÀN!' : ['CHUẨN!', 'ĐẸP!', 'TRÚNG!'][combo % 3]), 420);
+      } else if (ok) {                            // đối thủ đánh hụt: né / đỡ
+        ghosts(B, foe, -1, 820); move(B, foe, -1, 820);
+        const k2 = kind === 'act' || kind === 'freeze' ? 'dodgeL' : kind;
+        if (k2 !== 'block') ghosts(A, k2, 1, 820);
+        move(A, k2, 1, 820);
+        setTimeout(() => {
+          if (k2 === 'block') { pow(A, 'CẠCH!', 'mini'); AUDIO.sfx('clash'); ring(mid(), 46, 'thin'); sparks(mid(), 44, 10, 'gold'); stop(70); }
+          else { pow(A, 'VÚT!', 'mini'); slash(true, 'miss'); }
+        }, 340);
+        setCombo(combo + 1); setTimeout(() => grade(k2 === 'block' ? 'ĐỠ GỌN!' : 'NÉ ĐẸP!', 'calm'), 460);
       } else {                                    // dính đòn
         if (opt) move(A, kind, 1, OFFENSE.has(kind) ? 600 : 500);
-        move(B, foe, -1, 820);
-        setTimeout(() => { move(A, 'hit', 1, 700); pow(A, foe === 'kick' ? 'BỊCH!' : 'BỐP!', 'bad'); flash(A); }, 340);
+        ghosts(B, foe, -1, 820); move(B, foe, -1, 820);
+        setTimeout(() => { stop(110); impact(true); ring(at2(A) + 4, 46, 'red'); sparks(at2(A) + 4, 46, 12, 'red'); AUDIO.sfx('impact'); setTimeout(() => { move(A, 'hit', 1, 700); pow(A, foe === 'kick' ? 'BỊCH!' : 'BỐP!', 'bad'); flash(A); dust(A, 4); }, 110); }, 340);
+        setCombo(0);
       }
     },
     // hiệp cuối thắng bằng một đòn tấn công thì đối thủ đổ gục
     ko() {
       if (!B || !OFFENSE.has(last)) return false;
       setTimeout(() => {
-        an(B, [N, at('translate(1.6em,-.6em) rotate(30deg)', .3), { transform: 'translate(2.4em,1.2em) rotate(88deg)' }], 900, { fill: 'forwards' });
-        setTimeout(() => { pow(B, 'K.O!', 'ko'); SFX.boom(); }, 420);
+        AR.classList.add('slowmo');
+        an(B, [N, at('translate(1.6em,-.9em) rotate(30deg)', .3), { transform: 'translate(2.6em,1.2em) rotate(88deg)' }], 1500, { fill: 'forwards' });
+        ring(at2(B), 46, 'big'); sparks(at2(B), 46, 22, 'gold');
+        setTimeout(() => { impact(false); stop(160); pow(B, 'K.O!', 'ko'); SFX.boom(); dust(B, 6); grade('HẠ GỤC!', 'ko'); }, 620);
       }, 380);
       return true;
     },
@@ -319,5 +371,6 @@ MINI.timed = cfg => new Promise(res => {
   };
   hpDraw();
   tell.textContent = cfg.intro || 'Chuẩn bị...';
-  T(round, G.skip ? 200 : 1200);
+  fight.intro([charName(vs[0]), vs[1] ? charName(vs[1]) : '']);
+  T(round, G.skip ? 200 : 1500);
 });

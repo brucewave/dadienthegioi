@@ -23,11 +23,16 @@ Object.assign(SCENES, {
     'Tôi đã nghĩ chỉ cần chạy mãi thì sẽ có ngày thoát được. Nhưng không. Lần nào chúng cũng tìm tới.',
     'Vậy nên thay vì chạy, tôi sẽ giết sạch chúng. Giết sạch những ai biết danh tính của tôi. Chỉ như vậy tôi mới có được bình yên.',
     { bg: 'street_night', cast: ['truong'] },
-    'Nhưng tôi đã thất bại. Bị dồn vào đường cùng. Có lẽ giờ tôi sẽ phải lãnh án tử.',
-    'Theo một cách nào đó, đó cũng là sự bình yên mà tôi tìm kiếm.',
-    { fx: 'flash' },
+    { cut: [
+      { img: 'fight', o: { kind: 'duel', a: 'x', b: 'truong', pa: 'block', pb: 'stance', place: 'night' }, cam: [[800, 440, 1.12], [800, 460, 1.02]], t: 12, say: [
+        'Nhưng tôi đã thất bại. Bị dồn vào đường cùng. Có lẽ giờ tôi sẽ phải lãnh án tử.',
+        'Theo một cách nào đó, đó cũng là sự bình yên mà tôi tìm kiếm.',
+      ] },
+      { img: 'close', o: { k: 'flat' }, tr: 'flash', cam: [[820, 400, 1.3], [820, 400, 1.04]], t: 8, say: [
+        'Rồi mọi thứ trở nên trắng xóa.',
+      ] },
+    ] },
     { bg: 'white', cast: [] },
-    'Rồi mọi thứ trở nên trắng xóa.',
     { bg: 'street_night', cast: [] },
     'Tôi dường như đã bị đưa tới một nơi nào khác. Những người xung quanh không còn nhận ra tôi là ai.',
     '*Có lẽ ông trời đã giúp tôi.',
@@ -37,14 +42,22 @@ Object.assign(SCENES, {
   c8_xmemory: [
     { big: 'Hồi ức — X', auto: 1800 },
     { bg: 'house_in', cast: ['x'] },
-    'Ngày 27 tháng 3. Trận xung đột với lũ người của ông Trưởng.',
-    'Tôi trốn trong bóng tối, và tôi nhìn thấy hai thứ.',
-    'Thứ nhất: thằng nhóc tên Bình. Nó chỉ cần liếc qua một lần là nhớ mọi chi tiết — khuôn mặt, dáng đi, vết sẹo trên mu bàn tay. Một năng lực quá mạnh. Một năng lực nguy hiểm với kẻ như tôi.',
-    'Thứ hai: ông già. Khi ông ta bị đưa ra khỏi kết giới, ý thức và thân xác ông ta bị xé làm đôi. Tôi đứng gần đó. Tôi thấy hết.',
+    { cut: [
+      { img: 'scene', o: { place: 'gate', lit: false, figs: [['binh', 640, 'think', 'right'], ['truong', 900, 'angry', 'left'], ['x', 1420, 'neutral', 'left', { tone: 'sil', h: 420 }]] }, mem: '27/3/2026 · ký ức của X', cam: [[1420, 420, 1.4], [900, 440, 1.08]], t: 14, say: [
+        'Ngày 27 tháng 3. Trận xung đột với lũ người của ông Trưởng.',
+        'Tôi trốn trong bóng tối, và tôi nhìn thấy hai thứ.',
+        'Thứ nhất: thằng nhóc tên Bình. Nó chỉ cần liếc qua một lần là nhớ mọi chi tiết — khuôn mặt, dáng đi, vết sẹo trên mu bàn tay. Một năng lực quá mạnh. Một năng lực nguy hiểm với kẻ như tôi.',
+      ] },
+      { img: 'boundary', mem: '27/3/2026 · ký ức của X', tr: 'cut', cam: [[800, 520, 1.3], [800, 600, 1.4]], t: 10, say: [
+        'Thứ hai: ông già. Khi ông ta bị đưa ra khỏi kết giới, ý thức và thân xác ông ta bị xé làm đôi. Tôi đứng gần đó. Tôi thấy hết.',
+      ] },
+      { img: 'scene', o: { place: 'room', blood: true, body: true, nha: true, figs: [['tu', 420, 'smug', 'right'], ['binh', 1180, 'think', 'left']] }, mem: '18/10/2026 · ký ức của X', tr: 'black', cam: [[1180, 380, 1.4], [800, 420, 1.1]], t: 14, say: [
+        'Ngày 18 tháng 10. Tôi gặp lại thằng nhóc ấy — trong bộ dạng của lão thám tử Tư.',
+        'Xác lão thám tử vẫn chưa được tìm thấy. Nó không thể nhận ra tôi. Tôi yên tâm.',
+        'Nhưng nó nhìn tôi rất lâu khi chúng tôi cùng đồng thanh nói “Cậu Nhà không phải hung thủ”.',
+      ] },
+    ] },
     { bg: 'inn_room', o: { night: true, lamp: true }, cast: ['binh'] },
-    'Ngày 18 tháng 10. Tôi gặp lại thằng nhóc ấy — trong bộ dạng của lão thám tử Tư.',
-    'Xác lão thám tử vẫn chưa được tìm thấy. Nó không thể nhận ra tôi. Tôi yên tâm.',
-    'Nhưng nó nhìn tôi rất lâu khi chúng tôi cùng đồng thanh nói “Cậu Nhà không phải hung thủ”.',
     '*Chỉ cần nó nhìn thấy hồ sơ người mất tích dù chỉ một lần thôi... nó sẽ nhớ. Và tôi sẽ bị lộ.',
     '*Phải giết người diệt khẩu. Càng sớm càng tốt.',
     { go: 'c8_cat' },
@@ -64,9 +77,13 @@ Object.assign(SCENES, {
   c8_arrive: [
     { pov: 'lieng' },
     { bg: 'station', cast: ['truong', 'mong'] },
-    'Gần nửa đêm. Cửa trụ sở bật mở.',
+    { cut: [
+      { img: 'scene', o: { place: 'office', night: true, noDesk: true, figs: [['bac', 1100, 'smile', 'left'], ['ve', 1100, 'sleep', 'left', { h: 120, y: 690 }], ['lieng', 520, 'surprised', 'right'], ['truong', 300, 'think', 'right']] }, tr: 'cut', sfx: 'door', cam: [[1100, 520, 1.36], [800, 440, 1.06]], t: 12, say: [
+        'Gần nửa đêm. Cửa trụ sở bật mở.',
+        'Ông bác đứng đó, chân trần lấm bùn. Trên tay ông, cậu Vẻ nằm cuộn tròn, mắt nhắm nghiền.',
+      ] },
+    ] },
     { cast: ['bac', 've'] },
-    'Ông bác đứng đó, chân trần lấm bùn. Trên tay ông, cậu Vẻ nằm cuộn tròn, mắt nhắm nghiền.',
     'lieng: Bác! Cậu Vẻ sao rồi?',
     'bac[smile]: Cậu Vẻ tỉnh rồi.',
     'bac: Cậu Vẻ nói X ở căn nhà trên đường Bàu Cát. Cậu Vẻ nói đi thôi cậu Liễng.',
@@ -107,6 +124,7 @@ Object.assign(SCENES, {
       { img: 'fight', o: { kind: 'face', a: 'lieng', b: 'x', place: 'dark', emoA: 'angry', emoB: 'angry' }, tr: 'flash', sfx: 'hit', hold: 600, cam: [[800, 470, 1.18], [820, 450, 1.04]], t: 5, say: [
         'x[angry]: Vậy thì kết thúc ở đây thôi.',
       ] },
+      { img: 'fight', o: { kind: 'duel', a: 'lieng', b: 'x', pa: 'stance', pb: 'stance', place: 'dark', fx: 'TRẬN CUỐI' }, tr: 'cut', sfx: 'stomp', hold: 900, cam: [[800, 440, 1.14], [800, 440, 1.02]], t: 4 },
       { img: 'fight', o: { kind: 'morph', b: 'cuong', fx: '!!' }, tr: 'glitch', hold: 900, cam: [[800, 470, 1.0], [800, 480, 1.25]], t: 6, say: [
         'Thân hình hắn phình ra, biến thành Cường.',
       ] },
@@ -120,7 +138,8 @@ Object.assign(SCENES, {
       { tell: 'Hắn mất thăng bằng! Cơ hội duy nhất!', opts: ['↑ Đá toàn lực', '→ Lao vào khóa', '← Lùi lại'], ans: 0, time: 1.4, ok: 'BỐP! X đổ gục.' },
     ] },
     { cut: [
-      { img: 'fight', o: { kind: 'hit', a: 'lieng', b: 'cuong', place: 'dark', fx: 'BỐP!' }, tr: 'flash', hold: 1000, cam: [[860, 440, 1.3], [820, 450, 1.08]], t: 3, say: [{ fx: 'boom' }] },
+      { img: 'fight', o: { kind: 'cutin', a: 'lieng', move: 'PHI CƯỚC!', sub: 'cú đá của thủ khoa · chưa từng thua', emoA: 'angry' }, tr: 'flash', sfx: 'stomp', hold: 1000, cam: [[800, 420, 1.02], [860, 420, 1.1]], t: 3 },
+      { img: 'fight', o: { kind: 'impact', a: 'lieng', b: 'cuong', pa: 'fly', fx: 'BỐP!', red: true }, tr: 'flash', sfx: 'impact', hold: 800, cam: [[900, 440, 1.3], [860, 440, 1.08]], t: 3, say: [{ fx: 'boom' }] },
       { img: 'fight', o: { kind: 'down', a: 'lieng', b: 'x', place: 'dark', emoA: 'sad', emoB: 'hurt' }, tr: 'cut', hold: 600, cam: [[800, 500, 1.12], [880, 450, 1.02]], t: 7, say: [
         'X ngã xuống, trở lại bộ dạng thật. Cô quản lý lao tới đỡ lấy hắn.',
       ] },
@@ -217,12 +236,18 @@ Object.assign(SCENES, {
     { big: 'Mấy giờ trước', auto: 1600 },
     { pov: 've' },
     { bg: 'street_night', cast: ['bac'] },
-    'Cậu Vẻ mở mắt. Lần này không phải trong vòng lặp ký ức. Mà là ở bên ngoài, thật sự.',
-    'Thứ đang đứng trước mặt nó, nhìn xuống nó — là ông bác.',
-    've: ...Mày là cái quái gì vậy?',
     { music: 'eerie' },
-    'Ông bác cười. Một nụ cười mà suốt những ngày qua, cậu Vẻ chưa từng thấy. Một nụ cười ác độc.',
-    { fx: 'redflash' },
+    { cut: [
+      { img: 'scene', o: { place: 'gate', lit: false, figs: [['bac', 800, 'neutral', 'down', { h: 520, y: 860, tone: 'dark' }], ['ve', 800, 'scared', 'up', { h: 160, y: 900 }]], spot: [800, 520, .45] }, tr: 'black', cam: [[800, 760, 1.4], [800, 420, 1.12]], t: 12, say: [
+        'Cậu Vẻ mở mắt. Lần này không phải trong vòng lặp ký ức. Mà là ở bên ngoài, thật sự.',
+        'Thứ đang đứng trước mặt nó, nhìn xuống nó — là ông bác.',
+        've: ...Mày là cái quái gì vậy?',
+      ] },
+      { img: 'scene', o: { place: 'gate', lit: false, figs: [['bac', 800, 'smug', 'down', { h: 640, y: 980, tone: 'dark', glow: '#D8402F' }]], spot: [800, 360, .35] }, tr: 'cut', cam: [[800, 380, 1.3], [800, 360, 1.5]], t: 8, say: [
+        'Ông bác cười. Một nụ cười mà suốt những ngày qua, cậu Vẻ chưa từng thấy. Một nụ cười ác độc.',
+        { fx: 'redflash' },
+      ] },
+    ] },
     { cast: [] },
     'Rồi cậu Vẻ chết.',
     'Ông bác ôm xác con mèo lên tay, khẽ vuốt ve như vẫn thường làm. Rồi đi tới trụ sở công an.',

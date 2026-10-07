@@ -30,6 +30,9 @@ const CHARS = {
   bong:    { name: 'Bóng đen',      color: '#2B1F1A', look: { type: 'shadow' } },
   unk:     { name: '???',           color: '#4A4650', look: { hair: 'short', top: PAL.grey, fx: ['mask'] } },
   bichmat: { name: 'Gã bịt mặt',    color: '#4A4650', look: { hair: 'short', top: '#3B3438', pants: '#2E2A30', build: 'big', fx: ['mask'] } },
+  thoanh:  { name: 'Anh thợ ảnh',   color: '#8A5A9A', look: { hair: 'short', hc: '#2B1F1A', top: '#8A5A9A', pants: PAL.grey, fx: ['tired'], detail: 'coat' } },
+  hung:    { name: 'Hùng',          color: '#6E7A3A', look: { hair: 'buzz', top: PAL.police, pants: '#4A5E3A', fx: ['tired'], detail: 'uniform' } },
+  laocong: { name: 'Bác lao công',  color: '#4E8C84', look: { hair: 'bun', top: '#6E9A5A', pants: PAL.grey, hat: 'cone', fx: ['tired'], detail: 'apron' } },
   khach:   { name: 'Khách trọ',     color: '#D9A93A', look: { hair: 'short', top: PAL.mustard, pants: PAL.navy, fx: ['blush'] } },
 };
 

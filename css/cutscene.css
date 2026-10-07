@@ -27,6 +27,21 @@
 #cine .cskip:hover{color:#fff;border-color:#fff}
 .glitch #cine .cstack{animation:gl .15s infinite}
 
+/* ảnh ký ức: polaroid ngả màu, đứng yên giữa khung khi máy quay trượt */
+#cine .cshot.mem .cl{filter:sepia(.55) saturate(.8) contrast(1.05) brightness(1.04)}
+#cine .cmem{position:absolute;inset:11% 12% 12.5%;z-index:1;pointer-events:none;border:1.1em solid #F4EEDF;border-bottom-width:3.2em;box-shadow:0 0 0 100vmax rgba(14,9,7,.78),.5em .7em 1.4em rgba(0,0,0,.6);transform:rotate(-1.4deg);animation:cmemin .7s cubic-bezier(.2,1.2,.4,1) both}
+#cine .cmem::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(90,60,30,.35));mix-blend-mode:multiply}
+#cine .cmem span{position:absolute;left:0;right:0;bottom:-2.55em;text-align:center;font:1.25em var(--hand,'Patrick Hand');color:#3A2A20;letter-spacing:.03em}
+@keyframes cmemin{from{transform:rotate(-6deg) scale(1.12);opacity:0}to{transform:rotate(-1.4deg) scale(1);opacity:1}}
+#cine .cstamp{position:absolute;right:12%;top:14%;z-index:2;pointer-events:none;font:bold 1.9em var(--hand,'Patrick Hand');color:#2E4E8A;border:.14em solid currentColor;border-radius:.2em;padding:0 .4em;transform:rotate(9deg);opacity:.85;mix-blend-mode:multiply;animation:cstampin .35s .5s cubic-bezier(.2,1.8,.4,1) both;letter-spacing:.08em}
+#cine .cstamp.red{color:#B8302A}
+@keyframes cstampin{from{transform:rotate(9deg) scale(2.4);opacity:0}to{transform:rotate(9deg) scale(1);opacity:.85}}
+#cine .cshut{position:absolute;inset:0;z-index:5;pointer-events:none;background:#fff;animation:cshut .6s ease-out forwards}
+#cine .cshut::before,#cine .cshut::after{content:'';position:absolute;left:0;right:0;height:50%;background:#0D0A09;animation:cshutb .28s ease-in-out}
+#cine .cshut::before{top:0;transform-origin:top}#cine .cshut::after{bottom:0;transform-origin:bottom}
+@keyframes cshut{0%{background:rgba(255,255,255,0)}30%{background:rgba(255,255,255,.95)}100%{background:rgba(255,255,255,0)}}
+@keyframes cshutb{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(0)}}
+
 /* phụ đề kiểu phim */
 #stage.cine #textbox{left:9%;right:9%;bottom:1.4%;min-height:0;background:none;border:0;border-radius:0;box-shadow:none;padding:.2em 1em .3em;text-align:center;color:#F1E9D6;font-size:1.22em;line-height:1.36;display:flex;flex-direction:column;align-items:center}
 #stage.cine #textbox.withp{padding-left:1em}
@@ -95,4 +110,8 @@
 @keyframes cburst2{to{transform:scale(1.06) rotate(2deg)}}
 #cine svg .cpuff{transform-box:fill-box;transform-origin:50% 100%;animation:cpuff 1.2s ease-out infinite}
 @keyframes cpuff{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1.5) translateY(-20px);opacity:0}}
+#cine svg .cring{transform-box:fill-box;transform-origin:50% 50%;animation:cring 1.2s ease-out infinite}
+@keyframes cring{0%{transform:scale(.3);opacity:1}100%{transform:scale(4.2);opacity:0}}
+#cine svg .cspark{transform-box:view-box;transform-origin:50% 50%;animation:cspark .18s steps(2) infinite}
+@keyframes cspark{50%{transform:scale(1.08) rotate(4deg);opacity:.7}}
 @media (prefers-reduced-motion:reduce){#cine svg *{animation:none!important}#cine .cgrain{animation:none}}

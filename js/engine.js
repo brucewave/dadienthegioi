@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 function h(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
 
 const SAVE_KEY = 'ddtg_save_v1', OPT_KEY = 'ddtg_opt_v1', UNLOCK_KEY = 'ddtg_unlock_v1';
-const G = { flags: {}, clues: {}, scene: null, pov: null, log: [], cast: [], bgKey: null, bgOpt: {}, snap: null, keyHandler: null, timers: new Set(), skip: false, chapter: '' };
+const G = { flags: {}, clues: {}, alias: {}, scene: null, pov: null, log: [], cast: [], bgKey: null, bgOpt: {}, snap: null, keyHandler: null, timers: new Set(), skip: false, chapter: '' };
 const SET = { speed: 26, music: .55, sfx: .8 };
 let adv = null;            // hàm "đi tiếp" của dòng thoại hiện tại
 let typer = null;          // interval đánh chữ
@@ -59,6 +59,8 @@ function toast(msg, cls = '') {
   setTimeout(() => t.classList.add('out'), 2600); setTimeout(() => t.remove(), 3200);
 }
 function clueIcon(c) { return c.icon || ICON.CLUE[c.id] || 'magnifier'; }
+/* tên hiển thị: chương có thể giấu tên thật bằng { alias: { binh: 'Công an thứ nhất' } } */
+function charName(k) { return (G.alias && G.alias[k]) || (CHARS[k] ? CHARS[k].name : ''); }
 function addClue(c) {
   if (G.clues[c.id]) return;
   G.clues[c.id] = { name: c.name, desc: c.desc, chap: G.chapter, icon: clueIcon(c) };
@@ -95,8 +97,8 @@ function say(spk, text, emo) {
   tb.classList.toggle('thought', spk === 'think');
   tb.classList.toggle('narr', !spk);
   const c = spk && spk !== 'think' ? CHARS[spk] : null;
-  if (c) { np.textContent = c.name; np.style.setProperty('--c', c.color); np.style.display = ''; }
-  else if (spk === 'think') { const p = CHARS[G.pov]; np.textContent = (p ? p.name : '') + ' · suy nghĩ'; np.style.setProperty('--c', p ? p.color : '#888'); np.style.display = ''; }
+  if (c) { np.textContent = charName(spk); np.style.setProperty('--c', c.color); np.style.display = ''; }
+  else if (spk === 'think') { const p = CHARS[G.pov]; np.textContent = (p ? charName(G.pov) : '') + ' · suy nghĩ'; np.style.setProperty('--c', p ? p.color : '#888'); np.style.display = ''; }
   else np.style.display = 'none';
   const pk = c ? spk : spk === 'think' ? G.pov : null, pt = $('#portrait');
   const em = pk ? (emo || autoEmo(text)) : 'neutral';
@@ -108,7 +110,7 @@ function say(spk, text, emo) {
   else { tb.classList.remove('withp'); pt.dataset.k = ''; pt.innerHTML = ''; }
   sceneTalk(spk === 'think' ? null : spk, em);
   if (spk === 've' && !G.skip) AUDIO.sfx('meow');
-  G.log.push({ n: c ? c.name : spk === 'think' ? '(nghĩ)' : '', t: text }); if (G.log.length > 300) G.log.shift();
+  G.log.push({ n: c ? charName(spk) : spk === 'think' ? '(nghĩ)' : '', t: text }); if (G.log.length > 300) G.log.shift();
   $('#next').classList.remove('on');
   return new Promise(res => {
     let i = 0, done = false;
@@ -185,6 +187,8 @@ async function runStep(st) {
   if (st.cast !== undefined) setCast(st.cast);
   if (st.clue) addClue(st.clue);
   if (st.fx) await fx(st.fx);
+  if (st.chap) G.alias = {};
+  if (st.alias) G.alias = { ...G.alias, ...st.alias };
   if (st.chap) { G.chapter = st.chap; AUDIO.sfx('gong'); await card(`<div class="cnum">${esc(st.chap)}</div><div class="ctitle">${esc(st.title || '')}</div><div class="chint">nhấn để tiếp tục</div>`, 'chapter'); }
   if (st.date) { AUDIO.sfx('page'); } if (st.date) await card(`<div class="date">${esc(st.date)}</div>`, 'datecard', 2200);
   if (st.big) { AUDIO.sfx('whoosh'); } if (st.big) await card(`<div class="big">${esc(st.big)}</div>`, 'bigcard', st.auto || 2400);
@@ -215,14 +219,14 @@ function resetStage() {
   $('#mini').innerHTML = ''; $('#choices').innerHTML = ''; $('#choices').classList.remove('on'); $('#card').className = '';
   hideText(); $('#btnSkip').classList.remove('on');
 }
-function snapshot() { return JSON.parse(JSON.stringify({ flags: G.flags, clues: G.clues, pov: G.pov, chapter: G.chapter })); }
+function snapshot() { return JSON.parse(JSON.stringify({ flags: G.flags, clues: G.clues, pov: G.pov, chapter: G.chapter, alias: G.alias })); }
 function save() { store(SAVE_KEY, { scene: G.scene, ...G.snap }); }
 function unlock(id) { const u = load(UNLOCK_KEY, ['c1']); if (!u.includes(id)) { u.push(id); store(UNLOCK_KEY, u); } }
 
 async function play(id, restore) {
   resetStage(); const my = session;
   $('#title').classList.remove('on'); $('#hud').classList.add('on');
-  if (restore) Object.assign(G, JSON.parse(JSON.stringify(restore)));
+  if (restore) Object.assign(G, { alias: {} }, JSON.parse(JSON.stringify(restore)));
   while (id && my === session) {
     if (!SCENES[id]) { console.error('Thiếu cảnh', id); return; }
     G.scene = id; G.snap = snapshot(); save();
@@ -310,7 +314,7 @@ function boot() {
   $('#btnNote').onclick = showNotebook; $('#btnLog').onclick = showLog; $('#btnSet').onclick = showSettings;
   $('#btnSkip').onclick = () => { G.skip = !G.skip; $('#btnSkip').classList.toggle('on', G.skip); if (G.skip) advance(); };
   $('#tNew').onclick = () => { G.log = []; play(CHAPTERS[0].scene, { flags: {}, clues: {}, pov: null, chapter: '' }); };
-  $('#tContinue').onclick = () => { const sv = load(SAVE_KEY, null); if (sv) { G.log = []; play(sv.scene, { flags: sv.flags || {}, clues: sv.clues || {}, pov: sv.pov, chapter: sv.chapter || '' }); } };
+  $('#tContinue').onclick = () => { const sv = load(SAVE_KEY, null); if (sv) { G.log = []; play(sv.scene, { flags: sv.flags || {}, clues: sv.clues || {}, pov: sv.pov, chapter: sv.chapter || '', alias: sv.alias || {} }); } };
   $('#tSettings').onclick = showSettings;
   showTitle();
 }

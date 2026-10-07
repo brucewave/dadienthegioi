@@ -93,8 +93,20 @@ Tranh nằm trong `js/cutart.js`, bộ chạy trong `js/cutscene.js`. Trong kị
 | `catsroof`, `market`, `boundary` | Đàn mèo trên mái · chợ Bến Thành · ranh giới vùng không gian |
 | `xclass`, `cage` | Tuổi thơ của X · lồng kính tâm trí |
 | `fight` (`kind: face/hit/down/sneak/reach/morph`, `a`, `b`, `place`, `fx`, `rev`, `sil`) | Khung truyện tranh cho các trận đánh: đối đầu, ra đòn có bóng mờ + chữ tượng thanh, gục ngã, áp sát sau lưng, bàn tay Mộng, X biến hình |
+| `fight` võ thuật: `kind: duel` (`pa`, `pb`: `stance/punch/kick/fly/block/sweep`) · `cutin` (`move`, `sub`) · `clash` · `impact` (`red`) | Đối đầu kiểu tranh thủy mặc với bóng võ sinh · khung tên chiêu cắt chéo màn hình · hai đòn va nhau tóe lửa · khung va chạm âm bản đen trắng |
+| `scene` (`place`, `figs`, `night`, `spot`, `marks`, `rays`, `rain`) | Tranh ghép: nền vẽ tay + nhân vật chibi. `place`: `lobby` (`emptyKey`, `food`), `hall` (`tape`, `stairs`, `open203`), `room` (`day`, `blood`, `body`, `nha`, `lying`, `smoke`), `classroom` (`board`), `stage` (`case: closed/open/empty`, `win`, `feather`, `crowd`), `yard` (`badge`, `nest`), `office`, `home`, `funeral` (`dark`, `cage`), `gate` (`body`, `lit`), `bare` (`chair`, `ropes`, `mattress`, `lying`, `clothes`), `car`. Mỗi nhân vật: `['binh', x, 'happy', 'right', { h, y, back, tone: cold/warm/dark/sil, lie, op, glow }]` |
+| `close` (`k`) | Ảnh cận cảnh manh mối: `window` (`open`, `feather`, `cut`), `fan` (`n`, `count`), `photo`, `gutter`, `cushion`, `pocket`, `latch`, `knife`, `palms`, `phone`, `thread`, `file` (`title`, `lines`, `who`), `flat` |
 
-Xem thử một tranh: `index.html?cut=street&o=time:night,police` (cần chạy qua máy chủ). Nút **Bỏ qua ▸▸** góc trái tua nhanh đoạn phim.
+Tùy chọn thêm cho mỗi cảnh quay: `mem: '07:00 · trí nhớ của Bình'` hiện tranh thành **ảnh ký ức** (khung polaroid ngả màu), `stamp: 'NHÂN CHỨNG'` đóng dấu lên ảnh, `tr: 'shutter'` chuyển cảnh kiểu bấm máy ảnh.
+
+Xem thử một tranh: `index.html?cut=street&o=time:night,police` (cần chạy qua máy chủ); tùy chọn phức tạp viết dạng JSON: `index.html?cut=scene&oj={"place":"stage","figs":[["binh",600]]}&mem=07:00`. Nút **Bỏ qua ▸▸** góc trái tua nhanh đoạn phim.
+
+### Màn đánh võ
+Màn `timed` có `vs` tự thêm hiệu ứng: khung **VS** mở màn, đối thủ tỏa hào quang đỏ khi gồng đòn, ra đòn trúng thì **dừng hình** + **khung âm bản** + vệt chém + sóng chấn động + tia lửa, lướt/né để lại **bóng mờ**, đỡ đòn tóe lửa, đếm **combo**, hạ gục thì quay chậm + “K.O!”.
+
+### Tên nhân vật bị giấu & bạn đồng hành
+- `{ alias: { binh: 'Công an thứ nhất' } }` đổi tên hiển thị trong chương (tự xóa khi sang chương mới). Chương 1 dùng để ông Tư chưa biết tên hai người công an.
+- Trong màn đi lại, NPC có `follow: true` sẽ đi theo sau người chơi (chương 2: Bình đi cùng Liễng điều tra).
 
 ### Đoạn kết 2D → 3D
 `js/dim3d.js` dựng lại căn phòng cuối của chương 8 bằng three.js (tải từ cdnjs khi tới chương 8): bản đồ phẳng nghiêng thành sa bàn, tường mọc lên, nhân vật "đứng dậy" khỏi mặt giấy, ánh nến và bóng đổ thật; khi vùng không gian sụp đổ, cảnh gập về 2D rồi xoáy vào hố đen.

@@ -4,9 +4,13 @@ Object.assign(SCENES, {
   c5_start: [
     { chap: 'Chương 5', title: 'Nốt cao (1)', pov: 'lieng' },
     { bg: 'inn_room', cast: ['bac', 've'] },
-    'Tôi và ông bác lên phòng. Giờ tôi mới để ý: đôi dép và ống quần của ông dính đầy bùn đất.',
-    '*Đừng nói là ông cuốc bộ đi tìm tôi đấy nhé. Nếu thế thật thì... tôi hơi cảm động đấy.',
-    '*Ngoài ba mẹ ra, đây là lần đầu có người đối tốt với tôi đến vậy.',
+    { cut: [
+      { img: 'scene', o: { place: 'room', day: true, figs: [['bac', 760, 'neutral', 'down'], ['ve', 900, 'smile', 'left', { h: 140 }], ['lieng', 1180, 'think', 'left']] }, cam: [[760, 720, 1.5], [860, 460, 1.1]], t: 12, say: [
+        'Tôi và ông bác lên phòng. Giờ tôi mới để ý: đôi dép và ống quần của ông dính đầy bùn đất.',
+        '*Đừng nói là ông cuốc bộ đi tìm tôi đấy nhé. Nếu thế thật thì... tôi hơi cảm động đấy.',
+        '*Ngoài ba mẹ ra, đây là lần đầu có người đối tốt với tôi đến vậy.',
+      ] },
+    ] },
     { fx: 'glitch' },
     '*...Ủa? Ba mẹ tôi mất từ khi tôi còn chưa có nhận thức về thế giới này mà.',
     '*Chắc ý tôi là nếu họ còn sống thì sẽ thương tôi hơn thế này nhiều. Chắc là vậy.',
@@ -17,7 +21,11 @@ Object.assign(SCENES, {
 
   c5_carry: [
     { bg: 'inn_lobby', cast: [] },
-    'Tôi xuống chỗ ô tô, bịt miệng ông ta lại cho chắc, rồi lôi ra. Giờ chỉ cần vác lên lầu mà không để cô quản lý thấy.',
+    { cut: [
+      { img: 'scene', o: { place: 'lobby', night: true, figs: [['quanly', 380, 'smile', 'down', { back: true, y: 700 }], ['lieng', 1300, 'scared', 'left', { tone: 'cold' }]] }, cam: [[1200, 420, 1.3], [800, 420, 1.06]], t: 10, say: [
+        'Tôi xuống chỗ ô tô, bịt miệng ông ta lại cho chắc, rồi lôi ra. Giờ chỉ cần vác lên lầu mà không để cô quản lý thấy.',
+      ] },
+    ] },
     { game: 'world', map: 'inn_lobby', title: 'Vác ông Trưởng lên lầu', player: 'lieng', at: [3.5, 10.3], dir: 'up',
       hint: 'Cô quản lý đang nghe điện thoại, thỉnh thoảng lại ngoái nhìn. Quầy lễ tân che được tầm nhìn. Lên tới cầu thang (ô vàng).', caught: 'Cô quản lý quay lại! Lùi về chỗ cũ...',
       speed: 2.8,
@@ -27,7 +35,11 @@ Object.assign(SCENES, {
       ],
       goal: { reach: [16.4, 2.2, 2.4, 2.6], label: 'Cầu thang' } },
     { bg: 'inn_room', cast: [] },
-    'May mà tới giờ ông ta vẫn bất tỉnh. Tôi trói ông ta lại, đặt lên giường.',
+    { cut: [
+      { img: 'scene', o: { place: 'room', day: true, lying: 'truong', lyingX: 900, figs: [['lieng', 520, 'think', 'right']] }, cam: [[900, 640, 1.3], [800, 460, 1.06]], t: 9, say: [
+        'May mà tới giờ ông ta vẫn bất tỉnh. Tôi trói ông ta lại, đặt lên giường.',
+      ] },
+    ] },
     '*Khi ông ta tỉnh dậy, chắc sẽ có nhiều chuyện phải nói lắm đây. Nếu không tìm được tiếng nói chung, có khi tôi phải trốn chui trốn nhủi cả đời mất.',
     '*Dù gì ông ta cũng là công an Trưởng. Chẳng bao lâu nữa người ta sẽ nhận ra ông ta mất tích. Rồi tôi thành kẻ bắt cóc công an Trưởng, và cuộc đời tôi coi như chấm hết. Haizzz.',
     { cast: ['bac', 've'] },
@@ -95,13 +107,21 @@ Object.assign(SCENES, {
 
   c5_return: [
     { bg: 'inn_lobby', cast: [] },
-    'Bọn tôi trở về. Chỗ đỗ xe có thêm một chiếc ô tô mới — trông khá quen.',
-    '*Chỗ này vẫn có người tới thuê à? Lạ thật. Chắc là khách quen.',
+    { cut: [
+      { img: 'street', o: { time: 'dusk' }, cam: [[1100, 760, 1.4], [800, 520, 1.08]], t: 10, say: [
+        'Bọn tôi trở về. Chỗ đỗ xe có thêm một chiếc ô tô mới — trông khá quen.',
+        '*Chỗ này vẫn có người tới thuê à? Lạ thật. Chắc là khách quen.',
+      ] },
+    ] },
     { clue: { id: 'c5_xe', name: 'Chiếc xe quen', desc: 'Một chiếc ô tô quen mắt vừa đỗ trong nhà xe của nhà trọ.' } },
     'Tôi nhanh chân lên phòng. May là cửa vẫn khóa.',
     { bg: 'inn_room', cast: ['truong'] },
-    'Ông ta đã tỉnh. Ánh mắt như muốn ăn tươi nuốt sống tôi. May mà tôi đã bịt miệng ông ta từ trước.',
-    'Tôi kéo ghế ngồi xuống, gỡ miếng giẻ ra.',
+    { cut: [
+      { img: 'scene', o: { place: 'room', day: true, figs: [['truong', 560, 'angry', 'right'], ['lieng', 1000, 'neutral', 'left']], marks: [[560, 320, '!!']] }, tr: 'cut', cam: [[560, 420, 1.4], [780, 440, 1.1]], t: 9, say: [
+        'Ông ta đã tỉnh. Ánh mắt như muốn ăn tươi nuốt sống tôi. May mà tôi đã bịt miệng ông ta từ trước.',
+        'Tôi kéo ghế ngồi xuống, gỡ miếng giẻ ra.',
+      ] },
+    ] },
     'lieng: Tôi muốn nói chuyện với ông. Chúng ta cần hiểu nhau hơn.',
     'Tôi kể lại mọi chuyện mình đã trải qua. Tôi biết ông là người lý tính — chúng tôi sẽ trao đổi từng câu hỏi một.',
     { ask: [
@@ -145,18 +165,26 @@ Object.assign(SCENES, {
     'lieng: ...Được. Tôi đồng ý.',
     'Ông Trưởng gật đầu. Ông bác vẫn ngơ ngác nhìn tôi khi người ta dẫn ông đi. Con mèo tím ngoái lại, đôi mắt vàng không chớp.',
     { music: 'sad' },
-    'Tuần sau, tôi được thăng chức. Tôi có một văn phòng riêng, có cửa sổ nhìn ra đường.',
-    'Thỉnh thoảng, vào những đêm mưa, tôi nghe thấy tiếng mèo kêu ngoài cửa sổ.',
-    'Tôi chưa bao giờ mở cửa ra xem.',
+    { cut: [
+      { img: 'scene', o: { place: 'office', night: true, rain: true, figs: [['lieng', 800, 'sad', 'up', { tone: 'cold' }]], spot: [800, 460, .5] }, tr: 'black', cam: [[260, 280, 1.3], [700, 440, 1.08]], t: 16, say: [
+        'Tuần sau, tôi được thăng chức. Tôi có một văn phòng riêng, có cửa sổ nhìn ra đường.',
+        'Thỉnh thoảng, vào những đêm mưa, tôi nghe thấy tiếng mèo kêu ngoài cửa sổ.',
+        'Tôi chưa bao giờ mở cửa ra xem.',
+      ] },
+    ] },
     { end: 'Kẻ bình thường', text: 'Liễng chọn sống tiếp mà không biết gì — như mọi lần trước. Và như mọi lần trước, cậu không bao giờ tha thứ cho chính mình.', kind: 'bad', retry: 'c5_offer' },
   ],
 
   c5_fight: [
     { bg: 'inn_room', cast: [] },
-    { fx: 'shake' },
-    'RẦM! Cánh cửa phòng bật tung.',
+    { cut: [
+      { img: 'scene', o: { place: 'room', day: true, figs: [['mong', 1180, 'smug', 'left'], ['thach', 1420, 'angry', 'left'], ['lieng', 560, 'surprised', 'right']], marks: [[1300, 300, '!!']] }, tr: 'flash', sfx: 'boom', cam: [[1300, 420, 1.3], [1000, 440, 1.08]], t: 9, say: [
+        { fx: 'shake' },
+        'RẦM! Cánh cửa phòng bật tung.',
+        'Hai kẻ lạ mặt đứng ở cửa. Một tên trùm mũ, đôi mắt ánh xanh; một tên vạm vỡ, đầu cạo trọc.',
+      ] },
+    ] },
     { cast: ['mong', 'thach'] },
-    'Hai kẻ lạ mặt đứng ở cửa. Một tên trùm mũ, đôi mắt ánh xanh; một tên vạm vỡ, đầu cạo trọc.',
     'thach[angry]: Định vị GPS điện thoại sếp chỉ đúng chỗ này. Thằng nhóc, sếp đâu?',
     'mong[smug]: Ông bác cũng ở đây. Tốt. Đỡ phải tìm.',
     '*Người của ông Trưởng. Chúng lần theo điện thoại của ông ta.',
@@ -167,7 +195,7 @@ Object.assign(SCENES, {
     'tu[smile]: Cậu Liễng, giữ ông bác cho chắc. Hai kẻ này để tôi lo.',
     { cast: ['mong'] },
     { cut: [
-      { img: 'fight', o: { kind: 'hit', a: 'thach', b: 'tu', place: 'room', fx: 'RẦM!' }, tr: 'flash', sfx: 'hit', hold: 400, cam: [[860, 450, 1.2], [800, 450, 1.05]], t: 4, say: [
+      { img: 'fight', o: { kind: 'clash', a: 'tu', b: 'thach', place: 'room', fx: 'RẦM!' }, tr: 'flash', sfx: 'impact', hold: 400, cam: [[800, 450, 1.2], [800, 450, 1.05]], t: 4, say: [
         'Mọi thứ diễn ra quá nhanh. Tên to con lao vào ông thám tử.',
       ] },
       { img: 'fight', o: { kind: 'reach' }, tr: 'cut', hold: 400, cam: [[800, 520, 1.0], [800, 520, 1.3]], t: 5, say: [

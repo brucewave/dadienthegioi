@@ -4,16 +4,18 @@ Object.assign(SCENES, {
   c4_start: [
     { chap: 'Chương 4', title: 'Ông công an Trưởng', pov: 'lieng' },
     { bg: 'street_night', cast: [] },
-    'Chúng tôi đã chạy được một đoạn khá xa. Ông lão này nặng chết khiếp, nhưng may là không có ai đuổi theo.',
-    'Trong lúc tôi chật vật lê từng bước, thì ông ta và con mèo chết tiệt này lại ngủ say như chết.',
-    '*Tôi có linh cảm không tốt. Nhiều khả năng tôi đã vướng vào một chuyện rất bất thường, mà một mình tôi không giải quyết nổi.',
-    '*Phải về trụ sở xin trợ giúp. Nhưng đó là chuyện sáng mai. Giờ cần chỗ nghỉ đã. Nhà ông bác thì không về được nữa rồi... đành vác hai của nợ này về nhà mình vậy.',
-    { bg: 'street_night', o: { rain: true } },
     { cut: [
-      { img: 'raincarry', cam: [[620, 380, 1.18], [880, 470, 1.08]], t: 10, say: [
+      { img: 'street', o: { time: 'night' }, cam: [[400, 500, 1.2], [900, 460, 1.06]], t: 14, say: [
+        'Chúng tôi đã chạy được một đoạn khá xa. Ông lão này nặng chết khiếp, nhưng may là không có ai đuổi theo.',
+        'Trong lúc tôi chật vật lê từng bước, thì ông ta và con mèo chết tiệt này lại ngủ say như chết.',
+        '*Tôi có linh cảm không tốt. Nhiều khả năng tôi đã vướng vào một chuyện rất bất thường, mà một mình tôi không giải quyết nổi.',
+        '*Phải về trụ sở xin trợ giúp. Nhưng đó là chuyện sáng mai. Giờ cần chỗ nghỉ đã. Nhà ông bác thì không về được nữa rồi... đành vác hai của nợ này về nhà mình vậy.',
+      ] },
+      { img: 'raincarry', tr: 'black', cam: [[620, 380, 1.18], [880, 470, 1.08]], t: 10, say: [
         'Khi tôi về tới nhà thì trời đổ mưa.',
       ] },
     ] },
+    { bg: 'street_night', o: { rain: true } },
     { go: 'c4_dream1' },
   ],
 
@@ -38,10 +40,16 @@ Object.assign(SCENES, {
   c4_morning: [
     { date: 'Ngày 23 tháng 10 năm 2026' },
     { bg: 'inn_room', cast: ['bac', 've'] },
-    'Khi tôi tỉnh dậy, người mỏi nhừ, đầu hơi đau. Nhưng đó lại là một giấc ngủ sâu tuyệt vời.',
-    'Ông bác đã dậy. Con mèo cũng vậy. Họ dậy sớm thật, hoặc là...',
-    { fx: 'shake' },
-    '*...Mình ngủ quên rồi! Hơn chín giờ rồi! Đến báo thức cũng không nghe thấy!',
+    { cut: [
+      { img: 'scene', o: { place: 'home', day: true, figs: [['bac', 1000, 'neutral', 'left'], ['ve', 1150, 'smile', 'left', { h: 140, y: 790 }], ['lieng', 520, 'sleep', 'right']] }, cam: [[600, 400, 1.3], [800, 440, 1.08]], t: 10, say: [
+        'Khi tôi tỉnh dậy, người mỏi nhừ, đầu hơi đau. Nhưng đó lại là một giấc ngủ sâu tuyệt vời.',
+        'Ông bác đã dậy. Con mèo cũng vậy. Họ dậy sớm thật, hoặc là...',
+      ] },
+      { img: 'scene', o: { place: 'home', day: true, figs: [['bac', 1000, 'neutral', 'left'], ['ve', 1150, 'smile', 'left', { h: 140, y: 790 }], ['lieng', 520, 'scared', 'right']], marks: [[520, 330, '!!']] }, tr: 'flash', sfx: 'hit', cam: [[560, 420, 1.3], [560, 420, 1.4]], t: 4, say: [
+        { fx: 'shake' },
+        '*...Mình ngủ quên rồi! Hơn chín giờ rồi! Đến báo thức cũng không nghe thấy!',
+      ] },
+    ] },
     'Tôi cuống cuồng chuẩn bị đi làm. Trong lúc tôi đi, hai người này cần ở yên trong nhà.',
     'Vì một lý do nào đó, tôi thấy con mèo còn uy tín hơn ông bác.',
     { choice: [
@@ -55,9 +63,15 @@ Object.assign(SCENES, {
 
   c4_station: [
     { bg: 'station', cast: [] },
-    'Tôi tới đồn lúc mười giờ. Mọi người đang chuẩn bị đi hiện trường.',
-    'Trên bàn là hai vụ án mạng, cả hai đều xảy ra tối qua. Nạn nhân thứ nhất là một tay giang hồ biệt danh Khánh sẹo — chết tại nhà riêng.',
-    'Nạn nhân thứ hai là một người đàn ông, cũng chết tại nhà riêng.',
+    { cut: [
+      { img: 'scene', o: { place: 'office', figs: [['lieng', 800, 'scared', 'down']] }, cam: [[800, 360, 1.04], [800, 460, 1.2]], t: 8, say: [
+        'Tôi tới đồn lúc mười giờ. Mọi người đang chuẩn bị đi hiện trường.',
+      ] },
+      { img: 'close', o: { k: 'file', who: 'khanh', title: 'HỒ SƠ VỤ ÁN · ĐÊM 22/10', lines: ['Nạn nhân 1: Khánh sẹo', 'Chết tại nhà riêng', 'Nạn nhân 2: nam, chưa rõ danh tính', 'Chết tại nhà riêng'] }, tr: 'cut', cam: [[700, 400, 1.08], [800, 500, 1.18]], t: 10, say: [
+        'Trên bàn là hai vụ án mạng, cả hai đều xảy ra tối qua. Nạn nhân thứ nhất là một tay giang hồ biệt danh Khánh sẹo — chết tại nhà riêng.',
+        'Nạn nhân thứ hai là một người đàn ông, cũng chết tại nhà riêng.',
+      ] },
+    ] },
     { cast: ['truong'] },
     'truong[surprised]: Ơ, Liễng? Tôi tưởng cậu xin nghỉ rồi chứ.',
     'lieng[scared]: Xin lỗi sếp, tôi... ngủ quên ạ.',
@@ -70,11 +84,17 @@ Object.assign(SCENES, {
 
   c4_scene: [
     { bg: 'victim_room', cast: ['phunu'] },
-    'Người báo án là một phụ nữ trung niên, đứng chờ trước cửa. Cửa nhà không khóa. Nạn nhân nằm trên sàn.',
+    { cut: [
+      { img: 'scene', o: { place: 'bare', warm: true, clothes: true, figs: [['phunu', 1180, 'scared', 'left'], ['truong', 380, 'neutral', 'right']] }, cam: [[1000, 400, 1.2], [800, 440, 1.04]], t: 8, say: [
+        'Người báo án là một phụ nữ trung niên, đứng chờ trước cửa. Cửa nhà không khóa. Nạn nhân nằm trên sàn.',
+      ] },
+      { img: 'scene', o: { place: 'bare', warm: true, lying: 'cuong', clothes: true, figs: [['lieng', 1050, 'scared', 'left']], marks: [[1050, 320, '!!']] }, tr: 'flash', sfx: 'hit', cam: [[600, 680, 1.4], [700, 520, 1.12]], t: 7, say: [
+        { fx: 'shake' },
+        '*Không đúng. Đây là... tên gác cổng tối hôm qua!',
+        'lieng: Á!',
+      ] },
+    ] },
     { cast: [] },
-    { fx: 'shake' },
-    '*Không đúng. Đây là... tên gác cổng tối hôm qua!',
-    'lieng: Á!',
     { cast: ['truong'] },
     'truong[angry]: Cậu là công an mà phản ứng mạnh thế là không được đâu.',
     'lieng: Xin lỗi sếp... tôi giật mình vì thấy thi thể.',
@@ -142,9 +162,13 @@ Object.assign(SCENES, {
   c4_interrogate: [
     { bg: 'victim_room', cast: ['truong'] },
     { music: 'tense' },
-    'Tôi giật mình tỉnh lại. Tay bị còng, chân bị trói vào chân ghế. Trước mặt tôi là ông Trưởng.',
-    'truong[sad]: Cậu tỉnh rồi hả? Tôi đã mong rằng đó không phải cậu.',
-    'Ông chỉ tay vào đống đồ bẩn.',
+    { cut: [
+      { img: 'scene', o: { place: 'bare', warm: true, chair: 700, ropes: true, clothes: true, figs: [['lieng', 700, 'hurt', 'down', { h: 340, y: 790 }], ['truong', 1100, 'sad', 'left']] }, tr: 'black', cam: [[700, 460, 1.3], [880, 440, 1.08]], t: 12, say: [
+        'Tôi giật mình tỉnh lại. Tay bị còng, chân bị trói vào chân ghế. Trước mặt tôi là ông Trưởng.',
+        'truong[sad]: Cậu tỉnh rồi hả? Tôi đã mong rằng đó không phải cậu.',
+        'Ông chỉ tay vào đống đồ bẩn.',
+      ] },
+    ] },
     'truong[smug]: Tôi đã nhét nó xuống tận đáy đống đồ. Vậy mà cậu lôi ra đúng bộ đồ cậu ta mặc tối qua nhỉ? Cả vẻ mặt của cậu khi mới bước vào đây nữa.',
     '*Ông ta đang nói gì vậy? Sao ông ta biết chuyện tối qua?',
     { fx: 'glitch' },
@@ -186,9 +210,13 @@ Object.assign(SCENES, {
   ],
 
   c4_cats: [
-    'Đúng lúc ấy, trên mái nhà có tiếng lộp độp — như có con gì đang đi lại trên đó.',
-    'Tiếng mỗi lúc một lớn, một dày đặc. Tôi tưởng như mái tôn sắp thủng tới nơi.',
-    'Ông Trưởng ngừng tay, bước ra ngoài kiểm tra.',
+    { cut: [
+      { img: 'scene', o: { place: 'bare', warm: true, chair: 700, ropes: true, figs: [['lieng', 700, 'hurt', 'up', { h: 340, y: 790 }], ['truong', 1100, 'surprised', 'up']], marks: [[800, 220, '?!']] }, cam: [[800, 200, 1.3], [880, 420, 1.08]], t: 10, say: [
+        'Đúng lúc ấy, trên mái nhà có tiếng lộp độp — như có con gì đang đi lại trên đó.',
+        'Tiếng mỗi lúc một lớn, một dày đặc. Tôi tưởng như mái tôn sắp thủng tới nơi.',
+        'Ông Trưởng ngừng tay, bước ra ngoài kiểm tra.',
+      ] },
+    ] },
     { bg: 'house_night', cast: ['bac', 've'] },
     { music: 'calm' },
     { cut: [
@@ -207,7 +235,7 @@ Object.assign(SCENES, {
     '*Ông Trưởng vẫn còn ở đây. Phải lấy được chìa khóa còng của ông ta.',
     { cast: ['truong'] },
     { cut: [
-      { img: 'fight', o: { kind: 'face', a: 'lieng', b: 'truong', place: 'room', fx: '!!', emoB: 'angry' }, tr: 'flash', sfx: 'hit', hold: 600, cam: [[800, 470, 1.18], [800, 450, 1.04]], t: 9, say: [
+      { img: 'fight', o: { kind: 'duel', a: 'lieng', b: 'truong', pa: 'block', pb: 'stance', place: 'room' }, tr: 'flash', sfx: 'clash', hold: 700, cam: [[800, 470, 1.18], [800, 450, 1.04]], t: 9, say: [
         'Tôi vừa quay người lại thì ông ta đã lao gần tới. Bầy mèo bị hất văng ra tứ phía.',
         '*Khả năng tư duy của tôi có thể không bằng ông ấy. Nhưng không phải tự dưng tôi là thủ khoa — tôi chưa từng thua một trận tay đôi nào.',
         '*Có điều... với đôi tay bị còng thế này thì khó đấy.',
@@ -226,12 +254,15 @@ Object.assign(SCENES, {
         'Ông bị hất ra ngay sau đó — nhưng thế là đủ. Một khoảng trống.',
       ] },
     ] },
+    { cut: [
+      { img: 'fight', o: { kind: 'cutin', a: 'lieng', move: 'TRỰC CƯỚC!', sub: 'đá thẳng lên cằm · toàn lực', emoA: 'angry' }, tr: 'flash', sfx: 'stomp', hold: 1100, cam: [[800, 420, 1.02], [860, 420, 1.1]], t: 3 },
+    ] },
     { game: 'timed', vs: ['lieng', 'truong'], title: 'Cơ hội duy nhất!', maxMiss: 0, intro: '...', fail: 'Hụt! Ông bác lao vào lần nữa!', rounds: [
       { tell: 'Cằm ông ta đang lộ ra!', opts: ['↑ Đá toàn lực vào cằm', '→ Húc vai', '← Bỏ chạy'], ans: 0, time: 1.4, ok: 'BỐP!' },
     ] },
     { cast: [] },
     { cut: [
-      { img: 'fight', o: { kind: 'hit', a: 'lieng', b: 'truong', place: 'room', fx: 'BỐP!' }, tr: 'flash', hold: 900, cam: [[860, 440, 1.3], [820, 450, 1.08]], t: 3, say: [{ fx: 'boom' }] },
+      { img: 'fight', o: { kind: 'impact', a: 'lieng', b: 'truong', pa: 'kick', fx: 'BỐP!' }, tr: 'flash', sfx: 'impact', hold: 700, cam: [[900, 440, 1.25], [860, 440, 1.08]], t: 3, say: [{ fx: 'boom' }] },
       { img: 'fight', o: { kind: 'down', a: 'lieng', b: 'truong', place: 'room', fx: 'RẦM', emoA: 'angry' }, tr: 'cut', hold: 500, cam: [[800, 500, 1.12], [900, 450, 1.02]], t: 6, say: [
         'Ông Trưởng ngã vật xuống sàn, bất tỉnh.',
       ] },
@@ -243,13 +274,19 @@ Object.assign(SCENES, {
     { bg: 'street_night', cast: ['bac', 've'] },
     'Tôi mò được chìa khóa trong túi ông ta, mở còng. Giờ thì không thể ở lại đây nữa. Nhà tôi chắc cũng chẳng còn an toàn.',
     '*Có lẽ nên thuê tạm một phòng trọ tới khi giải quyết xong mọi chuyện.',
-    'Tôi đưa ông bác và con mèo lên xe. Còn ông Trưởng thì tạm để nằm ở hàng ghế sau.',
     { bg: 'car', cast: [] },
-    'Tôi lái xe tới một nhà trọ. Không hiểu sao, nhắc tới nhà trọ là nơi ấy hiện lên đầu tiên trong đầu tôi.',
-    'Mà đúng là nơi đó rất thích hợp. Vừa có án mạng lớn nên giờ vắng tanh.',
+    { cut: [
+      { img: 'scene', o: { place: 'car', figs: [['lieng', 1200, 'think', 'up', { h: 520, y: 790 }], ['bac', 400, 'sleep', 'up', { h: 500, y: 790 }]] }, cam: [[800, 360, 1.04], [800, 420, 1.14]], t: 14, say: [
+        'Tôi đưa ông bác và con mèo lên xe. Còn ông Trưởng thì tạm để nằm ở hàng ghế sau.',
+        'Tôi lái xe tới một nhà trọ. Không hiểu sao, nhắc tới nhà trọ là nơi ấy hiện lên đầu tiên trong đầu tôi.',
+        'Mà đúng là nơi đó rất thích hợp. Vừa có án mạng lớn nên giờ vắng tanh.',
+      ] },
+      { img: 'scene', o: { place: 'lobby', night: true, figs: [['quanly', 380, 'smile', 'right', { back: true, y: 700 }], ['lieng', 900, 'neutral', 'left'], ['bac', 1180, 'neutral', 'left'], ['ve', 1300, 'neutral', 'left', { h: 130 }]] }, tr: 'black', cam: [[640, 400, 1.2], [760, 420, 1.06]], t: 12, say: [
+        'Người ra tiếp đón tôi là cô quản lý. Tôi cất xe vào nhà xe, thuê một phòng hai người cho tôi và ông bác.',
+        'Ông Trưởng thì phải để tạm trong xe đã. Cần cô quản lý bớt để ý thì mới mang ông ta lên được.',
+      ] },
+    ] },
     { bg: 'inn_lobby', cast: ['quanly'] },
-    'Người ra tiếp đón tôi là cô quản lý. Tôi cất xe vào nhà xe, thuê một phòng hai người cho tôi và ông bác.',
-    'Ông Trưởng thì phải để tạm trong xe đã. Cần cô quản lý bớt để ý thì mới mang ông ta lên được.',
     { cast: [] },
     { big: 'Đúng vậy. Tôi đã quay về cái nhà trọ đó — nơi khởi đầu của mọi thứ.', auto: 3200 },
     { unlock: 'c5' },

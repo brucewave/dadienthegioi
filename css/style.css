@@ -319,7 +319,55 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 @keyframes burst{0%{transform:scale(0) rotate(-20deg);opacity:1}35%{transform:scale(1.15) rotate(4deg)}70%{transform:scale(1);opacity:1}100%{transform:scale(1.05);opacity:0}}
 .arena .shout{position:absolute;top:.5em;left:50%;z-index:6;transform:translateX(-50%) scale(0);background:#fff;border:2.5px solid var(--ink);border-radius:1em;padding:.15em .9em;font-family:var(--hand);font-size:1.15em;white-space:nowrap;transition:transform .2s cubic-bezier(.2,1.6,.4,1)}
 .arena .shout.on{transform:translateX(-50%) scale(1)}
-@media (prefers-reduced-motion:reduce){.arena .bd,.arena.solo .ground{animation:none}}
+/* ---- hiệu ứng võ thuật trong màn đánh ---- */
+.arena{transition:transform .25s cubic-bezier(.2,1.4,.4,1)}
+.arena::before{content:'';position:absolute;inset:-50%;z-index:0;pointer-events:none;opacity:0;transition:opacity .3s;background:repeating-conic-gradient(from 0deg at 50% 55%,rgba(43,31,26,.1) 0 2deg,transparent 2deg 9deg)}
+.arena.tense::before{opacity:1;animation:aspin 6s linear infinite}
+@keyframes aspin{to{transform:rotate(360deg)}}
+.arena.zoom{transform:scale(1.06)}
+.arena.impact{filter:invert(1) contrast(1.6) grayscale(1)}
+.arena.impact.ibad{filter:invert(1) contrast(1.4) sepia(1) hue-rotate(-50deg) saturate(5)}
+.arena.slowmo .act{transition-duration:2s}
+.arena .afx{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden}
+.arena .aring{position:absolute;width:1.2em;height:1.2em;margin:-.6em 0 0 -.6em;border:.35em solid #FFF6D8;border-radius:50%;box-shadow:0 0 .6em #FFE07A;animation:aring .55s ease-out forwards}
+.arena .aring.thin{border-width:.18em;border-color:#fff}
+.arena .aring.red{border-color:#F2836E;box-shadow:0 0 .6em #D8402F}
+.arena .aring.big{animation-duration:.9s;border-width:.5em}
+@keyframes aring{from{transform:scale(.4);opacity:1}to{transform:scale(9);opacity:0}}
+.arena .aspk{position:absolute;width:.9em;height:.16em;margin-top:-.08em;background:#fff;border-radius:.1em;box-shadow:0 0 .3em #FFE07A;transform-origin:0 50%;transform:rotate(var(--a)) translateX(0) scaleX(.4);animation:aspk .5s cubic-bezier(.1,.8,.3,1) forwards}
+.arena .aspk.gold{background:#F6D24A}.arena .aspk.red{background:#F2836E;box-shadow:0 0 .3em #D8402F}
+@keyframes aspk{to{transform:rotate(var(--a)) translateX(var(--d)) scaleX(1);opacity:0}}
+.arena .aslash{position:absolute;left:34%;top:18%;width:42%;height:3.2em;transform-origin:0 50%;animation:aslash .45s cubic-bezier(.2,.9,.3,1) forwards}
+.arena .aslash.rev{left:24%;transform:scaleX(-1)}
+.arena .aslash.kick{top:8%;transform:rotate(-12deg)}
+.arena .aslash svg{width:100%;height:100%;display:block}
+.arena .aslash path{fill:#fff;stroke:var(--ink);stroke-width:2;filter:drop-shadow(0 0 .2em #FFE07A)}
+.arena .aslash.miss path{fill:rgba(255,255,255,.75);stroke:none}
+@keyframes aslash{0%{clip-path:inset(0 100% 0 0);opacity:1}45%{clip-path:inset(0 0 0 0);opacity:1}100%{clip-path:inset(0 0 0 70%);opacity:0}}
+.arena .adust{position:absolute;bottom:.9em;width:1.4em;height:1.4em;margin-left:-.7em;border-radius:50%;background:#D8C8A8;border:2px solid var(--ink);animation:adust .7s ease-out forwards}
+@keyframes adust{from{transform:scale(.3) translateY(0);opacity:.95}to{transform:scale(1.6) translate(var(--dx,.6em),-1.2em);opacity:0}}
+.arena .ghost{opacity:.32;pointer-events:none;z-index:1;filter:sepia(1) hue-rotate(160deg) saturate(2)}
+.arena .ghost.g2{opacity:.16}
+.arena .ghost::after,.arena .ghost::before{display:none}
+.arena .act.aura .bd{filter:drop-shadow(0 0 .35em #D8402F) drop-shadow(0 0 .15em #D8402F)}
+.arena .act.akii .bd{animation:akii .6s ease-out}
+@keyframes akii{0%{filter:drop-shadow(0 0 0 #FFE07A)}30%{filter:drop-shadow(0 0 .5em #FFE07A) drop-shadow(0 0 .2em #fff)}100%{filter:none}}
+.arena .agrade{position:absolute;left:50%;top:14%;z-index:6;font:bold 2.1em var(--hand);color:#F6D24A;-webkit-text-stroke:2px var(--ink);paint-order:stroke;letter-spacing:.06em;white-space:nowrap;animation:agrade .85s cubic-bezier(.2,1.6,.4,1) forwards}
+.arena .agrade.calm{color:#fff}.arena .agrade.ko{color:var(--red);font-size:2.8em;top:6%}
+@keyframes agrade{0%{transform:translateX(-50%) scale(2.4) rotate(-8deg);opacity:0}25%{transform:translateX(-50%) scale(1) rotate(-4deg);opacity:1}80%{opacity:1}100%{transform:translateX(-50%) translateY(-.6em) scale(1) rotate(-4deg);opacity:0}}
+.arena .acombo{position:absolute;right:.6em;top:.4em;z-index:6;font:bold 1em var(--hand);color:var(--ink);white-space:nowrap}
+.arena .acombo b{font-size:1.8em;color:var(--red);-webkit-text-stroke:1px var(--ink)}
+.arena .acombo.pop{animation:acombo .4s cubic-bezier(.2,1.8,.4,1)}
+@keyframes acombo{from{transform:scale(1.8) rotate(8deg)}to{transform:none}}
+.arena .avs{position:absolute;inset:0;z-index:7;display:flex;align-items:center;justify-content:center;gap:.6em;background:linear-gradient(100deg,rgba(184,74,62,.92) 0 49.6%,#F3EEDF 49.6% 50.4%,rgba(58,71,102,.92) 50.4%);animation:avs 1.45s ease-in forwards}
+.arena .avs.solo{background:rgba(43,31,26,.85)}
+.arena .avs b{font:bold 3.2em var(--hand);color:#F6D24A;-webkit-text-stroke:3px var(--ink);paint-order:stroke;transform:rotate(-8deg);animation:avsb .45s .25s cubic-bezier(.2,1.8,.4,1) both}
+.arena .avs span{font:bold 1.4em var(--hand);color:#fff;-webkit-text-stroke:1px var(--ink);white-space:nowrap}
+.arena .avs .na{animation:avsl .4s cubic-bezier(.2,1.4,.4,1) both}.arena .avs .nb{animation:avsr .4s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes avs{0%,75%{opacity:1}100%{opacity:0}}
+@keyframes avsb{from{transform:scale(3) rotate(-20deg);opacity:0}to{transform:rotate(-8deg)}}
+@keyframes avsl{from{transform:translateX(-8em)}}@keyframes avsr{from{transform:translateX(8em)}}
+@media (prefers-reduced-motion:reduce){.arena .bd,.arena.solo .ground{animation:none}.arena.tense::before,.arena .afx *{animation-duration:.01s!important}.arena.impact{filter:none}}
 
 /* mèo cậu Vẻ: đuôi phe phẩy, chớp mắt, giật tai; đi ngang 4 chân bước chéo */
 .chibi.cat .tail{animation:tailsw 2.2s ease-in-out infinite alternate}
