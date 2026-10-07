@@ -165,25 +165,65 @@ const ART = (() => {
     if (c.hat === 'cone') return `<path d="M80,14 L140,60 Q80,76 20,60 Z" fill="${PAL.gold}"/><path d="M80,14 L140,60 Q112,67 88,68 Z" fill="${INK}" opacity=".2" stroke="none"/><path d="M54,36 Q80,43 106,36 M37,50 Q80,62 123,50" fill="none" stroke-width="1.8"/>`;
     return '';
   }
+  // mèo (cậu Vẻ): nhìn ngang khi đi trái/phải (4 chân bước chéo), ngồi nhìn trước/sau khi lên/xuống
   function cat(dir, vb, emo) {
-    const back = dir === 'up', ex = dir === 'left' ? -7 : dir === 'right' ? 7 : 0, P = PAL.purple, L = 68 + ex, R = 92 + ex;
+    const P = PAL.purple, PD = '#5E4E86', PINK = '#E9A6B0', side = dir === 'left' || dir === 'right';
+    const flat = emo === 'angry' || emo === 'scared';
+    const O = (x, y) => `style="transform-origin:${x}px ${y}px"`;
+    const shadow = `<ellipse cx="80" cy="181" rx="${side ? 44 : 34}" ry="6" fill="${INK}" opacity=".18" stroke="none"/>`;
+    if (side) {
+      // mắt nhìn nghiêng theo cảm xúc
+      const ex = 126, ey = 108;
+      let eye;
+      if (emo === 'happy' || emo === 'smile') eye = `<path d="M${ex - 6},${ey + 2} q6,-7 12,0" fill="none" stroke-width="3"/>`;
+      else if (emo === 'sleep') eye = `<path d="M${ex - 6},${ey} q6,5 12,0" fill="none" stroke-width="3"/>`;
+      else if (emo === 'surprised' || emo === 'scared') eye = `<circle cx="${ex}" cy="${ey}" r="7.5" fill="#F2D35A" stroke-width="2"/><circle cx="${ex + 1}" cy="${ey}" r="4.6" fill="${INK}" stroke="none"/><circle cx="${ex + 3}" cy="${ey - 2}" r="1.6" fill="#fff" stroke="none"/>`;
+      else eye = `<ellipse cx="${ex}" cy="${ey}" rx="6.5" ry="7" fill="#F2D35A" stroke-width="2"/><ellipse cx="${ex + 1.5}" cy="${ey}" rx="1.8" ry="5.5" fill="${INK}" stroke="none"/><circle cx="${ex + 3}" cy="${ey - 3}" r="1.5" fill="#fff" stroke="none"/>` +
+        (emo === 'angry' ? `<path d="M${ex - 8},${ey - 11} L${ex + 7},${ey - 6}" stroke-width="3"/>` : emo === 'sad' || emo === 'cry' ? `<path d="M${ex - 7},${ey - 7} L${ex + 7},${ey - 11}" stroke-width="2.6"/>` : '');
+      const leg = (cls, x, c) => `<g class="${cls}" ${O(x, 146)}><rect x="${x - 5.5}" y="144" width="11" height="32" rx="5.5" fill="${c}"/><ellipse cx="${x + 2}" cy="177" rx="8" ry="4.5" fill="${c}"/></g>`;
+      const body = `<g filter="url(#ink)">
+        ${leg('lgB', 104, PD)}${leg('lgD', 50, PD)}
+        <g class="tail" ${O(44, 134)}><path d="M46,134 Q18,128 22,98 Q24,82 36,80" fill="none" stroke-width="14"/><path d="M46,134 Q18,128 22,98 Q24,82 36,80" fill="none" stroke="${P}" stroke-width="8"/></g>
+        <ellipse cx="78" cy="140" rx="38" ry="19" fill="${P}"/><path d="M52,130 q24,-10 50,-2" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="3"/>
+        <ellipse cx="98" cy="146" rx="10" ry="11" fill="#fff" opacity=".16" stroke="none"/>
+        ${leg('lgC', 60, P)}${leg('lgA', 112, P)}
+        <path class="ear2" ${O(128, 94)} d="M${flat ? '122,96 L140,82 L136,100' : '118,92 L132,66 L138,96'}Z" fill="${PD}"/>
+        <ellipse cx="116" cy="110" rx="27" ry="24" fill="${P}"/>
+        <g class="ear1" ${O(106, 94)}><path d="M${flat ? '96,98 L88,80 L112,90' : '96,96 L100,66 L118,88'}Z" fill="${P}"/>${flat ? '' : `<path d="M101,90 L102,74 L112,86Z" fill="${PINK}" stroke-width="1.4"/>`}</g>
+        <ellipse cx="136" cy="120" rx="10" ry="8" fill="${P}" stroke="none"/><path d="M128,113 q12,-2 15,7 q-4,8 -14,7" fill="none" stroke-width="2.2"/>
+        </g>
+        <g class="e" ${O(ex, ey)}>${eye}</g>
+        <g filter="url(#ink)"><path d="M141,114 l4,2 l-4,3z" fill="${PINK}" stroke-width="1.6"/>
+        <path d="M141,122 q-3,4 -8,2" fill="none" stroke-width="1.8"/>
+        <path d="M138,118 l18,-3 M138,121 l18,2" fill="none" stroke-width="1.3" opacity=".8"/>
+        <ellipse cx="118" cy="122" rx="5" ry="3" fill="${PAL.red}" opacity="${emo === 'happy' ? .45 : .15}" stroke="none"/></g>`;
+      const g = `<g class="bob">${body}</g>`;
+      return `<svg viewBox="${vb}" class="chibi cat walkside emo-${emo}"><g ${S}>${shadow}${dir === 'left' ? `<g transform="translate(160,0) scale(-1,1)">${g}</g>` : g}</g></svg>`;
+    }
+    const back = dir === 'up', L = 68, R = 92;
     let eyes;
     if (emo === 'happy' || emo === 'smile') eyes = `<path d="M${L - 6},114 q6,-8 12,0 M${R - 6},114 q6,-8 12,0" fill="none" stroke="${INK}" stroke-width="3"/>`;
     else if (emo === 'sleep') eyes = `<path d="M${L - 6},112 q6,5 12,0 M${R - 6},112 q6,5 12,0" fill="none" stroke="${INK}" stroke-width="3"/>`;
     else if (emo === 'angry') eyes = `<path d="M${L - 7},106 L${L + 5},110 M${R + 7},106 L${R - 5},110" stroke="${INK}" stroke-width="3"/><ellipse cx="${L}" cy="114" rx="6" ry="4.5" fill="#F2D35A"/><ellipse cx="${R}" cy="114" rx="6" ry="4.5" fill="#F2D35A"/><ellipse cx="${L}" cy="114" rx="1.4" ry="4" fill="${INK}"/><ellipse cx="${R}" cy="114" rx="1.4" ry="4" fill="${INK}"/>`;
     else if (emo === 'surprised' || emo === 'scared') eyes = `<circle cx="${L}" cy="112" r="7.5" fill="#F2D35A"/><circle cx="${R}" cy="112" r="7.5" fill="#F2D35A"/><circle cx="${L}" cy="112" r="5" fill="${INK}"/><circle cx="${R}" cy="112" r="5" fill="${INK}"/><circle cx="${L + 2}" cy="110" r="1.6" fill="#fff"/><circle cx="${R + 2}" cy="110" r="1.6" fill="#fff"/>`;
-    else eyes = `<ellipse cx="${L}" cy="112" rx="6" ry="7" fill="#F2D35A"/><ellipse cx="${R}" cy="112" rx="6" ry="7" fill="#F2D35A"/><ellipse cx="${L}" cy="112" rx="1.8" ry="5.5" fill="${INK}"/><ellipse cx="${R}" cy="112" rx="1.8" ry="5.5" fill="${INK}"/><circle cx="${L + 2}" cy="109" r="1.4" fill="#fff"/><circle cx="${R + 2}" cy="109" r="1.4" fill="#fff"/>`;
-    const ears = emo === 'angry' || emo === 'scared' ? `M48,104 L42,80 L70,96 Z M112,104 L118,80 L90,96Z` : `M50,108 L52,72 L74,94 Z M110,108 L108,72 L86,94Z`;
-    const mouth = emo === 'angry' ? `<path d="M${74 + ex},124 l6,-4 l6,4" fill="#8A3A2C" stroke-width="2"/>` : emo === 'happy' ? `<path d="M${74 + ex},122 q3,4 6,0 q3,4 6,0" fill="none" stroke-width="2"/>` : `<path d="M${77 + ex},122 l3,3 l3,-3" fill="#E9A6B0" stroke-width="2"/>`;
-    return `<svg viewBox="${vb}" class="chibi emo-${emo}"><g ${S}>
-      <ellipse cx="80" cy="181" rx="34" ry="6" fill="${INK}" opacity=".18" stroke="none"/>
-      <g class="bob"><g filter="url(#ink)"><path class="tail" d="M108,166 Q140,160 132,124" fill="none" stroke-width="12"/><path class="tail" d="M108,166 Q140,160 132,124" fill="none" stroke="${P}" stroke-width="6"/>
-      <ellipse cx="80" cy="156" rx="32" ry="24" fill="${P}"/><path d="M64,148 q16,8 32,0" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="3"/>
-      <ellipse cx="68" cy="176" rx="9" ry="5" fill="${P}"/><ellipse cx="92" cy="176" rx="9" ry="5" fill="${P}"/>
-      <path d="${ears}" fill="${P}"/>${emo === 'angry' || emo === 'scared' ? '' : `<path d="M56,98 L57,82 L67,92Z M104,98 L103,82 L93,92Z" fill="#E9A6B0" stroke-width="1.6"/>`}
+    else eyes = `<ellipse cx="${L}" cy="112" rx="6" ry="7" fill="#F2D35A"/><ellipse cx="${R}" cy="112" rx="6" ry="7" fill="#F2D35A"/><ellipse cx="${L}" cy="112" rx="1.8" ry="5.5" fill="${INK}"/><ellipse cx="${R}" cy="112" rx="1.8" ry="5.5" fill="${INK}"/><circle cx="${L + 2}" cy="109" r="1.4" fill="#fff"/><circle cx="${R + 2}" cy="109" r="1.4" fill="#fff"/>` +
+      (emo === 'sad' || emo === 'cry' ? `<path d="M${L - 7},101 L${L + 5},98 M${R + 7},101 L${R - 5},98" stroke="${INK}" stroke-width="2.4"/>` : '');
+    const earL = flat ? 'M48,104 L42,80 L70,96Z' : 'M50,108 L52,72 L74,94Z', earR = flat ? 'M112,104 L118,80 L90,96Z' : 'M110,108 L108,72 L86,94Z';
+    const mouth = emo === 'angry' ? `<path d="M74,124 l6,-4 l6,4" fill="#8A3A2C" stroke-width="2"/>` : emo === 'happy' ? `<path d="M74,122 q3,4 6,0 q3,4 6,0" fill="none" stroke-width="2"/>` : `<path d="M77,122 l3,3 l3,-3" fill="${PINK}" stroke-width="2"/>`;
+    // đuôi: nhìn trước thì quấn bên hông, nhìn sau thì dựng lên giữa lưng
+    const tail = back ? `<g class="tail" ${O(84, 172)}><path d="M84,172 Q124,168 124,130 Q124,116 134,110" fill="none" stroke-width="13"/><path d="M84,172 Q124,168 124,130 Q124,116 134,110" fill="none" stroke="${P}" stroke-width="7"/></g>`
+      : `<g class="tail" ${O(108, 168)}><path d="M108,168 Q140,164 134,128" fill="none" stroke-width="12"/><path d="M108,168 Q140,164 134,128" fill="none" stroke="${P}" stroke-width="6"/></g>`;
+    const paw = (cls, x) => `<g class="${cls}"><path d="M${x - 7},150 V174" fill="none" stroke-width="14"/><path d="M${x - 7},150 V174" fill="none" stroke="${P}" stroke-width="9"/><ellipse cx="${x - 7}" cy="176" rx="9" ry="5" fill="${P}"/></g>`;
+    return `<svg viewBox="${vb}" class="chibi cat emo-${emo}"><g ${S}>${shadow}
+      <g class="bob"><g filter="url(#ink)">${back ? '' : tail}
+      <path d="M50,172 Q46,136 80,132 Q114,136 110,172 Q80,184 50,172Z" fill="${P}"/><path d="M64,146 q16,8 32,0" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="3"/>
+      ${back ? `<ellipse cx="62" cy="176" rx="10" ry="5" fill="${P}"/><ellipse cx="98" cy="176" rx="10" ry="5" fill="${P}"/>` : `${paw('lgL', 76)}${paw('lgR', 98)}`}
+      <g class="ear1" ${O(62, 100)}><path d="${earL}" fill="${P}"/>${back || flat ? '' : `<path d="M56,98 L57,82 L67,92Z" fill="${PINK}" stroke-width="1.6"/>`}</g>
+      <g class="ear2" ${O(98, 100)}><path d="${earR}" fill="${P}"/>${back || flat ? '' : `<path d="M104,98 L103,82 L93,92Z" fill="${PINK}" stroke-width="1.6"/>`}</g>
       <ellipse cx="80" cy="114" rx="34" ry="28" fill="${P}"/><path d="M66,96 q10,-6 24,-4" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="3"/>
-      </g>${back ? '' : `<g class="e" stroke="none">${eyes}</g><g filter="url(#ink)">${mouth}<path d="M${54 + ex},120 h-14 M${54 + ex},126 l-12,3 M${106 + ex},120 h14 M${106 + ex},126 l12,3" fill="none" stroke-width="1.6"/>
-      <ellipse cx="${56 + ex}" cy="124" rx="5" ry="3" fill="${PAL.red}" opacity="${emo === 'happy' ? .45 : .15}" stroke="none"/><ellipse cx="${104 + ex}" cy="124" rx="5" ry="3" fill="${PAL.red}" opacity="${emo === 'happy' ? .45 : .15}" stroke="none"/></g>`}
+      ${back ? `${tail}<g class="lgL"><ellipse cx="64" cy="177" rx="9" ry="5" fill="${PD}"/></g><g class="lgR"><ellipse cx="96" cy="177" rx="9" ry="5" fill="${PD}"/></g>` : ''}
+      </g>${back ? '' : `<g class="e" stroke="none" ${O(80, 112)}>${eyes}</g><g filter="url(#ink)">${mouth}<path d="M54,120 h-14 M54,126 l-12,3 M106,120 h14 M106,126 l12,3" fill="none" stroke-width="1.6"/>
+      <ellipse cx="56" cy="124" rx="5" ry="3" fill="${PAL.red}" opacity="${emo === 'happy' ? .45 : .15}" stroke="none"/><ellipse cx="104" cy="124" rx="5" ry="3" fill="${PAL.red}" opacity="${emo === 'happy' ? .45 : .15}" stroke="none"/></g>`}
       </g></g></svg>`;
   }
 

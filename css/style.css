@@ -288,3 +288,54 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 #world.persp:has(.tilt3d){transform:perspective(1100px) rotateX(38deg) scale(1.2) translateY(-16%)}
 #world .ent.lie svg{transform:rotate(-90deg)}
 #world .wcont.crush{scale:.001;opacity:0;transition:scale 2s ease-in,opacity 2s ease-in}
+
+/* màn hành động: sân diễn hoạt cảnh (minigames.js → actors) */
+.arena{position:relative;height:10.5em;overflow:hidden;border-bottom:3px solid var(--ink);background:repeating-linear-gradient(0deg,var(--paper) 0 1.4em,#E2D9C3 1.4em calc(1.4em + 2px))}
+.arena .ground{position:absolute;left:0;right:0;bottom:0;height:1.5em;border-top:2.5px solid var(--ink);background:repeating-linear-gradient(90deg,#CDB892 0 2em,#BFA67C 2em 4em)}
+.arena.solo .ground{animation:groundrun .5s linear infinite}
+@keyframes groundrun{to{background-position:-4em 0}}
+.arena .act{position:absolute;bottom:1.1em;width:6.2em;height:7.4em;transform-origin:50% 100%;z-index:2}
+.arena .act.a{left:calc(50% - 8.6em)}.arena .act.b{left:calc(50% + 2.4em)}
+.arena.solo .act.a{left:calc(50% - 3.1em)}
+.arena .bd{width:100%;height:100%;transform-origin:50% 100%;animation:idle 1.3s ease-in-out infinite}
+.arena .act.b .bd{animation-delay:-.6s}
+.arena.solo .bd{animation:runbob .3s ease-in-out infinite alternate}
+.arena .act svg{width:100%;height:100%;display:block;overflow:visible}
+@keyframes idle{50%{transform:translateY(-.15em) scaleY(.97)}}
+@keyframes runbob{to{transform:translateY(-.4em) rotate(4deg)}}
+.arena .act::after{content:'';position:absolute;left:18%;right:18%;bottom:-.35em;height:.7em;border-radius:50%;background:rgba(43,31,26,.22);z-index:-1}
+.arena .vs{position:absolute;left:50%;top:.3em;transform:translateX(-50%);font-family:var(--hand);font-size:1.8em;color:var(--red);opacity:.85}
+.arena .act.alert::before{content:'!';position:absolute;top:-.5em;left:50%;font:bold 2.4em var(--hand);color:var(--red);-webkit-text-stroke:1.5px var(--ink);animation:warnpop .45s cubic-bezier(.2,1.8,.4,1) both;z-index:3}
+@keyframes warnpop{from{transform:translateX(-50%) scale(0)}to{transform:translateX(-50%) scale(1)}}
+.arena .act.hurt svg{animation:hurt .25s steps(2) 3}
+@keyframes hurt{50%{filter:brightness(1.5) sepia(1) hue-rotate(-40deg) saturate(4)}}
+.arena .burst{position:absolute;left:50%;top:-6%;width:4.8em;height:4.8em;margin-left:-2.4em;pointer-events:none;z-index:5;animation:burst .8s cubic-bezier(.2,1.6,.4,1) forwards}
+.arena .burst svg{position:absolute;inset:0;width:100%;height:100%}
+.arena .burst polygon{fill:#F6D24A;stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
+.arena .burst b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:bold 1.25em var(--hand);color:var(--ink);transform:rotate(-8deg)}
+.arena .burst.bad polygon{fill:#E2574A}.arena .burst.bad b{color:#fff}
+.arena .burst.mini{width:4em;height:4em;margin-left:-2em;top:28%}.arena .burst.mini polygon{fill:#fff}.arena .burst.mini b{font-size:1em}
+.arena .burst.ko{width:7em;height:7em;margin-left:-3.5em;top:0}.arena .burst.ko polygon{fill:var(--red)}.arena .burst.ko b{color:#fff;font-size:1.7em}
+@keyframes burst{0%{transform:scale(0) rotate(-20deg);opacity:1}35%{transform:scale(1.15) rotate(4deg)}70%{transform:scale(1);opacity:1}100%{transform:scale(1.05);opacity:0}}
+.arena .shout{position:absolute;top:.5em;left:50%;z-index:6;transform:translateX(-50%) scale(0);background:#fff;border:2.5px solid var(--ink);border-radius:1em;padding:.15em .9em;font-family:var(--hand);font-size:1.15em;white-space:nowrap;transition:transform .2s cubic-bezier(.2,1.6,.4,1)}
+.arena .shout.on{transform:translateX(-50%) scale(1)}
+@media (prefers-reduced-motion:reduce){.arena .bd,.arena.solo .ground{animation:none}}
+
+/* mèo cậu Vẻ: đuôi phe phẩy, chớp mắt, giật tai; đi ngang 4 chân bước chéo */
+.chibi.cat .tail{animation:tailsw 2.2s ease-in-out infinite alternate}
+.chibi.cat .e{transform-box:fill-box;transform-origin:center;animation:blink 4.2s infinite}
+.chibi.cat .ear1{animation:twitch 5.5s infinite}
+.chibi.cat .ear2{animation:twitch 7s 1.3s infinite}
+@keyframes tailsw{from{transform:rotate(-9deg)}to{transform:rotate(11deg)}}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes twitch{0%,88%,100%{transform:rotate(0)}91%{transform:rotate(-14deg)}94%{transform:rotate(6deg)}}
+@keyframes catleg{from{transform:rotate(-26deg)}to{transform:rotate(24deg)}}
+@keyframes catbob{from{transform:translateY(0)}to{transform:translateY(-3.5px)}}
+@keyframes pawstep{from{transform:translateY(0)}to{transform:translateY(-7px)}}
+.walking .chibi.cat .bob{animation:catbob .17s ease-in-out infinite alternate}
+.walking .chibi.cat .tail{animation-duration:.45s}
+.walking .chibi.cat .lgA,.walking .chibi.cat .lgD{animation:catleg .34s ease-in-out infinite alternate}
+.walking .chibi.cat .lgB,.walking .chibi.cat .lgC{animation:catleg .34s ease-in-out infinite alternate-reverse}
+.walking .chibi.cat .lgL{animation:pawstep .2s ease-in-out infinite alternate}
+.walking .chibi.cat .lgR{animation:pawstep .2s ease-in-out infinite alternate-reverse}
+@media (prefers-reduced-motion:reduce){.chibi.cat .tail,.chibi.cat .e,.chibi.cat .ear1,.chibi.cat .ear2{animation:none}}

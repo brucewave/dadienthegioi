@@ -151,6 +151,116 @@ MINI.protect = cfg => new Promise(res => {
   mini().append(p); status();
 });
 
+/* ---------- Hoạt cảnh cho màn hành động: diễn lại lựa chọn, đánh nhau ---------- */
+const OFFENSE = new Set(['attack', 'kick', 'grab']);
+// đoán động tác từ chữ trên nút
+function actKind(t) {
+  const x = t.toLowerCase(), a = t.trim()[0];
+  if (/đá|đạp/.test(x)) return 'kick';
+  if (/khóa|ghì|túm|gỡ|giật/.test(x)) return 'grab';
+  if (/đấm|chặt|đánh|húc|đập|tấn công|phản đòn|ném/.test(x)) return 'attack';
+  if (/đỡ|chắn/.test(x)) return 'block';
+  if (/lăn/.test(x)) return /phải/.test(x) ? 'rollR' : 'rollL';
+  if (/trái/.test(x) || a === '←') return 'dodgeL';
+  if (/phải/.test(x) || (a === '→' && !/lao|đẩy/.test(x))) return 'dodgeR';
+  if (/nhảy|bật|leo|trèo/.test(x) || (a === '↑' && !/lao|đi thẳng/.test(x))) return 'jump';
+  if (/lùi|giữ khoảng cách/.test(x)) return 'back';
+  if (/cúi|hạ|bò|chui|chịu/.test(x) || a === '↓') return 'duck';
+  if (/lao|chạy|đẩy|đi thẳng|vòng|dang tay/.test(x)) return 'dash';
+  if (/đứng yên|khựng|buông|hét|gọi/.test(x)) return 'freeze';
+  return 'act';
+}
+// đoán kiểu đòn của đối thủ từ lời mô tả
+function foeKind(t) {
+  const x = t.toLowerCase();
+  if (/đá|quét thấp/.test(x)) return 'kick';
+  if (/dao/.test(x)) return 'stab';
+  if (/túm|vồ|vươn|chạm|bàn tay|quét tay|tay/.test(x)) return 'grab';
+  return 'punch';
+}
+function actors(p) {
+  const A = p.querySelector('.act.a'), B = p.querySelector('.act.b'), sh = p.querySelector('.shout');
+  const E = 'cubic-bezier(.3,.7,.3,1)';
+  const an = (el, kf, ms, o = {}) => (el ? el.animate(kf, { duration: ms, easing: E, ...o }) : null);
+  const N = { transform: 'none' }, at = (tr, offset) => ({ transform: tr, offset });
+  // d = 1: nhân vật bên trái tiến sang phải; d = -1: bên phải tiến sang trái
+  const MOVES = {
+    dodgeL: () => [N, at('translate(-2.6em,.1em) rotate(-14deg)', .3), at('translate(-2.6em,.1em) rotate(-14deg)', .75), N],
+    dodgeR: () => [N, at('translate(.9em,-1.1em) scale(.8)', .3), at('translate(.9em,-1.1em) scale(.8)', .75), N],
+    rollL: () => [N, at('translate(-2.8em,.4em) rotate(-360deg) scale(.8)', .5), at('translate(-2.8em,0) rotate(-360deg)', .75), N],
+    rollR: () => [N, at('translate(1.4em,-.8em) rotate(360deg) scale(.7)', .5), at('translate(1.4em,-.8em) rotate(360deg) scale(.8)', .75), N],
+    jump: () => [N, at('scaleY(.75)', .15), at('translateY(-3.4em) rotate(-10deg)', .45), at('translateY(-3em) rotate(-6deg)', .6), N],
+    duck: () => [N, at('scale(1.1,.55)', .2), at('scale(1.1,.55)', .78), N],
+    back: () => [N, at('translateX(-2.4em) rotate(-6deg)', .35), at('translateX(-2.4em)', .75), N],
+    freeze: () => [N, at('translateX(-.2em)', .2), at('translateX(.2em)', .4), at('translateX(-.2em)', .6), N],
+    attack: d => [N, at(`translateX(${-.7 * d}em) rotate(${-6 * d}deg)`, .18), at(`translateX(${4.4 * d}em) rotate(${10 * d}deg)`, .42), at(`translateX(${4.2 * d}em) rotate(${6 * d}deg)`, .62), N],
+    kick: d => [N, at(`translateX(${-.6 * d}em)`, .15), at(`translate(${4.2 * d}em,-.9em) rotate(${-30 * d}deg)`, .42), at(`translate(${4 * d}em,-.6em) rotate(${-20 * d}deg)`, .62), N],
+    grab: d => [N, at(`translateX(${4 * d}em) rotate(${14 * d}deg)`, .4), at(`translateX(${3.8 * d}em) rotate(${8 * d}deg)`, .8), N],
+    stab: d => [N, at(`translateX(${.6 * d}em)`, .15), at(`translateX(${4.6 * d}em) rotate(${14 * d}deg)`, .42), at(`translateX(${4.4 * d}em)`, .62), N],
+    punch: d => MOVES.attack(d),
+    block: () => [N, at('translateX(.5em) scale(1.06)', .3), at('translateX(-.7em) scale(1.04)', .55), N],
+    dash: d => [N, at(`translateX(${2.4 * d}em) rotate(${12 * d}deg)`, .45), at(`translateX(${2.2 * d}em) rotate(${6 * d}deg)`, .65), N],
+    act: () => [N, at('translateY(-.7em) rotate(-8deg)', .35), at('translateY(-.4em) rotate(4deg)', .6), N],
+    hit: d => [N, at(`translateX(${-1.9 * d}em) rotate(${-20 * d}deg)`, .3), at(`translateX(${-1.3 * d}em) rotate(${-10 * d}deg)`, .65), N],
+    trip: () => [N, at('translateY(.6em) rotate(-75deg)', .35), at('translateY(.6em) rotate(-75deg)', .7), N],
+  };
+  const move = (el, kind, d = 1, ms = 760) => an(el, MOVES[kind](d), ms);
+  const STAR = Array.from({ length: 20 }, (_, i) => { const r = i % 2 ? 26 : 48, a = i / 20 * Math.PI * 2; return `${(50 + Math.cos(a) * r).toFixed(1)},${(50 + Math.sin(a) * r).toFixed(1)}`; }).join(' ');
+  const pow = (el, txt, cls = '') => {
+    if (!el) return;
+    const b = h('div', 'burst ' + cls, `<svg viewBox="0 0 100 100"><polygon points="${STAR}"/></svg><b>${txt}</b>`);
+    el.append(b); setTimeout(() => b.remove(), 900);
+  };
+  const flash = el => { if (!el) return; el.classList.remove('hurt'); void el.offsetWidth; el.classList.add('hurt'); };
+  const alert = el => { if (!el) return; el.classList.remove('alert'); void el.offsetWidth; el.classList.add('alert'); };
+  let wind = null, last = null;
+  return {
+    // đầu mỗi hiệp: đối thủ gồng người báo trước đòn
+    windup(tell) {
+      if (wind) wind.cancel();
+      if (!B) { alert(A); return; }
+      const k = foeKind(tell);
+      wind = an(B, [N, { transform: k === 'grab' ? 'translateX(-.6em) rotate(-10deg)' : 'translateX(.8em) rotate(12deg)' }], 500, { fill: 'forwards' });
+      alert(B);
+    },
+    play(opt, tell, ok) {
+      if (wind) { wind.cancel(); wind = null; }
+      A.classList.remove('alert'); if (B) B.classList.remove('alert');
+      const cmd = (opt.match(/“([^”]+)”/) || [])[1];
+      const kind = opt ? actKind(cmd || opt) : 'freeze', foe = foeKind(tell);
+      last = ok ? kind : null;
+      if (cmd) { sh.textContent = '“' + cmd + '”'; sh.classList.add('on'); setTimeout(() => sh.classList.remove('on'), 1100); }
+      AUDIO.sfx('whoosh');
+      if (!B) {                                   // chạy trốn, leo trèo: chỉ một nhân vật
+        if (ok) { move(A, kind); setTimeout(() => pow(A, kind === 'kick' || kind === 'attack' ? 'XOẢNG!' : 'VÚT!', 'mini'), 300); }
+        else { move(A, 'trip', 1, 900); setTimeout(() => { pow(A, 'ÁI!', 'bad'); flash(A); }, 320); }
+        return;
+      }
+      if (ok && OFFENSE.has(kind)) {               // mình ra đòn trúng
+        move(A, kind, 1);
+        setTimeout(() => { move(B, 'hit', -1, 640); pow(B, kind === 'kick' ? 'BỐP!' : kind === 'grab' ? 'KHÓA!' : 'BỤP!'); flash(B); SFX.hit(); }, 320);
+      } else if (ok) {                            // đối thủ đánh hụt
+        move(B, foe, -1, 820);
+        move(A, kind === 'act' || kind === 'freeze' ? 'dodgeL' : kind, 1, 820);
+        setTimeout(() => pow(A, kind === 'block' ? 'CẠCH!' : 'VÚT!', 'mini'), 340);
+      } else {                                    // dính đòn
+        if (opt) move(A, kind, 1, OFFENSE.has(kind) ? 600 : 500);
+        move(B, foe, -1, 820);
+        setTimeout(() => { move(A, 'hit', 1, 700); pow(A, foe === 'kick' ? 'BỊCH!' : 'BỐP!', 'bad'); flash(A); }, 340);
+      }
+    },
+    // hiệp cuối thắng bằng một đòn tấn công thì đối thủ đổ gục
+    ko() {
+      if (!B || !OFFENSE.has(last)) return false;
+      setTimeout(() => {
+        an(B, [N, at('translate(1.6em,-.6em) rotate(30deg)', .3), { transform: 'translate(2.4em,1.2em) rotate(88deg)' }], 900, { fill: 'forwards' });
+        setTimeout(() => { pow(B, 'K.O!', 'ko'); SFX.boom(); }, 420);
+      }, 380);
+      return true;
+    },
+  };
+}
+
 /* ---------- 6. Hành động theo thời gian (né, đánh, ra lệnh) ---------- */
 MINI.timed = cfg => new Promise(res => {
   hideText();
@@ -159,17 +269,21 @@ MINI.timed = cfg => new Promise(res => {
   const vs = cfg.vs || [G.pov, null];
   autoMusic('action');
   p.innerHTML = `<div class="mhead"><b>${ICON.svg('fist', 'hico')} ${esc(cfg.title || 'Hành động')}</b><span class="hp"></span></div>
-    ${vs[1] ? `<div class="tvs">${ART.chibi(vs[0], 'right')}<span class="vs">VS</span>${ART.chibi(vs[1], 'left')}</div>` : ''}
+    <div class="arena ${vs[1] ? 'duel' : 'solo'}"><div class="ground"></div>
+      <div class="act a"><div class="bd">${ART.chibi(vs[0], 'right')}</div></div>
+      ${vs[1] ? `<span class="vs">VS</span><div class="act b"><div class="bd">${ART.chibi(vs[1], 'left')}</div></div>` : ''}<div class="shout"></div></div>
     <div class="ttell"></div><div class="tbar"><i></i></div><div class="topts"></div><div class="tres"></div>`;
   mini().append(p);
   const tell = p.querySelector('.ttell'), bar = p.querySelector('.tbar i'), opts = p.querySelector('.topts'), resEl = p.querySelector('.tres'), hp = p.querySelector('.hp');
   let i = 0, miss = 0, raf = null, answer = null;
+  const fight = actors(p, !!vs[1]);
   const hpDraw = () => { hp.innerHTML = Array.from({ length: maxMiss + 1 }, (_, k) => ICON.svg(k < maxMiss + 1 - miss ? 'heart' : 'heartEmpty', 'hpico')).join(''); };
   const AR = { '←': 'ArrowLeft', '→': 'ArrowRight', '↑': 'ArrowUp', '↓': 'ArrowDown' };
-  const finish = (r) => { cancelAnimationFrame(raf); G.keyHandler = null; T(() => { p.remove(); autoMusic(); res(r); }, 400); };
+  const finish = (r) => { cancelAnimationFrame(raf); G.keyHandler = null; const ko = r === 'win' && fight.ko(); T(() => { p.remove(); autoMusic(); res(r); }, ko ? 1500 : 400); };
   const round = () => {
     const r = cfg.rounds[i];
     tell.innerHTML = esc(r.tell); resEl.textContent = ''; resEl.className = 'tres'; opts.innerHTML = '';
+    fight.windup(r.tell);
     p.classList.remove('good', 'badr');
     let locked = false;
     r.opts.forEach((t, k) => {
@@ -187,6 +301,7 @@ MINI.timed = cfg => new Promise(res => {
     function pick(k) {
       if (locked) return; locked = true; cancelAnimationFrame(raf); G.keyHandler = null;
       opts.querySelectorAll('button').forEach((b, j) => { b.disabled = true; if (j === k) b.classList.add('picked'); });
+      fight.play(k >= 0 ? r.opts[k] : '', r.tell, !r.disobey && k === r.ans);
       if (r.disobey) { resEl.textContent = r.disobey; resEl.className = 'tres bad'; SFX.hit(); fx('shake'); return T(() => finish('disobey'), 2200); }
       if (k === r.ans) {
         SFX.ok(); p.classList.add('good'); resEl.textContent = r.ok || 'Thành công!'; resEl.className = 'tres ok';
